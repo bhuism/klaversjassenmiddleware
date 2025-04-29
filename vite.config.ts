@@ -1,3 +1,4 @@
+import { cloudflare } from "@cloudflare/vite-plugin"
 import { reactRouter } from "@react-router/dev/vite"
 import tailwindcss from "@tailwindcss/vite"
 import { reactRouterDevTools } from "react-router-devtools"
@@ -9,6 +10,7 @@ import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
 	plugins: [
+		cloudflare(),
 		// cloudflare({ viteEnvironment: { name: "ssr" } }),
 		tailwindcss(),
 		// Run the react-compiler on .tsx files only when bundling
