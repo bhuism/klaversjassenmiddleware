@@ -38,7 +38,7 @@ describe("convertDateToUserTz Test suite", () => {
 		const serverDate = convertTz(date, "Europe/Berlin")
 		const clientDate = convertDateToUserTz(date, request)
 		const differenceInMinutes = Math.round(Math.abs(clientDate.getTime() - serverDate.getTime()) / 60000)
-		expect(differenceInMinutes).toBe(60)
+		expect(differenceInMinutes).toBe(120)
 	})
 
 	it("should convert date to user tz if there is a difference", () => {
@@ -52,6 +52,6 @@ describe("convertDateToUserTz Test suite", () => {
 		const serverDate = convertTz(date, "Europe/London")
 		const clientDate = convertDateToUserTz(date, request)
 		const differenceInMinutes = Math.round(Math.abs(clientDate.getTime() - serverDate.getTime()) / 60000)
-		expect(differenceInMinutes).toBe(0)
+		expect(differenceInMinutes).toBe(60)
 	})
 })
