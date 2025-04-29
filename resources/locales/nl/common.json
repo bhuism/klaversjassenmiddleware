@@ -1,0 +1,25 @@
+{
+	"hi": "React Router is geweldig!",
+	"navigation": {
+		"back": "Ga terug",
+		"home": "Terug naar de homepage"
+	},
+	"error": {
+		"500": {
+			"title": "Er is iets verkeerd gegaan!",
+			"description": "Looks like something unexpected happened on the server."
+		},
+		"404": {
+			"title": "Pagina niet gevonden!",
+			"description": "Oops! The page you're looking for seems to have vanished into thin air."
+		},
+		"403": {
+			"title": "Ongeautoriseerd!",
+			"description": "Looks like you can't access this page."
+		},
+		"200": {
+			"title": "Er is iets verkeerd gegaan!",
+			"description": "Looks like something unexpected happened on the server."
+		}
+	}
+}

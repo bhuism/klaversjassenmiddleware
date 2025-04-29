@@ -9,6 +9,7 @@ import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
 	plugins: [
+		// cloudflare({ viteEnvironment: { name: "ssr" } }),
 		tailwindcss(),
 		// Run the react-compiler on .tsx files only when bundling
 		{
