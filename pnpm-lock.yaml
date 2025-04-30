@@ -67,8 +67,8 @@ importers:
         version: 3.24.3
     devDependencies:
       '@babel/preset-typescript':
-        specifier: 7.26.0
-        version: 7.26.0(@babel/core@7.26.10)
+        specifier: 7.27.0
+        version: 7.27.0(@babel/core@7.26.10)
       '@biomejs/biome':
         specifier: 1.9.4
         version: 1.9.4
@@ -292,8 +292,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/preset-typescript@7.26.0':
-    resolution: {integrity: sha512-NMk1IGZ5I/oHhoXEElcm+xUnL/szL6xflkFZmoEU9xj1qSJXpiS7rsspYo92B4DRCDvZn2erT5LdsCeXAKNCkg==}
+  '@babel/preset-typescript@7.27.0':
+    resolution: {integrity: sha512-vxaPFfJtHhgeOVXRKuHpHPAOgymmy8V8I65T1q53R7GCZlefKeCaTyDs3zOPHTTbmquvNlQYC5klEvWsBAtrBQ==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -4165,7 +4165,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/preset-typescript@7.26.0(@babel/core@7.26.10)':
+  '@babel/preset-typescript@7.27.0(@babel/core@7.26.10)':
     dependencies:
       '@babel/core': 7.26.10
       '@babel/helper-plugin-utils': 7.26.5
@@ -5165,7 +5165,7 @@ snapshots:
       '@babel/parser': 7.27.0
       '@babel/plugin-syntax-decorators': 7.25.9(@babel/core@7.26.10)
       '@babel/plugin-syntax-jsx': 7.25.9(@babel/core@7.26.10)
-      '@babel/preset-typescript': 7.26.0(@babel/core@7.26.10)
+      '@babel/preset-typescript': 7.27.0(@babel/core@7.26.10)
       '@babel/traverse': 7.27.0
       '@babel/types': 7.27.0
       '@npmcli/package-json': 4.0.1
