@@ -163,8 +163,8 @@ importers:
         specifier: 3.0.5
         version: 3.0.5(@types/node@22.15.3)(@vitest/browser@3.0.5)(@vitest/ui@3.0.5)(happy-dom@16.8.1)(jiti@2.4.2)(lightningcss@1.29.3)(msw@2.7.5(@types/node@22.15.3)(typescript@5.8.3))(tsx@4.19.4)
       vitest-browser-react:
-        specifier: 0.0.4
-        version: 0.0.4(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(@vitest/browser@3.0.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vitest@3.0.5)
+        specifier: 0.1.1
+        version: 0.1.1(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(@vitest/browser@3.0.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vitest@3.0.5)
       wrangler:
         specifier: 4.13.2
         version: 4.13.2(@cloudflare/workers-types@4.20250503.0)
@@ -3811,8 +3811,8 @@ packages:
       yaml:
         optional: true
 
-  vitest-browser-react@0.0.4:
-    resolution: {integrity: sha512-4uK8zgo5eHlhrBVEPX8ejRt8Bn4gzV6OZFTPdb1en3FtgjEhhst400XkIQHUC875Q90rOO5Tc4zPpCl8YXvoxg==}
+  vitest-browser-react@0.1.1:
+    resolution: {integrity: sha512-n9l+sIAexKqqfBuEkjVGdfZ4xAn1Gn/+wc4Mo8KsUSUOVoM9evSY0rVXdMIzCQqloT/zvmFGAtziFINkqu+t7g==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       '@types/react': '>18.0.0'
@@ -7426,7 +7426,7 @@ snapshots:
       lightningcss: 1.29.3
       tsx: 4.19.4
 
-  vitest-browser-react@0.0.4(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(@vitest/browser@3.0.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vitest@3.0.5):
+  vitest-browser-react@0.1.1(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(@vitest/browser@3.0.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vitest@3.0.5):
     dependencies:
       '@vitest/browser': 3.0.5(@types/node@22.15.3)(playwright@1.52.0)(typescript@5.8.3)(vite@6.3.4(@types/node@22.15.3)(jiti@2.4.2)(lightningcss@1.29.3)(tsx@4.19.4))(vitest@3.0.5)
       react: 19.1.0
