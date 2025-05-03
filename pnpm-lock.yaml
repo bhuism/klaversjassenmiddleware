@@ -55,10 +55,10 @@ importers:
         version: 2.13.0(@cloudflare/workers-types@4.20250503.0)(@react-router/dev@7.5.3(@types/node@22.15.3)(babel-plugin-macros@3.1.0)(jiti@2.4.2)(lightningcss@1.29.3)(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(tsx@4.19.4)(typescript@5.7.3)(vite@6.3.4(@types/node@22.15.3)(jiti@2.4.2)(lightningcss@1.29.3)(tsx@4.19.4))(wrangler@4.13.2(@cloudflare/workers-types@4.20250503.0)))(@types/react@19.0.8)(miniflare@3.20250408.0)(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(vite@6.3.4(@types/node@22.15.3)(jiti@2.4.2)(lightningcss@1.29.3)(tsx@4.19.4))(wrangler@4.13.2(@cloudflare/workers-types@4.20250503.0))
       remix-hono:
         specifier: 0.0.18
-        version: 0.0.18(hono@4.7.8)(i18next@24.2.3(typescript@5.7.3))(pretty-cache-header@1.0.0)(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(remix-i18next@7.0.2(i18next@24.2.3(typescript@5.7.3))(react-i18next@15.5.1(i18next@24.2.3(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0))(zod@3.24.3)
+        version: 0.0.18(hono@4.7.8)(i18next@24.2.3(typescript@5.7.3))(pretty-cache-header@1.0.0)(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(remix-i18next@7.2.0(i18next@24.2.3(typescript@5.7.3))(react-i18next@15.5.1(i18next@24.2.3(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0))(zod@3.24.3)
       remix-i18next:
-        specifier: 7.0.2
-        version: 7.0.2(i18next@24.2.3(typescript@5.7.3))(react-i18next@15.5.1(i18next@24.2.3(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+        specifier: 7.2.0
+        version: 7.2.0(i18next@24.2.3(typescript@5.7.3))(react-i18next@15.5.1(i18next@24.2.3(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       tailwind-merge:
         specifier: 3.0.1
         version: 3.0.1
@@ -3377,8 +3377,8 @@ packages:
       zod:
         optional: true
 
-  remix-i18next@7.0.2:
-    resolution: {integrity: sha512-mfqbEdB76KgJo3f1+2FJBtoI5VMrq6zLKt+aYpCBeycsj7njafkDYRQ6SVzUYAES8EyT6gNd45agmhr8H10VmQ==}
+  remix-i18next@7.2.0:
+    resolution: {integrity: sha512-CoildP1aAWhTPvgDdnwYbwQ7gYG39DPZiiNUfe+CG9MQ2kl4AYmfZT3Bj3sv4JyhNpMFeDiZ7cDbyFVXOd2FRw==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       i18next: ^24.0.0
@@ -7012,17 +7012,17 @@ snapshots:
 
   regenerator-runtime@0.14.1: {}
 
-  remix-hono@0.0.18(hono@4.7.8)(i18next@24.2.3(typescript@5.7.3))(pretty-cache-header@1.0.0)(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(remix-i18next@7.0.2(i18next@24.2.3(typescript@5.7.3))(react-i18next@15.5.1(i18next@24.2.3(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0))(zod@3.24.3):
+  remix-hono@0.0.18(hono@4.7.8)(i18next@24.2.3(typescript@5.7.3))(pretty-cache-header@1.0.0)(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(remix-i18next@7.2.0(i18next@24.2.3(typescript@5.7.3))(react-i18next@15.5.1(i18next@24.2.3(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0))(zod@3.24.3):
     dependencies:
       hono: 4.7.8
       pretty-cache-header: 1.0.0
     optionalDependencies:
       i18next: 24.2.3(typescript@5.7.3)
       react-router: 7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      remix-i18next: 7.0.2(i18next@24.2.3(typescript@5.7.3))(react-i18next@15.5.1(i18next@24.2.3(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      remix-i18next: 7.2.0(i18next@24.2.3(typescript@5.7.3))(react-i18next@15.5.1(i18next@24.2.3(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       zod: 3.24.3
 
-  remix-i18next@7.0.2(i18next@24.2.3(typescript@5.7.3))(react-i18next@15.5.1(i18next@24.2.3(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
+  remix-i18next@7.2.0(i18next@24.2.3(typescript@5.7.3))(react-i18next@15.5.1(i18next@24.2.3(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(react-router@7.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
     dependencies:
       i18next: 24.2.3(typescript@5.7.3)
       react: 19.1.0
