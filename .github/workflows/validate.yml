@@ -69,3 +69,15 @@ jobs:
         # Only works if you set `reportOnFailure: true` in your vite config as specified above
         if: always()
         uses: davelosert/vitest-coverage-report-action@adec81c7327940e0578d70d0bbdd87b0ca21df55 # v2
+  deploy:
+    needs: vitest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish
+        if: github.event_name != 'pull_request' && github.ref_name == 'middleware'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
