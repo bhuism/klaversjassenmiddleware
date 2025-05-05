@@ -4,12 +4,14 @@
 	"compatibility_date": "2025-04-04",
 	"compatibility_flags": ["nodejs_compat"],
 	"main": "app/server/index.ts",
+	"upload_source_maps": true,
 	"routes": [
 		{
 			"pattern": "www.klaversjassen.nl",
 			"custom_domain": true
 		}
 	],
+	"vars": { "APP_DEPLOYMENT_ENV": "production", "NODE_ENV": "production" },
 	"observability": {
 		"enabled": false,
 		"logs": { "enabled": false, "head_sampling_rate": 1 }
