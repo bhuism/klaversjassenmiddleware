@@ -82,3 +82,4 @@ blob-report
 *.db-journal
 worker-configuration.d.ts
 .wrangler
+*~
