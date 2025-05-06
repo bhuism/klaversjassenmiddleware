@@ -1,18 +1,20 @@
 import { z } from "zod"
 
 const envSchema = z.object({
-	NODE_ENV: z.enum(["development", "production", "test"]),
-	APP_DEPLOYMENT_ENV: z.enum(["staging", "production"]),
+	NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+	APP_ENV: z.enum(["development", "staging", "production"]).default("development"),
 })
 
-type APP_ENV = z.infer<typeof envSchema>
-let env: APP_ENV
-/**
+type ServerEnv = z.infer<typeof envSchema>
+let env: ServerEnv
+
+/*
  * Helper method used for initializing .env vars in your entry.server.ts file. It uses
  * zod to validate your .env and throws if it's not valid.
  * @returns Initialized env vars
  */
-export const initEnv = () => {
+
+function initEnv() {
 	// biome-ignore lint/nursery/noProcessEnv: This should be the only place to use process.env directly
 	const envData = envSchema.safeParse(process.env)
 
@@ -23,13 +25,19 @@ export const initEnv = () => {
 	}
 
 	env = envData.data
+	Object.freeze(env)
 
 	// Do not log the message when running tests
 	if (env.NODE_ENV !== "test") {
 		// biome-ignore lint/suspicious/noConsole: We want this to be logged
 		console.log("✅ Environment variables loaded successfully")
 	}
-	return envData.data
+	return env
+}
+
+export function getServerEnv() {
+	if (env) return env
+	return initEnv()
 }
 
 /**
@@ -50,8 +58,5 @@ type CLIENT_ENV = ReturnType<typeof getClientEnv>
 declare global {
 	interface Window {
 		env: CLIENT_ENV
-	}
-	namespace NodeJS {
-		interface ProcessEnv extends APP_ENV {}
 	}
 }

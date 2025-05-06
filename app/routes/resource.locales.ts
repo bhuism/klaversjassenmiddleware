@@ -26,7 +26,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	const headers = new Headers()
 
 	// On production, we want to add cache headers to the response
-	if (env.APP_DEPLOYMENT_ENV === "production") {
+	if (env.APP_ENV === "production") {
 		headers.set(
 			"Cache-Control",
 			cacheHeader({

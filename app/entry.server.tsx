@@ -1,8 +1,6 @@
-import { PassThrough } from "node:stream"
-import { createReadableStreamFromReadable } from "@react-router/node"
 import { createInstance } from "i18next"
 import { isbot } from "isbot"
-import { renderToPipeableStream } from "react-dom/server"
+import { renderToReadableStream } from "react-dom/server"
 import { I18nextProvider, initReactI18next } from "react-i18next"
 import { type EntryContext, ServerRouter, type unstable_RouterContextProvider } from "react-router"
 import i18n from "./localization/i18n" // your i18n configuration file
@@ -20,8 +18,10 @@ export default async function handleRequest(
 	context: EntryContext,
 	appContext: unstable_RouterContextProvider
 ) {
+	let shellRendered = false
+	const userAgent = request.headers.get("user-agent")
 	const ctx = appContext.get(globalAppContext)
-	const callbackName = isbot(request.headers.get("user-agent")) ? "onAllReady" : "onShellReady"
+	//	const callbackName = isbot(request.headers.get("user-agent")) ? "onAllReady" : "onShellReady"
 	const instance = createInstance()
 	const lng = ctx.lang
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -36,41 +36,34 @@ export default async function handleRequest(
 			resources,
 		})
 
-	return new Promise((resolve, reject) => {
-		let didError = false
-
-		const { pipe, abort } = renderToPipeableStream(
-			<I18nextProvider i18n={instance}>
-				<ServerRouter context={context} url={request.url} />
-			</I18nextProvider>,
-			{
-				[callbackName]: () => {
-					const body = new PassThrough()
-					const stream = createReadableStreamFromReadable(body)
-					responseHeaders.set("Content-Type", "text/html")
-
-					resolve(
-						// @ts-expect-error
-						ctx.body(stream, {
-							headers: responseHeaders,
-							status: didError ? 500 : responseStatusCode,
-						})
-					)
-
-					pipe(body)
-				},
-				onShellError(error: unknown) {
-					reject(error)
-				},
-				onError(error: unknown) {
-					didError = true
-					// biome-ignore lint/suspicious/noConsole: We console log the error
+	const body = await renderToReadableStream(
+		<I18nextProvider i18n={instance}>
+			<ServerRouter context={context} url={request.url} />
+		</I18nextProvider>,
+		{
+			onError(error: unknown) {
+				// biome-ignore lint/style/noParameterAssign: cloudflare api
+				responseStatusCode = 500
+				// Log streaming rendering errors from inside the shell.  Don't log
+				// errors encountered during initial shell rendering since they'll
+				// reject and get logged in handleDocumentRequest.
+				if (shellRendered) {
+					// biome-ignore lint/suspicious/noConsole: <explanation>
 					console.error(error)
-				},
-			}
-		)
-		// Abort the streaming render pass after 11 seconds so to allow the rejected
-		// boundaries to be flushed
-		setTimeout(abort, streamTimeout + 1000)
+				}
+			},
+		}
+	)
+
+	shellRendered = true
+
+	if ((userAgent && isbot(userAgent)) || context.isSpaMode) {
+		await body.allReady
+	}
+
+	responseHeaders.set("Content-Type", "text/html")
+	return new Response(body, {
+		headers: responseHeaders,
+		status: responseStatusCode,
 	})
 }

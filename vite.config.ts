@@ -1,7 +1,8 @@
-import { cloudflare } from "@cloudflare/vite-plugin"
 import { reactRouter } from "@react-router/dev/vite"
+import { cloudflareDevProxy } from "@react-router/dev/vite/cloudflare"
 import tailwindcss from "@tailwindcss/vite"
 import { reactRouterDevTools } from "react-router-devtools"
+import { reactRouterHonoServer } from "react-router-hono-server/dev"
 import { defineConfig } from "vite"
 import babel from "vite-plugin-babel"
 import { iconsSpritesheet } from "vite-plugin-icons-spritesheet"
@@ -9,8 +10,9 @@ import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
 	plugins: [
+		cloudflareDevProxy(),
 		//cloudflare(),
-		cloudflare({ viteEnvironment: { name: "ssr" } }),
+		//		cloudflare({ viteEnvironment: { name: "ssr" } }),
 		tailwindcss(),
 		// Run the react-compiler on .tsx files only when bundling
 		{
@@ -25,11 +27,14 @@ export default defineConfig({
 		},
 		reactRouterDevTools(),
 		reactRouter(),
-		// reactRouterHonoServer({
-		// 	dev: {
-		// 		exclude: [/^\/(resources)\/.+/],
-		// 	},
-		// }),
+		reactRouterHonoServer({
+			serverEntryPoint: "./app/server/index.ts",
+			runtime: "cloudflare",
+			// flag: { force_react_19: true },
+			dev: {
+				exclude: [/^\/(resources)\/.+/],
+			},
+		}),
 		tsconfigPaths(),
 		iconsSpritesheet({
 			inputDir: "./resources/icons",

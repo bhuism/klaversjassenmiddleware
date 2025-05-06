@@ -3,7 +3,8 @@
 	"name": "klaversjassen",
 	"compatibility_date": "2025-04-04",
 	"compatibility_flags": ["nodejs_compat"],
-	"main": "app/server/index.ts",
+	// "main": "app/server/index.ts",
+	"main": "./build/server/index.js",
 	"upload_source_maps": true,
 	"routes": [
 		{
@@ -11,9 +12,13 @@
 			"custom_domain": true
 		}
 	],
-	"vars": { "APP_DEPLOYMENT_ENV": "production", "NODE_ENV": "production" },
+	"vars": { "APP_ENV": "production", "NODE_ENV": "production" },
 	"observability": {
-		"enabled": false,
-		"logs": { "enabled": false, "head_sampling_rate": 1 }
+		"enabled": true,
+		"logs": { "enabled": true, "head_sampling_rate": 1 }
+	},
+	"assets": {
+		"directory": "./build/client/",
+		"binding": "ASSETS"
 	}
 }
