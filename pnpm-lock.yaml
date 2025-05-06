@@ -112,7 +112,7 @@ importers:
         specifier: 1.43.0
         version: 1.43.0
       '@openapitools/openapi-generator-cli':
-        specifier: ^2.15.3
+        specifier: 2.20.0
         version: 2.20.0
       '@react-router/dev':
         specifier: 7.5.3
@@ -4473,6 +4473,7 @@ packages:
   wrangler@4.14.2:
     resolution: {integrity: sha512-kD0ilA7WXwhDt1lfyPwppZ2/lT9uwDLp93tfqnqrUENmP/uj+5tErzfZY51emtgXZoU1HFK6HytBEYLRCvCiPg==}
     engines: {node: '>=18.0.0'}
+    deprecated: This version has a bug in wrangler dev introduced by the update to use Node.js v20
     hasBin: true
     peerDependencies:
       '@cloudflare/workers-types': ^4.20250428.0
@@ -6687,7 +6688,7 @@ snapshots:
 
   date-fns@2.30.0:
     dependencies:
-      '@babel/runtime': 7.27.0
+      '@babel/runtime': 7.27.1
 
   date-fns@4.1.0: {}
 
@@ -6729,7 +6730,7 @@ snapshots:
 
   dom-helpers@3.4.0:
     dependencies:
-      '@babel/runtime': 7.27.0
+      '@babel/runtime': 7.27.1
 
   dom-helpers@5.2.1:
     dependencies:
