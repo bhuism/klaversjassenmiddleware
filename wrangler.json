@@ -3,7 +3,6 @@
 	"name": "klaversjassen",
 	"compatibility_date": "2025-04-04",
 	"compatibility_flags": ["nodejs_compat"],
-	// "main": "app/server/index.ts",
 	"main": "./build/server/index.js",
 	"upload_source_maps": true,
 	"routes": [
