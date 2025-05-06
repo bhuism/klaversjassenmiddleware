@@ -9,7 +9,7 @@
 		"**/.client/**/*.tsx",
 		".react-router/types/**/*",
 		"vitest.workspace.ts",
-		"generated-sources/**/*"
+		".generated-sources/**/*"
 	],
 	"compilerOptions": {
 		"types": ["vitest/globals", "@vitest/browser/providers/playwright"],
@@ -27,9 +27,9 @@
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
 		"paths": {
-			"~/*": ["./app/*", "./generated-sources/*"]
+			"~/*": ["./app/*"]
 		},
-		"rootDirs": [".", "./.react-router/types"],
+		"rootDirs": [".", "./.react-router/types", "./.generated-sources"],
 		"plugins": [{ "name": "@react-router/dev" }],
 		// Vite takes care of building everything, not tsc.
 		"noEmit": true

@@ -10,7 +10,7 @@
 		"execute": "tsx",
 		"clean": "git clean -fdX --exclude=\"!.env\"",
 		"script": "tsx scripts/setup.ts",
-		"build": "rm -Rf build ; react-router build",
+		"build": "rm -Rf build ; pnpm run codegen ; react-router build",
 		"dev": "react-router dev",
 		"start": "NODE_ENV=production node ./build/server/index.js",
 		"test": "vitest run --browser.headless",
@@ -24,7 +24,7 @@
 		"check:unused:fix": "knip --fix",
 		"typegen": "react-router typegen ; wrangler types --env-interface CloudflareBindings",
 		"deploy": "rm -Rf .wrangler ; npm run build && wrangler deploy",
-		"codegen": "rm -rf generated-sources/openapi ; openapi-generator-cli generate -i https://api.klaversjassen.nl/schema/api.yaml -g typescript-fetch -o generated-sources/openapi --additional-properties=supportsES6=true,typescriptThreePlus=true,useSingleRequestParameter=false",
+		"codegen": "rm -Rf .generated-sources/openapi ; openapi-generator-cli generate -i https://api.klaversjassen.nl/schema/api.yaml -g typescript-fetch -o .generated-sources/openapi --additional-properties=supportsES6=true,typescriptThreePlus=true,useSingleRequestParameter=false",
 		"codegen-help": "openapi-generator-cli config-help -g typescript-fetch"
 	},
 	"dependencies": {

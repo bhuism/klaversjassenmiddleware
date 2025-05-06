@@ -84,4 +84,4 @@ blob-report
 worker-configuration.d.ts
 .wrangler
 *~
-generated-sources
+.generated-sources

@@ -1,8 +1,8 @@
 import { useMemo } from "react"
+import { GameApi } from ".generated-sources/openapi/apis/GameApi"
+import { Configuration } from ".generated-sources/openapi/runtime"
 
 import { useAuth } from "react-oidc-context"
-import { GameApi } from "~/openapi/apis/GameApi"
-import { Configuration } from "~/openapi/runtime"
 import constants from "~/utils/constants"
 
 const useCardApi = () => {
