@@ -78,10 +78,11 @@ jobs:
         uses: davelosert/vitest-coverage-report-action@adec81c7327940e0578d70d0bbdd87b0ca21df55 # v2
   deploy:
     needs: vitest
+    name: Deploy
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request' && github.ref_name == 'middleware'
     steps:
-      - name: deploy
+      - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
