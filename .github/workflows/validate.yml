@@ -62,6 +62,13 @@ jobs:
         with:
           node-version-file: "package.json"
           cache: "pnpm"
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright
       - run: pnpm install --prefer-offline --frozen-lockfile
       - run: pnpm exec playwright install chromium --with-deps
       - run: pnpm run test:cov
@@ -72,10 +79,10 @@ jobs:
   deploy:
     needs: vitest
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' && github.ref_name == 'middleware'
     steps:
-      - name: Publish
-        if: github.event_name != 'pull_request' && github.ref_name == 'middleware'
-        uses: cloudflare/wrangler-action@v3
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
