@@ -1,4 +1,4 @@
-import { getTimeZone } from "../services/client-hints"
+import { getTimeZone } from "~/services/client-hints"
 
 export function convertTz(date: string | Date, tzString: string) {
 	const dateToConvert = typeof date === "string" ? new Date(date) : date

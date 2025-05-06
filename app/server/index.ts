@@ -1,6 +1,6 @@
 import { createHonoServer } from "react-router-hono-server/cloudflare"
 import { i18next } from "remix-hono/i18next"
-import i18nextOpts from "../localization/i18n.server"
+import i18nextOpts from "~/localization/i18n.server"
 import { getLoadContext } from "./context"
 
 export default await createHonoServer({

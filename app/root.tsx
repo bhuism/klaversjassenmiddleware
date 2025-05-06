@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, useRouteError } from "react-router"
 import type { LinksFunction } from "react-router"
@@ -39,7 +40,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 			<head>
 				<ClientHintCheck />
 				<meta charSet="utf-8" />
+				<link rel="icon" href="/favicon.ico" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<title>Klavers Jassen</title>
 				<Meta />
 				<Links />
 			</head>
@@ -50,6 +53,15 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 				<Scripts />
 			</body>
 		</html>
+	)
+}
+
+export function HydrateFallback() {
+	return (
+		<>
+			<p>HydrateFallback</p>
+			<CircularProgress />
+		</>
 	)
 }
 

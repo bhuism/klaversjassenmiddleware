@@ -1,4 +1,4 @@
-import * as Module from "./_index"
+import * as Module from "./testlocale"
 
 const routeComponentProps = {
 	loaderData: { timezoneDate: "2021-01-01T00:00:00.000Z" },
@@ -31,7 +31,6 @@ describe("Home route", () => {
 				{
 					id: "home",
 					path: "/",
-
 					Component: () => Module.default(routeComponentProps),
 				},
 			],
