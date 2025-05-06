@@ -8,7 +8,8 @@
 		"**/.client/**/*.ts",
 		"**/.client/**/*.tsx",
 		".react-router/types/**/*",
-		"vitest.workspace.ts"
+		"vitest.workspace.ts",
+		"generated-sources/**/*"
 	],
 	"compilerOptions": {
 		"types": ["vitest/globals", "@vitest/browser/providers/playwright"],
