@@ -64,7 +64,7 @@
 		"babel-plugin-react-compiler": "19.1.0-rc.1",
 		"chalk": "5.4.1",
 		"happy-dom": "17.4.6",
-		"knip": "5.53.0",
+		"knip": "5.54.1",
 		"lefthook": "1.11.12",
 		"miniflare": "4.20250428.1",
 		"playwright": "1.52.0",
