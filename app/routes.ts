@@ -6,6 +6,7 @@ export default [
 	route("/sitemap.:lang[.]xml", "routes/sitemap-lang.tsx"),
 	route("/resource/locales", "routes/resource.locales.ts"),
 	route("/testlocale", "routes/testlocale.tsx"),
+	route("*?", "catchall.tsx"),
 	layout("layout/RootLayout.tsx", [
 		layout("layout/PrivateLayout.tsx", [
 			index("routes/HomePage.tsx"),
@@ -14,6 +15,6 @@ export default [
 			route("/messageboard", "routes/MessageBoardPage.tsx"),
 			route("/settings", "routes/SettingsPage.tsx"),
 		]),
-		layout("layout/PublicLayout.tsx", [route("/login", "routes/LoginPage.tsx"), route("*?", "catchall.tsx")]),
+		layout("layout/PublicLayout.tsx", [route("/login", "routes/LoginPage.tsx")]),
 	]),
 ] satisfies RouteConfig
