@@ -36,7 +36,7 @@ const RedirectHome = () => {
 
 	useEffect(() => {
 		navigate("/")
-	})
+	}, [navigate])
 
 	return (
 		<>
