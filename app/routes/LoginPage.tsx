@@ -9,12 +9,12 @@ import { globalAppContext } from "~/server/context"
 import constants from "~/utils/constants"
 import type { Route } from "./+types/LoginPage"
 
-export async function loader({ context, request }: Route.LoaderArgs) {
-	const { lang, clientEnv, env } = context.get(globalAppContext)
-	return { lang, clientEnv, env, request }
+export async function loader({ context }: Route.LoaderArgs) {
+	const { lang, clientEnv } = context.get(globalAppContext)
+	return { lang, clientEnv }
 }
 
-const LoginButton = () => {
+const LoginButton: React.FC<{ lang: string }> = ({ lang = "en" }) => {
 	const { signinRedirect } = useAuth()
 
 	return (
@@ -22,11 +22,11 @@ const LoginButton = () => {
 			<Button variant="outlined" size="large" onClick={() => signinRedirect()}>
 				Login
 			</Button>
-			<div style={{ color: "#444" }}>
-				{`${dayjs().to(constants.gitDate)}`}
+			<Typography style={{ color: "#555" }}>
+				{`${dayjs().locale(lang).to(constants.gitDate)}`}
 				{" - "}
 				{constants.gitHash ? constants.gitHash.substring(0, 7) : "undefined"}
-			</div>
+			</Typography>
 		</>
 	)
 }
@@ -46,8 +46,10 @@ const RedirectHome = () => {
 	)
 }
 
-const Login = ({ loaderData }: Route.ComponentProps) => {
+const Login: React.FC<Route.ComponentProps> = ({ loaderData }: Route.ComponentProps) => {
 	const auth = useAuth()
+
+	const lang = loaderData.lang
 
 	// useEffect(() => {
 	//   if (auth) {
@@ -90,11 +92,8 @@ const Login = ({ loaderData }: Route.ComponentProps) => {
 				</>
 			) : (
 				<>
-					<LoginButton />
-					<Typography>{`lang: ${loaderData.lang}`}</Typography>
-					<Typography>{`clientEnv: ${JSON.stringify(loaderData.clientEnv)}`}</Typography>
-					<Typography>{`env: ${JSON.stringify(loaderData.env)}`}</Typography>
-					<Typography>{`request: ${JSON.stringify(loaderData.request)}`}</Typography>
+					<LoginButton lang={lang} />
+					<Typography style={{ color: "#555" }}>{`NODE_ENV: ${loaderData.clientEnv.NODE_ENV}`}</Typography>
 				</>
 			)}
 		</>

@@ -10,7 +10,7 @@ const generateContext = async (c: Context) => {
 	const locale = i18next.getLocale(c)
 	// get t function for the default namespace
 	const t = await i18next.getFixedT(c)
-	const env = getServerEnv()
+	const env = getServerEnv(c.env)
 	return {
 		lang: locale,
 		t,

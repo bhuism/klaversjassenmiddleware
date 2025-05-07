@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router"
 import { supportedLanguages } from "~/localization/resource"
@@ -15,7 +16,10 @@ const LanguageSwitcher = () => {
 					className="text-blue-500 dark:text-white hover:underline transition-all"
 					key={language}
 					to={`${to}?lng=${language}`}
-					onClick={() => i18n.changeLanguage(language)}
+					onClick={() => {
+						i18n.changeLanguage(language)
+						dayjs.locale(language)
+					}}
 				>
 					{language}
 				</Link>

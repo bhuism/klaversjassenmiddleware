@@ -11,45 +11,25 @@ import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
-import CircularProgress from "@mui/material/CircularProgress"
 import InitColorSchemeScript from "@mui/material/InitColorSchemeScript"
+import dayjs from "dayjs"
 import { SnackbarProvider } from "notistack"
-import type { PropsWithChildren } from "react"
-import { useAuth } from "react-oidc-context"
 import { Outlet } from "react-router"
-import CenterComponents from "~/utils/CenterComponents"
+import { globalAppContext } from "~/server/context"
+import type { Route } from "./+types/RootLayout"
+import AuthGuard from "./AuthGuard"
 import theme from "./theme"
-//import theme from "./theme"
 
-const AuthGuard: React.FC<PropsWithChildren> = ({ children }) => {
-	const auth = useAuth()
-
-	if (!auth) {
-		return <>no auth</>
-	}
-
-	if (auth.isLoading) {
-		return (
-			<CenterComponents>
-				<CircularProgress />
-				<p>auth is loading</p>
-			</CenterComponents>
-		)
-	}
-
-	// just log
-	if (auth.error) {
-		return (
-			<CenterComponents>
-				<p>`${JSON.stringify(auth.error)}`</p>
-			</CenterComponents>
-		)
-	}
-
-	return <>{children}</>
+export async function loader({ context }: Route.LoaderArgs) {
+	const { lang } = context.get(globalAppContext)
+	return { lang }
 }
 
-const RootLayout: React.FC = () => {
+const RootLayout: React.FC<Route.ComponentProps> = ({ loaderData }) => {
+	const lang = loaderData.lang
+
+	dayjs.locale(lang)
+
 	return (
 		<LocalizationProvider
 			dateAdapter={AdapterDayjs}

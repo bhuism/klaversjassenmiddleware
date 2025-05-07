@@ -3,7 +3,7 @@ import { isbot } from "isbot"
 import { renderToReadableStream } from "react-dom/server"
 import { I18nextProvider, initReactI18next } from "react-i18next"
 import { type EntryContext, ServerRouter, type unstable_RouterContextProvider } from "react-router"
-import i18n from "./localization/i18n" // your i18n configuration file
+import i18n from "./localization/i18n"
 import i18nextOpts from "./localization/i18n.server"
 import { resources } from "./localization/resource"
 import { globalAppContext } from "./server/context"
