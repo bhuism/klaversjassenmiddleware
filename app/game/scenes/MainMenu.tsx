@@ -11,8 +11,7 @@ export class MainMenu extends Scene {
 	}
 
 	preload() {
-		this.load.setPath("~/assets")
-		this.load.image("red", "red.png")
+		this.load.image("red", "/assets/red.png")
 	}
 
 	create() {

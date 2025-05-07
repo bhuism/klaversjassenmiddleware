@@ -1,6 +1,4 @@
-import Box from "@mui/material/Box"
-import Container from "@mui/material/Container"
-import Stack from "@mui/material/Stack"
+import { Box, Container, Stack } from "@mui/material"
 import type { PropsWithChildren } from "react"
 
 const CenterComponents = ({ children }: PropsWithChildren) => {

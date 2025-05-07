@@ -1,24 +1,28 @@
-import AccountCircle from "@mui/icons-material/AccountCircle"
-import DarkModeTwoToneIcon from "@mui/icons-material/DarkModeTwoTone"
-import FavoriteTwoToneBorderIcon from "@mui/icons-material/FavoriteBorderTwoTone"
-import LightModeTwoToneIcon from "@mui/icons-material/LightModeTwoTone"
-import MenuIcon from "@mui/icons-material/Menu"
-import SettingsBrightnessTwoToneIcon from "@mui/icons-material/SettingsBrightnessTwoTone"
-import AppBar from "@mui/material/AppBar"
-import Avatar from "@mui/material/Avatar"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
-import Container from "@mui/material/Container"
-import IconButton from "@mui/material/IconButton"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
-import Toolbar from "@mui/material/Toolbar"
-import Tooltip from "@mui/material/Tooltip"
-import Typography from "@mui/material/Typography"
+import {
+	AccountCircle,
+	DarkModeTwoTone,
+	FavoriteBorderTwoTone,
+	LightModeTwoTone,
+	Menu as MenuIcon,
+	SettingsBrightnessTwoTone,
+} from "@mui/icons-material"
+import {
+	AppBar,
+	Avatar,
+	Box,
+	Button,
+	Container,
+	IconButton,
+	Menu,
+	MenuItem,
+	Toolbar,
+	Tooltip,
+	Typography,
+	useColorScheme,
+} from "@mui/material"
 import { useState } from "react"
 import { useAuth } from "react-oidc-context"
 
-import { useColorScheme } from "@mui/material/styles"
 import { Link as RouterLink, useNavigate } from "react-router"
 import AboutDialog from "./AboutDialog"
 import UserStatusDialog from "./UserStatusDialog"
@@ -113,7 +117,7 @@ const MenuBar: React.FC = () => {
 				<Container maxWidth="xl">
 					<Toolbar disableGutters>
 						<IconButton component={RouterLink} to="/" sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
-							<FavoriteTwoToneBorderIcon />
+							<FavoriteBorderTwoTone />
 						</IconButton>
 
 						<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -157,7 +161,7 @@ const MenuBar: React.FC = () => {
 							</Menu>
 						</Box>
 						<IconButton component={RouterLink} to="/" sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
-							<FavoriteTwoToneBorderIcon />
+							<FavoriteBorderTwoTone />
 						</IconButton>
 
 						<Typography
@@ -195,11 +199,11 @@ const MenuBar: React.FC = () => {
 							<Tooltip title="Theme">
 								<IconButton sx={{ mr: 1 }} onClick={handleModeClick}>
 									{mode === "dark" ? (
-										<DarkModeTwoToneIcon />
+										<DarkModeTwoTone />
 									) : mode === "light" ? (
-										<LightModeTwoToneIcon />
+										<LightModeTwoTone />
 									) : (
-										<SettingsBrightnessTwoToneIcon />
+										<SettingsBrightnessTwoTone />
 									)}
 								</IconButton>
 							</Tooltip>
