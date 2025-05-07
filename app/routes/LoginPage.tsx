@@ -1,10 +1,18 @@
+import { Typography } from "@mui/material"
 import Button from "@mui/material/Button"
 import CircularProgress from "@mui/material/CircularProgress"
 import dayjs from "dayjs"
 import { useEffect } from "react"
 import { useAuth } from "react-oidc-context"
 import { useNavigate } from "react-router"
+import { globalAppContext } from "~/server/context"
 import constants from "~/utils/constants"
+import type { Route } from "./+types/LoginPage"
+
+export async function loader({ context, request }: Route.LoaderArgs) {
+	const { lang, clientEnv, env } = context.get(globalAppContext)
+	return { lang, clientEnv, env, request }
+}
 
 const LoginButton = () => {
 	const { signinRedirect } = useAuth()
@@ -38,7 +46,7 @@ const RedirectHome = () => {
 	)
 }
 
-const Login = () => {
+const Login = ({ loaderData }: Route.ComponentProps) => {
 	const auth = useAuth()
 
 	// useEffect(() => {
@@ -61,7 +69,7 @@ const Login = () => {
 		return (
 			<>
 				<CircularProgress />
-				<span>{TranslateActivateNavigator[auth.activeNavigator]}</span>
+				<Typography>{TranslateActivateNavigator[auth.activeNavigator]}</Typography>
 			</>
 		)
 	}
@@ -70,7 +78,7 @@ const Login = () => {
 		<>
 			{auth.error ? (
 				<>
-					<span>auth error: {auth.error.message}</span>
+					<Typography>auth error: {auth.error.message}</Typography>
 				</>
 			) : (
 				<></>
@@ -81,7 +89,13 @@ const Login = () => {
 					<RedirectHome />
 				</>
 			) : (
-				<LoginButton />
+				<>
+					<LoginButton />
+					<Typography>{`lang: ${loaderData.lang}`}</Typography>
+					<Typography>{`clientEnv: ${JSON.stringify(loaderData.clientEnv)}`}</Typography>
+					<Typography>{`env: ${JSON.stringify(loaderData.env)}`}</Typography>
+					<Typography>{`request: ${JSON.stringify(loaderData.request)}`}</Typography>
+				</>
 			)}
 		</>
 	)

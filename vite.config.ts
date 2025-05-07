@@ -35,12 +35,6 @@ const pwaOptions: Partial<VitePWAOptions> = {
 		cleanupOutdatedCaches: true,
 		clientsClaim: true,
 	},
-	devOptions: {
-		enabled: false,
-		navigateFallback: "index.html",
-		suppressWarnings: false,
-		type: "module",
-	},
 }
 
 export default defineConfig({
