@@ -3,7 +3,6 @@ import type { PropsWithChildren } from "react"
 import { ReadyState } from "react-use-websocket"
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket"
 import useDidUpdateEffect from "~/hooks/useDidUpdateEffect"
-import CenterComponents from "~/utils/CenterComponents"
 import constants from "~/utils/constants"
 
 const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
@@ -45,17 +44,7 @@ const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 		enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: "success" })
 	}, [readyState])
 
-	return (
-		<>
-			{readyState === ReadyState.OPEN ? (
-				<>{children}</>
-			) : (
-				<CenterComponents>
-					<h3 className={"blink"}>{connectionMap[readyState]}</h3>
-				</CenterComponents>
-			)}
-		</>
-	)
+	return <>{children}</>
 }
 
 export default SocketGuard

@@ -1,21 +1,44 @@
-import { Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
+import dayjs from "dayjs"
 import CircularProgress from "node_modules/@mui/material/esm/CircularProgress/CircularProgress"
 import type { PropsWithChildren } from "react"
 import { useAuth } from "react-oidc-context"
 import CenterComponents from "~/utils/CenterComponents"
+import constants from "~/utils/constants"
+
+const LoginButton: React.FC<{ lang: string }> = ({ lang = "en" }) => {
+	const { signinRedirect } = useAuth()
+
+	return (
+		<>
+			<Button variant="outlined" size="large" onClick={() => signinRedirect()}>
+				Login
+			</Button>
+			<Typography style={{ color: "#555" }}>
+				{`${dayjs().locale(lang).to(constants.gitDate)}`}
+				{" - "}
+				{constants.gitHash ? constants.gitHash.substring(0, 7) : "undefined"}
+			</Typography>
+		</>
+	)
+}
 
 const AuthGuard: React.FC<PropsWithChildren> = ({ children }) => {
 	const auth = useAuth()
 
 	if (!auth) {
-		return <Typography>no auth</Typography>
+		return (
+			<CenterComponents>
+				<CircularProgress />
+				<Typography>no auth</Typography>
+			</CenterComponents>
+		)
 	}
 
 	if (auth.isLoading) {
 		return (
 			<CenterComponents>
 				<CircularProgress />
-				<p>auth is loading</p>
 			</CenterComponents>
 		)
 	}
@@ -29,6 +52,36 @@ const AuthGuard: React.FC<PropsWithChildren> = ({ children }) => {
 		)
 	}
 
+	const TranslateActivateNavigator = {
+		signinRedirect: "Signin In",
+		signinResourceOwnerCredentials: "Signin In",
+		signinPopup: "Signin In",
+		signinSilent: "Signin In",
+		signoutRedirect: "Signin Out",
+		signoutPopup: "Signin Out",
+		signoutSilent: "Signin Out",
+	}
+
+	if (auth.activeNavigator) {
+		return (
+			<>
+				<CenterComponents>
+					<CircularProgress />
+					<Typography>{TranslateActivateNavigator[auth.activeNavigator]}</Typography>
+				</CenterComponents>
+			</>
+		)
+	}
+
+	if (!auth.isAuthenticated) {
+		return (
+			<>
+				<CenterComponents>
+					<LoginButton lang="en" />
+				</CenterComponents>
+			</>
+		)
+	}
 	return <>{children}</>
 }
 export default AuthGuard

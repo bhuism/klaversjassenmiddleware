@@ -15,6 +15,5 @@ export default [
 			route("/messageboard", "routes/MessageBoardPage.tsx"),
 			route("/settings", "routes/SettingsPage.tsx"),
 		]),
-		layout("layout/PublicLayout.tsx", [route("/login", "routes/LoginPage.tsx")]),
 	]),
 ] satisfies RouteConfig
