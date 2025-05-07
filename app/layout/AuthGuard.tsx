@@ -1,10 +1,10 @@
-import { Button, Typography } from "@mui/material"
+import { Button, CircularProgress, Typography } from "@mui/material"
 import dayjs from "dayjs"
-import CircularProgress from "node_modules/@mui/material/esm/CircularProgress/CircularProgress"
 import type { PropsWithChildren } from "react"
 import { useAuth } from "react-oidc-context"
 import CenterComponents from "~/utils/CenterComponents"
 import constants from "~/utils/constants"
+import Star from "./Star"
 
 const LoginButton: React.FC<{ lang: string }> = ({ lang = "en" }) => {
 	const { signinRedirect } = useAuth()
@@ -77,6 +77,7 @@ const AuthGuard: React.FC<PropsWithChildren> = ({ children }) => {
 		return (
 			<>
 				<CenterComponents>
+					<Star />
 					<LoginButton lang="en" />
 				</CenterComponents>
 			</>
