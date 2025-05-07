@@ -15,6 +15,10 @@ let env: ServerEnv
  */
 
 function initEnv() {
+	// biome-ignore lint/suspicious/noConsole: We want this to be logged
+	// biome-ignore lint/nursery/noProcessEnv: <explanation>
+	console.error("process.env: {}", JSON.stringify(process.env))
+
 	// biome-ignore lint/nursery/noProcessEnv: This should be the only place to use process.env directly
 	const envData = envSchema.safeParse(process.env)
 
