@@ -24,7 +24,7 @@ const AuthGuard: React.FC<PropsWithChildren> = ({ children }) => {
 	if (auth.error) {
 		return (
 			<CenterComponents>
-				<p>`${JSON.stringify(auth.error)}`</p>
+				<Typography>`${JSON.stringify(auth.error)}`</Typography>
 			</CenterComponents>
 		)
 	}
