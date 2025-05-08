@@ -18,7 +18,7 @@ const pwaAssets = pwaDefineConfig({
 const pwaOptions: Partial<VitePWAOptions> = {
 	base: "/",
 	mode: "production",
-	strategies: "generateSW",
+        strategies: "generateSW",
 	outDir: "build/client/",
 	registerType: "autoUpdate",
 	includeAssets: ["favicon.svg"],
