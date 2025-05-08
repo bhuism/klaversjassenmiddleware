@@ -4,6 +4,13 @@
 	"remix": true,
 	"lefthook": true,
 	"project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"],
-	"ignore": ["app/library/icon/icons/types.ts", "react-router.config.ts"],
-	"ignoreDependencies": ["@babel/preset-typescript", "babel-plugin-react-compiler", "tailwindcss"]
+	"ignore": ["app/library/icon/icons/types.ts", "react-router.config.ts", "service-worker/sw.js"],
+	"ignoreDependencies": [
+		"@babel/preset-typescript",
+		"babel-plugin-react-compiler",
+		"tailwindcss",
+		"workbox-core",
+		"workbox-precaching",
+		"workbox-routing"
+	]
 }
