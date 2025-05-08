@@ -1,6 +1,7 @@
 import { clientsClaim } from "workbox-core"
 /// <reference lib="webworker" />
-import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching"
+import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from "workbox-precaching"
+import { NavigationRoute, registerRoute } from "workbox-routing"
 
 // self.__WB_MANIFEST is default injection point
 precacheAndRoute(self.__WB_MANIFEST)
@@ -9,15 +10,11 @@ precacheAndRoute(self.__WB_MANIFEST)
 cleanupOutdatedCaches()
 
 /** @type {RegExp[] | undefined} */
-// let allowlist
-// if (import.meta.env.DEV)
-//   allowlist = [/^\/$/]
+let allowlist
+if (import.meta.env.DEV) allowlist = [/^\/$/]
 
-// // to allow work offline
-// registerRoute(new NavigationRoute(
-//   createHandlerBoundToURL('/index.js'),
-//   { allowlist },
-// ))
+// to allow work offline
+registerRoute(new NavigationRoute(createHandlerBoundToURL("/"), { allowlist }))
 
 self.skipWaiting()
 clientsClaim()
