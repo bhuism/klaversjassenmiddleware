@@ -53,7 +53,7 @@
 		"react-router-hono-server": "2.13.0",
 		"react-use-websocket": "4.13.0",
 		"remix-hono": "0.0.18",
-		"remix-i18next": "7.2.0",
+		"remix-i18next": "7.2.1",
 		"tailwind-merge": "3.2.0",
 		"zod": "3.24.4"
 	},
