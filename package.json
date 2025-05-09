@@ -92,7 +92,7 @@
 		"workbox-precaching": "7.3.0",
 		"workbox-routing": "7.3.0",
 		"workbox-window": "7.3.0",
-		"wrangler": "4.14.3"
+		"wrangler": "4.14.4"
 	},
 	"packageManager": "pnpm@10.10.0",
 	"optionalDependencies": {
