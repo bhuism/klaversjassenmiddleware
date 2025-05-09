@@ -18,7 +18,7 @@ const pwaAssets = pwaDefineConfig({
 const pwaOptions: Partial<VitePWAOptions> = {
 	base: "/",
 	mode: "production",
-        strategies: "generateSW",
+	strategies: "generateSW",
 	outDir: "build/client/",
 	registerType: "autoUpdate",
 	includeAssets: ["favicon.svg"],
@@ -46,9 +46,9 @@ export default defineConfig({
 	build: {
 		// biome-ignore lint/nursery/noProcessEnv: <explanation>
 		sourcemap: process.env.SOURCE_MAP === "true",
-//		rollupOptions: {
-//			external: ["service-worker/**", "workbox-core", "workbox-precaching", "workbox-routing"],
-//		},
+		//		rollupOptions: {
+		//			external: ["service-worker/**", "workbox-core", "workbox-precaching", "workbox-routing"],
+		//		},
 	},
 	define: {
 		__DATE__: `'${new Date().toISOString()}'`,
