@@ -44,6 +44,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
 
 export default defineConfig({
 	build: {
+		ssr: true,
 		// biome-ignore lint/nursery/noProcessEnv: <explanation>
 		sourcemap: process.env.SOURCE_MAP === "true",
 		//		rollupOptions: {
