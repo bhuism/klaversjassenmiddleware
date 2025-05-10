@@ -73,7 +73,7 @@
 		"@vitest/coverage-v8": "3.1.2",
 		"@vitest/ui": "3.1.2",
 		"babel-plugin-react-compiler": "19.1.0-rc.1",
-		"happy-dom": "17.4.6",
+		"happy-dom": "17.4.7",
 		"knip": "5.55.1",
 		"lefthook": "1.11.12",
 		"playwright": "1.52.0",
