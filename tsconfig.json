@@ -12,7 +12,7 @@
 		".generated-sources/**/*"
 	],
 	"compilerOptions": {
-		"types": ["vitest/globals", "@vitest/browser/providers/playwright", "vite-plugin-pwa/client"],
+		"types": ["vitest/globals", "@vitest/browser/providers/playwright"],
 		"lib": ["DOM", "DOM.Iterable", "ES2023"],
 		"isolatedModules": true,
 		"esModuleInterop": true,

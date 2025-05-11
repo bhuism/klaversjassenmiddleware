@@ -22,8 +22,6 @@ export const handle = {
 }
 
 export default function App({ loaderData }: Route.ComponentProps) {
-	if (typeof window !== "undefined") import("./pwa")
-
 	const { lang, clientEnv } = loaderData
 	useChangeLanguage(lang)
 	return (

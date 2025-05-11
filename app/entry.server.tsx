@@ -9,7 +9,7 @@ import { resources } from "./localization/resource"
 import { globalAppContext } from "./server/context"
 
 // Reject all pending promises from handler functions after 10 seconds
-export const streamTimeout = 10000
+export const streamTimeout = 5000
 
 export default async function handleRequest(
 	request: Request,
