@@ -42,9 +42,6 @@ function initEnv(cfEnv: any) {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function getServerEnv(cfEnv: any) {
-	// biome-ignore lint/suspicious/noConsole: <explanation>
-	// biome-ignore lint/style/useTemplate: <explanation>
-	console.log("getServerEnv cfEnv: " + JSON.stringify(cfEnv) + ", env=" + JSON.stringify(env))
 	if (env) return env
 	return initEnv(cfEnv)
 }
@@ -56,6 +53,9 @@ export function getServerEnv(cfEnv: any) {
  * @returns Subset of the whole process.env to be passed to the client and used there
  */
 export const getClientEnv = () => {
+	if (!env) {
+		throw new Error("No env")
+	}
 	const serverEnv = env
 	return {
 		NODE_ENV: serverEnv.NODE_ENV,
