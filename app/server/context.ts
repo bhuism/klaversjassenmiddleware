@@ -27,10 +27,6 @@ import { getClientEnv, getServerEnv } from "~/env.server"
 // }
 
 export const getLoadContext = createGetLoadContext(async (c, { mode, build }) => {
-	// biome-ignore lint/suspicious/noConsole: <explanation>
-	// biome-ignore lint/style/useTemplate: <explanation>
-	console.log("mode=" + mode)
-
 	const locale = i18next.getLocale(c as Context)
 	const t = await i18next.getFixedT(c as Context)
 	const env = getServerEnv(c.env)
