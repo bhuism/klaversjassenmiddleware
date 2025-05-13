@@ -32,6 +32,7 @@
 		"rootDirs": [".", "./.react-router/types", "./.generated-sources"],
 		"plugins": [{ "name": "@react-router/dev" }],
 		// Vite takes care of building everything, not tsc.
-		"noEmit": true
+		"noEmit": true,
+		"verbatimModuleSyntax": true
 	}
 }
