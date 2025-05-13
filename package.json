@@ -90,7 +90,7 @@
 		"workbox-routing": "7.3.0",
 		"wrangler": "4.14.4"
 	},
-	"packageManager": "pnpm@10.10.0",
+	"packageManager": "pnpm@10.11.0",
 	"optionalDependencies": {
 		"@rollup/rollup-linux-x64-gnu": "^4.34.3"
 	},
