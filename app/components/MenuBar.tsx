@@ -21,17 +21,20 @@ import {
 	useColorScheme,
 } from "@mui/material"
 import { useState } from "react"
-import { useAuth } from "react-oidc-context"
 
+import { signOut, useSession } from "@hono/auth-js/react"
 import { Link as RouterLink, useNavigate } from "react-router"
 import AboutDialog from "./AboutDialog"
 import UserStatusDialog from "./UserStatusDialog"
 
 const MenuBar: React.FC = () => {
-	const auth = useAuth()
 	const navigate = useNavigate()
 
-	const { user } = auth
+	const { data: session } = useSession()
+
+	if (!session?.user) {
+		return <Typography>no user</Typography>
+	}
 
 	const { mode, setMode } = useColorScheme()
 
@@ -104,9 +107,10 @@ const MenuBar: React.FC = () => {
 			id: "logout",
 			title: "Logout",
 			onClick: () => {
-				auth.removeUser()
-				auth.clearStaleState()
-				window.location.href = "/"
+				signOut()
+				// auth.removeUser()
+				// auth.clearStaleState()
+				// window.location.href = "/"
 			},
 		},
 	]
@@ -209,8 +213,8 @@ const MenuBar: React.FC = () => {
 							</Tooltip>
 							<Tooltip title="Open settings">
 								<IconButton onClick={handleOpenUserMenu} sx={{ mr: 1 }}>
-									{user?.profile.picture ? (
-										<Avatar alt={user?.profile.name} src={user?.profile.picture} />
+									{session?.user.name && session?.user.image ? (
+										<Avatar alt={session.user?.name} src={session.user?.image} />
 									) : (
 										<AccountCircle />
 									)}

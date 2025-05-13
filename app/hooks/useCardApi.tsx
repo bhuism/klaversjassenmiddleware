@@ -1,22 +1,19 @@
+import { useSession } from "@hono/auth-js/react"
 import { useMemo } from "react"
-import { GameApi } from ".generated-sources/openapi/apis/GameApi"
-import { Configuration } from ".generated-sources/openapi/runtime"
-
-import { useAuth } from "react-oidc-context"
 import constants from "~/utils/constants"
+import { Configuration, GameApi } from ".generated-sources/openapi"
 
 const useCardApi = () => {
-	const { user } = useAuth()
-
+	const { data: session } = useSession()
 	const cardApi = useMemo(
 		() =>
 			new GameApi(
 				new Configuration({
 					basePath: constants.apiUrl,
-					headers: { Authorization: `Bearer ${user?.id_token}` },
+					headers: { Authorization: `Bearer ${session?.user?.email}` },
 				})
 			),
-		[user?.id_token]
+		[session]
 	)
 
 	return { cardApi }

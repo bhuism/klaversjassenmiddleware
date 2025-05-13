@@ -1,18 +1,38 @@
+import { authConfigManager, signIn, useOauthPopupLogin, useSession } from "@hono/auth-js/react"
 import { Button, CircularProgress, Typography } from "@mui/material"
 import dayjs from "dayjs"
-import type { PropsWithChildren } from "react"
-import { useAuth } from "react-oidc-context"
+import { type PropsWithChildren, useEffect } from "react"
+//import app from "~/server"
 import CenterComponents from "~/utils/CenterComponents"
 import constants from "~/utils/constants"
 import Star from "./Star"
 
 const LoginButton: React.FC<{ lang: string }> = ({ lang = "en" }) => {
-	const { signinRedirect } = useAuth()
+	//const { signinRedirect } = useAuth()
+
+	//const { data: session, status } = useSession()
+
+	//if (!session?.user) return null
+
+	//const { data: session } = useSession()
+
+	const { popUpSignin, status } = useOauthPopupLogin("google", {
+		callbackUrl: "/auth/success",
+	})
+
+	useEffect(() => {
+		if (status === "success") {
+			authConfigManager.getConfig().fetchSession({ event: "refetch" })
+		}
+	}, [status])
 
 	return (
 		<>
-			<Button variant="outlined" size="large" onClick={() => signinRedirect()}>
-				Login
+			<Button variant="outlined" size="large" onClick={() => signIn("google")}>
+				Sign In
+			</Button>
+			<Button variant="outlined" size="large" onClick={popUpSignin}>
+				Popup Login
 			</Button>
 			<Typography style={{ color: "#555" }}>
 				{`${dayjs().locale(lang).to(constants.gitDate)}`}
@@ -24,60 +44,37 @@ const LoginButton: React.FC<{ lang: string }> = ({ lang = "en" }) => {
 }
 
 const AuthGuard: React.FC<PropsWithChildren> = ({ children }) => {
-	const auth = useAuth()
+	const { data: session, status } = useSession()
 
-	if (!auth) {
-		return (
-			<CenterComponents>
-				<CircularProgress />
-				<Typography>no auth</Typography>
-			</CenterComponents>
-		)
-	}
+	// app.get("/google", (c) => {
+	// 	const token = c.get("token")
+	// 	const grantedScopes = c.get("granted-scopes")
+	// 	const user = c.get("user-google")
 
-	if (auth.isLoading) {
-		return (
-			<CenterComponents>
-				<CircularProgress />
-			</CenterComponents>
-		)
-	}
+	// 	return c.json({
+	// 		token,
+	// 		grantedScopes,
+	// 		user,
+	// 	})
+	// })
 
-	// just log
-	if (auth.error) {
-		return (
-			<CenterComponents>
-				<Typography>`${JSON.stringify(auth.error)}`</Typography>
-			</CenterComponents>
-		)
-	}
-
-	const TranslateActivateNavigator = {
-		signinRedirect: "Signin In",
-		signinResourceOwnerCredentials: "Signin In",
-		signinPopup: "Signin In",
-		signinSilent: "Signin In",
-		signoutRedirect: "Signin Out",
-		signoutPopup: "Signin Out",
-		signoutSilent: "Signin Out",
-	}
-
-	if (auth.activeNavigator) {
+	if (status === "loading") {
 		return (
 			<>
 				<CenterComponents>
+					<Star />
 					<CircularProgress />
-					<Typography>{TranslateActivateNavigator[auth.activeNavigator]}</Typography>
 				</CenterComponents>
 			</>
 		)
 	}
 
-	if (!auth.isAuthenticated) {
+	if (!session?.user) {
 		return (
 			<>
 				<CenterComponents>
 					<Star />
+					<Typography>{`${status}`}</Typography>
 					<LoginButton lang="en" />
 				</CenterComponents>
 			</>

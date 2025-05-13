@@ -3,12 +3,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { nlNL } from "@mui/x-date-pickers/locales"
 import "dayjs/locale/nl"
-import AuthSessionProviderAuth0 from "~/provider/AuthSessionProviderAuth0"
 
 import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
+import { SessionProvider } from "@hono/auth-js/react"
 import dayjs from "dayjs"
 import { SnackbarProvider } from "notistack"
 import { Outlet } from "react-router"
@@ -38,11 +38,11 @@ const RootLayout: React.FC<Route.ComponentProps> = ({ loaderData }) => {
 						<ThemeProvider theme={theme} defaultMode="system">
 							<InitColorSchemeScript defaultMode="system" attribute="class" />
 							<CssBaseline />
-							<AuthSessionProviderAuth0>
+							<SessionProvider>
 								<AuthGuard>
 									<Outlet />
 								</AuthGuard>
-							</AuthSessionProviderAuth0>
+							</SessionProvider>
 						</ThemeProvider>
 					</Box>
 				</Box>

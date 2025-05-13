@@ -1,12 +1,15 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
-import dayjs from "dayjs"
-import { useAuth } from "react-oidc-context"
+import { useSession } from "@hono/auth-js/react"
+import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
 
 const UserStatusDialog: React.FC<{
 	visible: boolean
 	onClose: () => void
 }> = ({ visible, onClose }) => {
-	const { user } = useAuth()
+	const { data: session } = useSession()
+
+	if (!session || !session.user) {
+		return <Typography>no session</Typography>
+	}
 
 	return (
 		<Dialog open={visible} onClose={onClose} title="Status" fullWidth maxWidth="sm">
@@ -15,24 +18,28 @@ const UserStatusDialog: React.FC<{
 			</DialogTitle>
 			<DialogContent dividers>
 				<dl>
-					<dt>Subject</dt>
-					<dd>{user?.profile.sub}</dd>
+					{/* <dt>Subject</dt>
+					<dd>{session.user?.profile.sub}</dd> */}
 					<dt>Volledige naam</dt>
-					<dd>{user?.profile.name}</dd>
+					<dd>{session.user?.name}</dd>
 					<dt>Email</dt>
-					<dd>{user?.profile.email}</dd>
-					<dt>Scopes</dt>
+					<dd>{session.user?.email}</dd>
+					<dt>Avatar</dt>
+					<dd>
+						{session.user?.name && session.user?.image ? (
+							<Avatar alt={session.user?.name} src={session.user?.image} />
+						) : (
+							<></>
+						)}
+					</dd>
+					{/* <dt>Scopes</dt>
 					<dd>
 						{user?.scopes.sort().map((s) => (
 							<div key={s}>{s}</div>
 						))}
-					</dd>
+					</dd> */}
 					<dt>Experation</dt>
-					<dd>
-						{user?.profile.exp
-							? `${dayjs.unix(user?.profile.exp).format("LLLL")}·(${dayjs().to(dayjs.unix(user?.profile.exp))})`
-							: ""}
-					</dd>
+					<dd>{session.expires ? `${session.expires}·(${session.expires})` : ""}</dd>
 				</dl>
 			</DialogContent>
 			<DialogActions>
