@@ -89,6 +89,7 @@ export const getLoadContext = createGetLoadContext(async (c, { mode, build }) =>
 declare module "react-router" {
 	interface AppLoadContext {
 		readonly lang: string
+		readonly isProductionDeployment: boolean
 		readonly appVersion: string
 	}
 }
