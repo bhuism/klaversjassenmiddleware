@@ -12,7 +12,11 @@
 			"custom_domain": true
 		}
 	],
-	"vars": { "APP_ENV": "production", "NODE_ENV": "production" },
+	"vars": {
+		"APP_ENV": "production",
+		"NODE_ENV": "production",
+		"AUTH_URL": "https://www.klaversjassen.nl/api/auth"
+	},
 	"observability": {
 		"enabled": true,
 		"logs": { "enabled": true, "head_sampling_rate": 1 }
