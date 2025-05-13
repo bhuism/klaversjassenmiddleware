@@ -85,3 +85,4 @@ worker-configuration.d.ts
 .wrangler
 *~
 .generated-sources
+.dev.vars
