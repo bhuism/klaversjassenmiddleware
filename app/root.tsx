@@ -5,12 +5,12 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, 
 import { useChangeLanguage } from "remix-i18next/react"
 import type { Route } from "./+types/root"
 import { LanguageSwitcher } from "./library/language-switcher"
-import { globalAppContext } from "./server/context"
+//import { globalAppContext } from "./server/context"
 import { ClientHintCheck, getHints } from "./services/client-hints"
 import tailwindcss from "./tailwind.css?url"
 
 export async function loader({ context, request }: Route.LoaderArgs) {
-	const { lang, clientEnv } = context.get(globalAppContext)
+	const { lang, clientEnv } = context
 	const hints = getHints(request)
 	return { lang, clientEnv, hints }
 }

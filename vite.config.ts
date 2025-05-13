@@ -22,6 +22,7 @@ export default defineConfig({
 	},
 	plugins: [
 		cloudflareDevProxy(),
+		//		cloudflareDevProxy(),
 		//cloudflare(),
 		//		cloudflare({ viteEnvironment: { name: "ssr" } }),
 		tailwindcss(),
@@ -38,13 +39,14 @@ export default defineConfig({
 		},
 		reactRouterDevTools(),
 		reactRouter(),
+
 		reactRouterHonoServer({
 			serverEntryPoint: "./app/server/index.ts",
 			runtime: "cloudflare",
-			// flag: { force_react_19: true },
-			dev: {
-				exclude: [/^\/(resources)\/.+/],
-			},
+			// // flag: { force_react_19: true },
+			// dev: {
+			// 	exclude: [/^\/(resources)\/.+/],
+			// },
 		}),
 		tsconfigPaths(),
 		iconsSpritesheet({

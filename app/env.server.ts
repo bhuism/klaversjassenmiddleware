@@ -1,8 +1,8 @@
 import { z } from "zod"
 
 const envSchema = z.object({
-	NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
-	APP_ENV: z.enum(["development", "staging", "production"]).default("development"),
+	NODE_ENV: z.enum(["development", "production", "test"]),
+	APP_ENV: z.enum(["development", "staging", "production"]),
 })
 
 type ServerEnv = z.infer<typeof envSchema>
@@ -16,6 +16,10 @@ let env: ServerEnv
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function initEnv(cfEnv: any) {
+	// biome-ignore lint/suspicious/noConsole: <explanation>
+	// biome-ignore lint/style/useTemplate: <explanation>
+	console.log("initEnv env: " + JSON.stringify(cfEnv))
+
 	const envData = envSchema.safeParse(cfEnv)
 
 	if (!envData.success) {
@@ -30,13 +34,17 @@ function initEnv(cfEnv: any) {
 	// Do not log the message when running tests
 	if (env.NODE_ENV !== "test") {
 		// biome-ignore lint/suspicious/noConsole: We want this to be logged
-		console.log("✅ Environment variables loaded successfully")
+		// biome-ignore lint/style/useTemplate: <explanation>
+		console.log("✅ Environment variables loaded successfully: " + JSON.stringify(env))
 	}
 	return env
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function getServerEnv(cfEnv: any) {
+	// biome-ignore lint/suspicious/noConsole: <explanation>
+	// biome-ignore lint/style/useTemplate: <explanation>
+	console.log("getServerEnv cfEnv: " + JSON.stringify(cfEnv) + ", env=" + JSON.stringify(env))
 	if (env) return env
 	return initEnv(cfEnv)
 }

@@ -12,13 +12,12 @@ import "@fontsource/roboto/700.css"
 import dayjs from "dayjs"
 import { SnackbarProvider } from "notistack"
 import { Outlet } from "react-router"
-import { globalAppContext } from "~/server/context"
 import type { Route } from "./+types/RootLayout"
 import AuthGuard from "./AuthGuard"
 import theme from "./theme"
 
 export async function loader({ context }: Route.LoaderArgs) {
-	const { lang } = context.get(globalAppContext)
+	const { lang } = context
 	return { lang }
 }
 

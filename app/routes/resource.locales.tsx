@@ -1,12 +1,10 @@
 import { cacheHeader } from "pretty-cache-header"
 import { z } from "zod"
 import { resources } from "~/localization/resource"
-import { globalAppContext } from "~/server/context"
 import type { Route } from "./+types/resource.locales"
 
 export async function loader({ request, context }: Route.LoaderArgs) {
-	const { env } = context.get(globalAppContext)
-
+	const { isProductionDeployment } = context
 	const url = new URL(request.url)
 
 	const lng = z
@@ -26,7 +24,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	const headers = new Headers()
 
 	// On production, we want to add cache headers to the response
-	if (env.APP_ENV === "production") {
+	if (isProductionDeployment) {
 		headers.set(
 			"Cache-Control",
 			cacheHeader({

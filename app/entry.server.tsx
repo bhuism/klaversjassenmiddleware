@@ -1,12 +1,12 @@
+//import { globalAppContext } from "./server/context"
 import { createInstance } from "i18next"
 import { isbot } from "isbot"
 import { renderToReadableStream } from "react-dom/server"
 import { I18nextProvider, initReactI18next } from "react-i18next"
-import { type EntryContext, ServerRouter, type unstable_RouterContextProvider } from "react-router"
+import { type AppLoadContext, type EntryContext, ServerRouter } from "react-router"
 import i18n from "./localization/i18n"
 import i18nextOpts from "./localization/i18n.server"
 import { resources } from "./localization/resource"
-import { globalAppContext } from "./server/context"
 
 // Reject all pending promises from handler functions after 10 seconds
 export const streamTimeout = 5000
@@ -16,11 +16,26 @@ export default async function handleRequest(
 	responseStatusCode: number,
 	responseHeaders: Headers,
 	context: EntryContext,
-	appContext: unstable_RouterContextProvider
+	appContext: AppLoadContext
 ) {
 	let shellRendered = false
+	//	console.log("request: " + Object.toString(request))
+
+	request.headers.forEach((name, value) => {
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		console.log("got header: %s=%s", name, value)
+	})
+
 	const userAgent = request.headers.get("user-agent")
-	const ctx = appContext.get(globalAppContext)
+
+	const cookie = request.headers.get("cookie")
+
+	// biome-ignore lint/suspicious/noConsole: <explanation>
+	console.log("cookie: %s", cookie)
+
+	//const callbackName = isbot(request.headers.get("user-agent")) ? "onAllReady" : "onShellReady"
+
+	const ctx = appContext
 	//	const callbackName = isbot(request.headers.get("user-agent")) ? "onAllReady" : "onShellReady"
 	const instance = createInstance()
 	const lng = ctx.lang
@@ -54,9 +69,10 @@ export default async function handleRequest(
 			},
 		}
 	)
-
 	shellRendered = true
 
+	// Ensure requests from bots and SPA Mode renders wait for all content to load before responding
+	// https://react.dev/reference/react-dom/server/renderToPipeableStream#waiting-for-all-content-to-load-for-crawlers-and-static-generation
 	if ((userAgent && isbot(userAgent)) || context.isSpaMode) {
 		await body.allReady
 	}
