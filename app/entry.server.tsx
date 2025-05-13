@@ -1,4 +1,3 @@
-//import { globalAppContext } from "./server/context"
 import { createInstance } from "i18next"
 import { isbot } from "isbot"
 import { renderToReadableStream } from "react-dom/server"
@@ -19,21 +18,13 @@ export default async function handleRequest(
 	appContext: AppLoadContext
 ) {
 	let shellRendered = false
-	//	console.log("request: " + Object.toString(request))
 
-	request.headers.forEach((name, value) => {
-		// biome-ignore lint/suspicious/noConsole: <explanation>
-		console.log("got header: %s=%s", name, value)
-	})
+	// request.headers.forEach((name, value) => {
+	// 	// biome-ignore lint/suspicious/noConsole: <explanation>
+	// 	console.log("got header: %s=%s", name, value)
+	// })
 
 	const userAgent = request.headers.get("user-agent")
-
-	const cookie = request.headers.get("cookie")
-
-	// biome-ignore lint/suspicious/noConsole: <explanation>
-	console.log("cookie: %s", cookie)
-
-	//const callbackName = isbot(request.headers.get("user-agent")) ? "onAllReady" : "onShellReady"
 
 	const ctx = appContext
 	//	const callbackName = isbot(request.headers.get("user-agent")) ? "onAllReady" : "onShellReady"
