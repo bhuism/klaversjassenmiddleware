@@ -139,8 +139,8 @@ importers:
         specifier: 3.1.2
         version: 3.1.2(vitest@3.1.2)
       babel-plugin-react-compiler:
-        specifier: 19.1.0-rc.1
-        version: 19.1.0-rc.1
+        specifier: 19.1.0-rc.2
+        version: 19.1.0-rc.2
       happy-dom:
         specifier: 17.4.7
         version: 17.4.7
@@ -1915,8 +1915,8 @@ packages:
     resolution: {integrity: sha512-Cg7TFGpIr01vOQNODXOOaGz2NpCU5gl8x1qJFbb6hbZxR7XrcE2vtbAsTAbJ7/xwJtUuJEw8K8Zr/AE0LHlesg==}
     engines: {node: '>=10', npm: '>=6'}
 
-  babel-plugin-react-compiler@19.1.0-rc.1:
-    resolution: {integrity: sha512-M4fpG+Hfq5gWzsJeeMErdRokzg0fdJ8IAk+JDhfB/WLT+U3WwJWR8edphypJrk447/JEvYu6DBFwsTn10bMW4Q==}
+  babel-plugin-react-compiler@19.1.0-rc.2:
+    resolution: {integrity: sha512-kSNA//p5fMO6ypG8EkEVPIqAjwIXm5tMjfD1XRPL/sRjYSbJ6UsvORfaeolNWnZ9n310aM0xJP7peW26BuCVzA==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -5726,7 +5726,7 @@ snapshots:
       cosmiconfig: 7.1.0
       resolve: 1.22.10
 
-  babel-plugin-react-compiler@19.1.0-rc.1:
+  babel-plugin-react-compiler@19.1.0-rc.2:
     dependencies:
       '@babel/types': 7.27.1
 
