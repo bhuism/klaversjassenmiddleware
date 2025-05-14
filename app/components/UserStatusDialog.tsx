@@ -18,26 +18,20 @@ const UserStatusDialog: React.FC<{
 			</DialogTitle>
 			<DialogContent dividers>
 				<dl>
-					{/* <dt>Subject</dt>
-					<dd>{session.user?.profile.sub}</dd> */}
+					<dt>Id</dt>
+					<dd>{session.user.id}</dd>
 					<dt>Volledige naam</dt>
-					<dd>{session.user?.name}</dd>
+					<dd>{session.user.name}</dd>
 					<dt>Email</dt>
-					<dd>{session.user?.email}</dd>
+					<dd>{session.user.email}</dd>
 					<dt>Avatar</dt>
 					<dd>
-						{session.user?.name && session.user?.image ? (
-							<Avatar alt={session.user?.name} src={session.user?.image} />
+						{session.user.name && session.user.image ? (
+							<Avatar alt={session.user.name} src={session.user.image} />
 						) : (
 							<></>
 						)}
 					</dd>
-					{/* <dt>Scopes</dt>
-					<dd>
-						{user?.scopes.sort().map((s) => (
-							<div key={s}>{s}</div>
-						))}
-					</dd> */}
 					<dt>Experation</dt>
 					<dd>{session.expires ? `${session.expires}·(${session.expires})` : ""}</dd>
 				</dl>

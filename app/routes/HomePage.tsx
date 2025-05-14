@@ -8,15 +8,14 @@ export async function loader({ context, params, request }: Route.LoaderArgs) {
 }
 
 const Home: React.FC<Route.ComponentProps> = ({ loaderData }) => {
-	const { context, params, request } = loaderData
+	const { context } = loaderData
+	const { user } = context
 
 	return (
 		<CenterComponents>
 			<h3>Home is where the heart is</h3>
 			<TimeComponent slug="homepage" />
-			<Typography>{`context= ${JSON.stringify(context)}`}</Typography>
-			<Typography>{`params= ${JSON.stringify(params)}`}</Typography>
-			<Typography>{`request= ${JSON.stringify(request)}`}</Typography>
+			<Typography>{`context= ${JSON.stringify(user)}`}</Typography>
 		</CenterComponents>
 	)
 }

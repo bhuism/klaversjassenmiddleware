@@ -101,7 +101,7 @@ const MenuBar: React.FC = () => {
 		{
 			id: "session",
 			title: "Session",
-			onClick: () => navigate("/api/protected"),
+			onClick: () => navigate("/authUser"),
 		},
 		{
 			id: "about",
@@ -219,7 +219,7 @@ const MenuBar: React.FC = () => {
 							<Tooltip title="Open settings">
 								<IconButton onClick={handleOpenUserMenu} sx={{ mr: 1 }}>
 									{session?.user.name && session?.user.image ? (
-										<Avatar alt={session.user?.name} src={session.user?.image} />
+										<Avatar alt={session.user.name} src={session.user.image} />
 									) : (
 										<AccountCircle />
 									)}

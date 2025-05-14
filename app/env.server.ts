@@ -16,10 +16,6 @@ let env: ServerEnv
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function initEnv(cfEnv: any) {
-	// biome-ignore lint/suspicious/noConsole: <explanation>
-	// biome-ignore lint/style/useTemplate: <explanation>
-	console.log("initEnv env: " + JSON.stringify(cfEnv))
-
 	const envData = envSchema.safeParse(cfEnv)
 
 	if (!envData.success) {
@@ -32,7 +28,7 @@ function initEnv(cfEnv: any) {
 	Object.freeze(env)
 
 	// Do not log the message when running tests
-	if (env.NODE_ENV !== "test") {
+	if (env.NODE_ENV === "development") {
 		// biome-ignore lint/suspicious/noConsole: We want this to be logged
 		// biome-ignore lint/style/useTemplate: <explanation>
 		console.log("✅ Environment variables loaded successfully: " + JSON.stringify(env))
