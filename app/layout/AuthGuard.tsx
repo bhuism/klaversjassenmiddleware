@@ -16,7 +16,7 @@ const LoginButton: React.FC<{ lang: string }> = ({ lang = "en" }) => {
 
 	//const { data: session } = useSession()
 
-	const { popUpSignin, status } = useOauthPopupLogin("google", {
+	const { status } = useOauthPopupLogin("google", {
 		callbackUrl: "/auth/success",
 	})
 
@@ -30,9 +30,6 @@ const LoginButton: React.FC<{ lang: string }> = ({ lang = "en" }) => {
 		<>
 			<Button variant="outlined" size="large" onClick={() => signIn("google")}>
 				Sign In
-			</Button>
-			<Button variant="outlined" size="large" onClick={popUpSignin}>
-				Popup Login
 			</Button>
 			<Typography style={{ color: "#555" }}>
 				{`${dayjs().locale(lang).to(constants.gitDate)}`}
