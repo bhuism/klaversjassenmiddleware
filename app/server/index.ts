@@ -1,6 +1,7 @@
 import { type User, skipCSRFCheck } from "@auth/core"
 import Google from "@auth/core/providers/google"
-import { authHandler, initAuthConfig, verifyAuth } from "@hono/auth-js"
+import { authHandler, getAuthUser, initAuthConfig } from "@hono/auth-js"
+import type { MiddlewareHandler } from "hono"
 import { poweredBy } from "hono/powered-by"
 import { createHonoServer } from "react-router-hono-server/cloudflare"
 import { i18next } from "remix-hono/i18next"
@@ -18,6 +19,18 @@ declare module "react-router" {
 	interface AppLoadContext {
 		readonly lang: string
 		readonly user: User
+	}
+}
+
+export function myVerifyAuth(): MiddlewareHandler {
+	return async (c, next) => {
+		const authUser = await getAuthUser(c)
+		const isAuth = !!authUser?.token || !!authUser?.user
+		if (isAuth) {
+			c.set("authUser", authUser)
+		}
+
+		await next()
 	}
 }
 
@@ -62,7 +75,7 @@ export default await createHonoServer({
 
 		app.use("/api/auth/*", authHandler())
 
-		app.use("*", verifyAuth())
+		app.use("*", myVerifyAuth())
 
 		app.get("/authUser", (c) => {
 			const auth = c.get("authUser")
