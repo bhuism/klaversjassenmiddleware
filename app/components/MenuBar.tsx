@@ -99,6 +99,11 @@ const MenuBar: React.FC = () => {
 			onClick: () => setUserStatusDialogVisible(true),
 		},
 		{
+			id: "session",
+			title: "Session",
+			onClick: () => navigate("/api/protected"),
+		},
+		{
 			id: "about",
 			title: "About",
 			onClick: () => setAboutDialogVisible(true),
