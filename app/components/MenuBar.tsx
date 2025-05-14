@@ -101,7 +101,7 @@ const MenuBar: React.FC = () => {
 		{
 			id: "session",
 			title: "Session",
-			onClick: () => navigate("/authUser"),
+			onClick: () => window.location.replace("/authUser"),
 		},
 		{
 			id: "about",
