@@ -19,10 +19,6 @@ export async function loader({ context }: Route.LoaderArgs) {
 		headers: { "API-Key": user.id, "API-Secret": context.apiSecret },
 	})
 
-	// biome-ignore lint/suspicious/noConsole: <explanation>
-	// biome-ignore lint/style/useTemplate: <explanation>
-	console.log("getGames(): ", constants.apiUrl, user.id, context.apiSecret)
-
 	const games = await new GameApi(configuration).getGames()
 
 	// 	// 	const cardApi = context.get("cardApi");

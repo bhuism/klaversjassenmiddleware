@@ -18,8 +18,7 @@ __screenshots__
 # Cache Directories and files
 .cache
 .yarn*
-.env*
-!.env.example
+.env*.local
 .swp*
 .turbo
 .npm
