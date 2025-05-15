@@ -5,15 +5,19 @@ import { Configuration, GameApi } from ".generated-sources/openapi"
 
 const useCardApi = () => {
 	const { data: session } = useSession()
+
+	// biome-ignore lint/style/useTemplate: <explanation>
+	const apiKey = "" + session?.user?.id
+
 	const cardApi = useMemo(
 		() =>
 			new GameApi(
 				new Configuration({
 					basePath: constants.apiUrl,
-					headers: { Authorization: `Bearer ${session?.user?.email}` },
+					headers: { "API-Key": apiKey, "API-Secret": "changeme" },
 				})
 			),
-		[session]
+		[apiKey]
 	)
 
 	return { cardApi }
