@@ -18,7 +18,4 @@ const constants = {
 	apiUrl: import.meta.env.VITE_API_URL as string,
 }
 
-// biome-ignore lint/suspicious/noConsole: <explanation>
-console.log({ constants: constants })
-
 export default constants
