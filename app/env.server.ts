@@ -3,6 +3,7 @@ import { z } from "zod"
 const envSchema = z.object({
 	NODE_ENV: z.enum(["development", "production", "test"]),
 	APP_ENV: z.enum(["development", "staging", "production"]),
+	API_SECRET: z.string(),
 })
 
 type ServerEnv = z.infer<typeof envSchema>

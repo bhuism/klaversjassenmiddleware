@@ -19,6 +19,7 @@ declare module "react-router" {
 	interface AppLoadContext {
 		readonly lang: string
 		readonly user: User
+		readonly apiSecret: string
 	}
 }
 

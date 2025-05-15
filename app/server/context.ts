@@ -12,8 +12,8 @@ export const getLoadContext = createGetLoadContext(async (c, { mode, build }) =>
 	const locale = i18next.getLocale(c as Context)
 	const t = await i18next.getFixedT(c as Context)
 	const env = getServerEnv(c.env)
-
 	const isProductionDeployment = mode === "production"
+	const apiSecret = env.API_SECRET
 
 	return {
 		user,
@@ -24,5 +24,6 @@ export const getLoadContext = createGetLoadContext(async (c, { mode, build }) =>
 		clientEnv: getClientEnv(),
 		body: c.body,
 		appVersion: isProductionDeployment ? build.assets.version : "dev",
+		apiSecret,
 	}
 })

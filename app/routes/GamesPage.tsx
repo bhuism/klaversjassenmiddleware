@@ -1,6 +1,8 @@
 import { Typography } from "@mui/material"
 import Games from "~/components/Games"
+import constants from "~/utils/constants"
 import type { Route } from "./+types/GamesPage"
+import { Configuration, GameApi } from ".generated-sources/openapi"
 
 // function getCookie(cookieString: string, key: string) {
 // 	const b = cookieString.match(`(^|;)\\s*${key}\\s*=\\s*([^;]+)`)
@@ -10,16 +12,14 @@ import type { Route } from "./+types/GamesPage"
 export async function loader({ context }: Route.LoaderArgs) {
 	const { user } = context
 
-	const games: Set<string> = new Set()
+	//	console.log("apiSecret:" + context.apiSecret)
 
-	// 	if (token) {
-	// 		games = await new GameApi(
-	// 			new Configuration({
-	// 				basePath: constants.apiUrl,
-	// 				headers: { Authorization: `Bearer ${token}` },
-	// 			})
-	// 		).getGames()
-	// 	}
+	const configuration = new Configuration({
+		basePath: constants.apiUrl,
+		headers: { "API-Key": user.id, "API-Secret": context.apiSecret },
+	})
+
+	const games = await new GameApi(configuration).getGames()
 
 	// 	// 	const cardApi = context.get("cardApi");
 	// 	// //	const { cardApi } = useCardApi()
