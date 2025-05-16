@@ -4,20 +4,18 @@ import CenterComponents from "~/utils/CenterComponents"
 import constants from "~/utils/constants"
 import type { Route } from "./+types/HomePage"
 
-export async function loader({ context, params, request }: Route.LoaderArgs) {
-	return { context, params, request }
-}
+// export async function loader({ context, params, request }: Route.LoaderArgs) {
+// 	return { context, params, request }
+// }
 
-const Home: React.FC<Route.ComponentProps> = ({ loaderData }) => {
-	const { context } = loaderData
-	const { user } = context
-
+const Home: React.FC<Route.ComponentProps> = () => {
 	return (
 		<CenterComponents>
 			<h3>Home is where the heart is</h3>
 			<TimeComponent slug="homepage" />
-			<Typography>{`context= ${JSON.stringify(user)}`}</Typography>
 			<Typography>{`testSecret=${constants.testSecret}`}</Typography>
+			<Typography>{`gitDate=${constants.gitDate}`}</Typography>
+			<Typography>{`gitHash=${constants.gitHash}`}</Typography>
 		</CenterComponents>
 	)
 }
