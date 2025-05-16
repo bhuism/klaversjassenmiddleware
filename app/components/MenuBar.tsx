@@ -113,9 +113,7 @@ const MenuBar: React.FC = () => {
 			title: "Logout",
 			onClick: () => {
 				signOut()
-				// auth.removeUser()
-				// auth.clearStaleState()
-				// window.location.href = "/"
+				window.location.href = "/"
 			},
 		},
 	]
