@@ -9,7 +9,7 @@
 	"scripts": {
 		"execute": "tsx",
 		"build": "rm -Rf build ; pnpm run codegen ; GITHUB_SHA=$(git rev-parse HEAD) GITHUB_DATE=$(git show --no-patch --format=%cI) react-router build",
-		"dev": "react-router dev",
+		"dev": "GITHUB_SHA=$(git rev-parse HEAD) GITHUB_DATE=$(git show --no-patch --format=%cI) react-router dev",
 		"start": "NODE_ENV=production node ./build/server/index.js",
 		"test": "vitest run --browser.headless",
 		"test:ui": "vitest",
