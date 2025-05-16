@@ -17,7 +17,7 @@ const Home: React.FC<Route.ComponentProps> = ({ loaderData }) => {
 			<h3>Home is where the heart is</h3>
 			<TimeComponent slug="homepage" />
 			<Typography>{`context= ${JSON.stringify(user)}`}</Typography>
-			<Typography>t`testSecret=${constants.testSecret}`</Typography>
+			<Typography>{`testSecret=${constants.testSecret}`}</Typography>
 		</CenterComponents>
 	)
 }
