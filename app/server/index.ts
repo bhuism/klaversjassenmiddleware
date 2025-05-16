@@ -1,4 +1,3 @@
-import { skipCSRFCheck } from "@auth/core"
 import Google from "@auth/core/providers/google"
 import type { User } from "@auth/core/types"
 import { authHandler, getAuthUser, initAuthConfig } from "@hono/auth-js"
@@ -73,7 +72,6 @@ export default await createHonoServer({
 						},
 					},
 					secret: c.env.AUTH_SECRET,
-					skipCSRFCheck,
 					providers: [
 						Google({
 							clientId: c.env.GOOGLE_ID,
