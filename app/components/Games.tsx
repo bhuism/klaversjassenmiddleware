@@ -6,36 +6,13 @@ const GameRow: React.FC<{ gameId: string }> = ({ gameId }) => {
 }
 
 const Games: React.FC<{ games: Set<string> }> = ({ games }) => {
-	//	const { data, isLoading, error } = useLoadOnce<Set<string>>(() => cardApi.getGames())
-
-	//	const {  } = loaderData
-
-	// if (test) {
-	// 	// biome-ignore lint/suspicious/noConsole: <explanation>
-	// 	console.log("test");
-	// }
-	//	const { games } = loaderData;
-
-	// if (error) {
-	// 	return <span style={{ color: "red" }}>{error.message}</span>
-	// }
-
-	// if (isLoading || !data) {
-	// 	return (
-	// 		<CenterComponents>
-	// 			<CircularProgress />
-	// 		</CenterComponents>
-	// 	)
-	// }
-
 	return (
 		<>
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 					<TableHead>
-						<TableCell />
+						<TableCell>Id</TableCell>
 						<TableCell>Gemaakt door</TableCell>
-						<TableCell />
 						<TableCell>Bijgewerkt</TableCell>
 					</TableHead>
 					<TableBody>

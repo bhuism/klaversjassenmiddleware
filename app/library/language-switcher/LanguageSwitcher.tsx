@@ -10,7 +10,7 @@ const LanguageSwitcher = () => {
 	const to = location.pathname
 
 	return (
-		<div className="flex gap-2 p-2 fixed top-0 right-0 w-min z-10">
+		<div className="flex gap-2 p-2 fixed bottom-0 left-0 w-min z-10">
 			{supportedLanguages.map((language) => (
 				<Link
 					className="text-blue-500 dark:text-white hover:underline transition-all"
