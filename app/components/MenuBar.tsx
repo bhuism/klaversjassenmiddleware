@@ -1,5 +1,4 @@
 import {
-	AccountCircle,
 	DarkModeTwoTone,
 	FavoriteBorderTwoTone,
 	LightModeTwoTone,
@@ -8,7 +7,6 @@ import {
 } from "@mui/icons-material"
 import {
 	AppBar,
-	Avatar,
 	Box,
 	Button,
 	Container,
@@ -20,42 +18,30 @@ import {
 	Typography,
 	useColorScheme,
 } from "@mui/material"
+import type React from "react"
 import { useState } from "react"
 
-import { signOut, useSession } from "@hono/auth-js/react"
 import { Link as RouterLink, useNavigate } from "react-router"
-import AboutDialog from "./AboutDialog"
-import UserStatusDialog from "./UserStatusDialog"
+import UserMenu from "./UserMenu"
+
+export interface MyMenu {
+	id: string
+	title: string
+	onClick: () => void
+}
 
 const MenuBar: React.FC = () => {
 	const navigate = useNavigate()
 
-	const { data: session } = useSession()
-
-	if (!session?.user) {
-		return <Typography>no user</Typography>
-	}
-
 	const { mode, setMode } = useColorScheme()
 
 	const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
-	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
-	const [aboutDialogVisible, setAboutDialogVisible] = useState<boolean>(false)
-	const [userStatusDialogVisible, setUserStatusDialogVisible] = useState<boolean>(false)
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget)
 	}
 
-	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorElUser(event.currentTarget)
-	}
-
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null)
-	}
-
-	const handleCloseUserMenu = () => {
-		setAnchorElUser(null)
 	}
 
 	const handleModeClick = () => {
@@ -72,13 +58,7 @@ const MenuBar: React.FC = () => {
 		}
 	}
 
-	interface Menu {
-		id: string
-		title: string
-		onClick: () => void
-	}
-
-	const menu: Menu[] = [
+	const menu: MyMenu[] = [
 		{ id: "games", title: "Games", onClick: () => navigate("/games") },
 		{
 			id: "messageboard",
@@ -87,35 +67,9 @@ const MenuBar: React.FC = () => {
 		},
 	]
 
-	const userMenu: Menu[] = [
-		{
-			id: "settings",
-			title: "Settings",
-			onClick: () => navigate("/settings"),
-		},
-		{
-			id: "userstatus",
-			title: "User Status",
-			onClick: () => setUserStatusDialogVisible(true),
-		},
-		{
-			id: "session",
-			title: "Session",
-			onClick: () => window.location.replace("/authUser"),
-		},
-		{
-			id: "about",
-			title: "About",
-			onClick: () => setAboutDialogVisible(true),
-		},
-		{
-			id: "logout",
-			title: "Logout",
-			onClick: () => {
-				signOut()
-			},
-		},
-	]
+	// if (!session?.user) {
+	// 	return <Typography>no user</Typography>
+	// }
 
 	return (
 		<>
@@ -130,7 +84,7 @@ const MenuBar: React.FC = () => {
 							<IconButton
 								size="large"
 								aria-label="account of current user"
-								aria-controls="menu-appbar"
+								aria-controls="menu-appbar-main"
 								aria-haspopup="true"
 								onClick={handleOpenNavMenu}
 								color="inherit"
@@ -138,7 +92,7 @@ const MenuBar: React.FC = () => {
 								<MenuIcon />
 							</IconButton>
 							<Menu
-								id="menu-appbar"
+								id="menu-appbar-main"
 								anchorEl={anchorElNav}
 								anchorOrigin={{
 									vertical: "bottom",
@@ -166,6 +120,7 @@ const MenuBar: React.FC = () => {
 								))}
 							</Menu>
 						</Box>
+
 						<IconButton component={RouterLink} to="/" sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
 							<FavoriteBorderTwoTone />
 						</IconButton>
@@ -188,6 +143,7 @@ const MenuBar: React.FC = () => {
 						>
 							KV
 						</Typography>
+
 						<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
 							{menu.map((page) => (
 								<Button
@@ -201,6 +157,7 @@ const MenuBar: React.FC = () => {
 								</Button>
 							))}
 						</Box>
+
 						<Box sx={{ flexGrow: 0 }}>
 							<Tooltip title="Theme">
 								<IconButton sx={{ mr: 1 }} onClick={handleModeClick}>
@@ -213,49 +170,12 @@ const MenuBar: React.FC = () => {
 									)}
 								</IconButton>
 							</Tooltip>
-							<Tooltip title="Open settings">
-								<IconButton onClick={handleOpenUserMenu} sx={{ mr: 1 }}>
-									{session?.user.name && session?.user.image ? (
-										<Avatar alt={session.user.name} src={session.user.image} />
-									) : (
-										<AccountCircle />
-									)}
-								</IconButton>
-							</Tooltip>
-							<Menu
-								sx={{ mt: "45px" }}
-								id="menu-appbar"
-								anchorEl={anchorElUser}
-								anchorOrigin={{
-									vertical: "top",
-									horizontal: "right",
-								}}
-								keepMounted
-								transformOrigin={{
-									vertical: "top",
-									horizontal: "right",
-								}}
-								open={Boolean(anchorElUser)}
-								onClose={handleCloseUserMenu}
-							>
-								{userMenu.map((item) => (
-									<MenuItem
-										key={item.id}
-										onClick={() => {
-											handleCloseUserMenu()
-											item.onClick()
-										}}
-									>
-										<Typography sx={{ textAlign: "center" }}>{item.title}</Typography>
-									</MenuItem>
-								))}
-							</Menu>
+
+							<UserMenu />
 						</Box>
 					</Toolbar>
 				</Container>
 			</AppBar>
-			<UserStatusDialog visible={userStatusDialogVisible} onClose={() => setUserStatusDialogVisible(false)} />
-			<AboutDialog visible={aboutDialogVisible} onClose={() => setAboutDialogVisible(false)} />
 		</>
 	)
 }

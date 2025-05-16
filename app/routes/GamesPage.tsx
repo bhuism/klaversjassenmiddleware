@@ -10,16 +10,13 @@ export async function loader({ context }: Route.LoaderArgs) {
 	let games = new Set<string>()
 
 	try {
-		if (user?.id && user.provider) {
+		if (user?.id && user?.provider) {
 			const configuration = new Configuration({
 				basePath: constants.apiUrl,
 				headers: { "API-Key": `${user.provider}|${user.id}`, "API-Secret": context.apiSecret },
 			})
 
 			games = await new GameApi(configuration).getGames()
-		} else {
-			// biome-ignore lint/suspicious/noConsole: <explanation>
-			console.error("can not load")
 		}
 	} catch (e) {
 		// biome-ignore lint/suspicious/noConsole: <explanation>
@@ -38,4 +35,5 @@ const GamesPage: React.FC<Route.ComponentProps> = ({ loaderData }) => {
 		</>
 	)
 }
+
 export default GamesPage

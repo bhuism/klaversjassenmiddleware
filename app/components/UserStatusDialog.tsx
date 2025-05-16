@@ -7,9 +7,7 @@ const UserStatusDialog: React.FC<{
 }> = ({ visible, onClose }) => {
 	const { data: session } = useSession()
 
-	if (!session || !session.user) {
-		return <Typography>no session</Typography>
-	}
+	if (!session?.user) return <></>
 
 	return (
 		<Dialog open={visible} onClose={onClose} title="Status" fullWidth maxWidth="sm">
