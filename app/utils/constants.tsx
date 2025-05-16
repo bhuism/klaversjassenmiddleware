@@ -16,6 +16,7 @@ const constants = {
 	// scopes: import.meta.env.VITE_OAUTH_SCOPES as string,
 	wsUrl: import.meta.env.VITE_WS_URL as string,
 	apiUrl: import.meta.env.VITE_API_URL as string,
+	testSecret: import.meta.env.VITE_TESTSECRET as string,
 }
 
 export default constants

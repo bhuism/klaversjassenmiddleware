@@ -21,16 +21,6 @@ export async function loader({ context }: Route.LoaderArgs) {
 
 	const games = await new GameApi(configuration).getGames()
 
-	// 	// 	const cardApi = context.get("cardApi");
-	// 	// //	const { cardApi } = useCardApi()
-	// 	// 	// biome-ignore lint/suspicious/noConsole: <explanation>
-	// 	// 	console.log(`context:${JSON.stringify(context)}`)
-	// 	// 	const games = cardApi.getGames()
-	// 	// 	return games
-	// }
-
-	//	const id = "test"
-
 	return { games, user }
 }
 
