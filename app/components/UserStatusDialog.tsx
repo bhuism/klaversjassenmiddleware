@@ -20,6 +20,8 @@ const UserStatusDialog: React.FC<{
 				<dl>
 					<dt>Id</dt>
 					<dd>{session.user.id}</dd>
+					<dt>Provider</dt>
+					<dd>{session.user.provider}</dd>
 					<dt>Volledige naam</dt>
 					<dd>{session.user.name}</dd>
 					<dt>Email</dt>
