@@ -1,3 +1,4 @@
+import { Button } from "@mui/material"
 import { useRef } from "react"
 import { type IRefPhaserGame, PhaserGame } from "~/game/PhaserGame"
 
@@ -10,10 +11,9 @@ const PhaserComponent: React.FC = () => {
 
 	return (
 		<>
-			<button type="button" onClick={toggleFullScreen} className="button">
+			<Button autoFocus variant="outlined" onClick={toggleFullScreen}>
 				fullscreen
-			</button>
-
+			</Button>
 			<PhaserGame ref={phaserRef} />
 		</>
 	)
