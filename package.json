@@ -8,7 +8,7 @@
 	"type": "module",
 	"scripts": {
 		"execute": "tsx",
-		"build": "rm -Rf build ; pnpm run codegen ; react-router build",
+		"build": "rm -Rf build ; pnpm run codegen ; GITHUB_SHA=$(git rev-parse HEAD) GITHUB_DATE=$(git show --no-patch --format=%ci) react-router build",
 		"dev": "react-router dev",
 		"start": "NODE_ENV=production node ./build/server/index.js",
 		"test": "vitest run --browser.headless",
@@ -21,7 +21,7 @@
 		"check:unused": "knip --max-issues 4",
 		"check:unused:fix": "knip --fix",
 		"typegen": "react-router typegen ; wrangler types --env-interface CloudflareBindings",
-		"deploy": "rm -Rf .wrangler ; npm run build && wrangler deploy",
+		"deploy": "rm -Rf .wrangler ; GITHUB_SHA=$(git rev-parse HEAD) GITHUB_DATE=$(git show --no-patch --format=%ci) npm run build && wrangler deploy",
 		"codegen": "rm -Rf .generated-sources/openapi ; openapi-generator-cli generate -i https://api.klaversjassen.nl/schema/api.yaml -g typescript-fetch -o .generated-sources/openapi --additional-properties=supportsES6=true,typescriptThreePlus=true,useSingleRequestParameter=false",
 		"codegen-help": "openapi-generator-cli config-help -g typescript-fetch"
 	},

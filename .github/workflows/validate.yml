@@ -10,7 +10,6 @@ on:
 permissions:
   actions: write
   contents: read
-  # Required to put a comment into the pull-request
   pull-requests: write
 jobs:
   lint:
