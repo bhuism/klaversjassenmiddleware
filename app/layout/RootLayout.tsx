@@ -27,12 +27,13 @@ const RootLayout: React.FC<Route.ComponentProps> = ({ loaderData }) => {
 	dayjs.locale(lang)
 
 	return (
-		<LocalizationProvider
-			dateAdapter={AdapterDayjs}
-			adapterLocale="nl"
-			localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
-		>
-			<SnackbarProvider maxSnack={10} autoHideDuration={5000}>
+		<SnackbarProvider maxSnack={10} autoHideDuration={3000}>
+			{/* <SocketGuard> */}
+			<LocalizationProvider
+				dateAdapter={AdapterDayjs}
+				adapterLocale="nl"
+				localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
+			>
 				<Box sx={{ display: "flex" }}>
 					<Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
 						<ThemeProvider theme={theme} defaultMode="system">
@@ -46,8 +47,9 @@ const RootLayout: React.FC<Route.ComponentProps> = ({ loaderData }) => {
 						</ThemeProvider>
 					</Box>
 				</Box>
-			</SnackbarProvider>
-		</LocalizationProvider>
+			</LocalizationProvider>
+			{/* </SocketGuard> */}
+		</SnackbarProvider>
 	)
 }
 export default RootLayout

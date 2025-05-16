@@ -11,9 +11,11 @@ const Games: React.FC<{ games: Set<string> }> = ({ games }) => {
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 					<TableHead>
-						<TableCell>Id</TableCell>
-						<TableCell>Gemaakt door</TableCell>
-						<TableCell>Bijgewerkt</TableCell>
+						<TableRow>
+							<TableCell>Id</TableCell>
+							<TableCell>Gemaakt door</TableCell>
+							<TableCell>Bijgewerkt</TableCell>
+						</TableRow>
 					</TableHead>
 					<TableBody>
 						{[...games].map((gameId) => (

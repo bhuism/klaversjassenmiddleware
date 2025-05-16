@@ -1,8 +1,7 @@
 import { useSnackbar } from "notistack"
-import type { PropsWithChildren } from "react"
+import { type PropsWithChildren, useEffect } from "react"
 import { ReadyState } from "react-use-websocket"
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket"
-import useDidUpdateEffect from "~/hooks/useDidUpdateEffect"
 import constants from "~/utils/constants"
 
 const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
@@ -32,17 +31,17 @@ const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 		},
 	})
 
-	const connectionMap = {
-		[ReadyState.CONNECTING]: "Connecting",
-		[ReadyState.OPEN]: "Connected",
-		[ReadyState.CLOSING]: "Closing",
-		[ReadyState.CLOSED]: "Closed",
-		[ReadyState.UNINSTANTIATED]: "Uninstantiated",
-	}
+	useEffect(() => {
+		const connectionMap = {
+			[ReadyState.CONNECTING]: "Connecting",
+			[ReadyState.OPEN]: "Connected",
+			[ReadyState.CLOSING]: "Closing",
+			[ReadyState.CLOSED]: "Closed",
+			[ReadyState.UNINSTANTIATED]: "Uninstantiated",
+		}
 
-	useDidUpdateEffect(() => {
 		enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: "success" })
-	}, [readyState])
+	}, [enqueueSnackbar, readyState])
 
 	return <>{children}</>
 }

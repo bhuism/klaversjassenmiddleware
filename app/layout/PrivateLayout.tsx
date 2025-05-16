@@ -7,12 +7,12 @@ const PrivateLayout: React.FC = () => {
 	const queryClient = new QueryClient()
 
 	return (
-		// <SocketGuard>
-		<QueryClientProvider client={queryClient}>
-			<MenuBar />
-			<Outlet />
-		</QueryClientProvider>
-		// </SocketGuard>
+		<>
+			<QueryClientProvider client={queryClient}>
+				<MenuBar />
+				<Outlet />
+			</QueryClientProvider>
+		</>
 	)
 }
 
