@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material"
 import Games from "~/components/Games"
 import { Configuration, GameApi } from ".generated-sources/openapi"
 
@@ -18,17 +17,14 @@ export async function loader({ context }: Route.LoaderArgs) {
 		games = await new GameApi(configuration).getGames()
 	}
 
-	return { games, user }
+	return { games }
 }
 
 const GamesPage: React.FC<Route.ComponentProps> = ({ loaderData }) => {
-	const { games, user } = loaderData
-
-	//	const { data: session } = useSession()
+	const { games } = loaderData
 
 	return (
 		<>
-			<Typography>{`${user.id}`}</Typography>
 			<Games games={games} />
 		</>
 	)
