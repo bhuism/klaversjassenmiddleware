@@ -25,11 +25,6 @@ const AboutDialog: React.FC<{
 							{constants.gitHash ? constants.gitHash.substring(0, 8) : "no githash"}
 						</a>
 					</dd>
-					<dt>Build timestamp</dt>
-					<dd>
-						{`${dayjs(Date.parse("__DATE__")).format("LLLL")}`}·(
-						{dayjs().to(dayjs(Date.parse("__DATE__")))})
-					</dd>
 				</dl>
 			</DialogContent>
 			<DialogActions>
