@@ -1,5 +1,7 @@
+import star from "./star.png"
+
 const Star = () => {
-	return <img src={"/assets/star.png"} alt={"logo"} fetchPriority="high" rel="preload" />
+	return <img src={star} alt={"logo"} fetchPriority="high" rel="preload" />
 }
 
 export default Star

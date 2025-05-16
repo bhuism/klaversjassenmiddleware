@@ -11,10 +11,6 @@ import "dayjs/locale/en"
 import "dayjs/locale/nl"
 import Star from "~/layout/Star"
 
-// export async function loader({ context, params, request }: Route.LoaderArgs) {
-// 	return { context, params, request }
-// }
-
 const Home: React.FC<Route.ComponentProps> = () => {
 	const {
 		i18n: { language },

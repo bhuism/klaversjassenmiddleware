@@ -1,9 +1,6 @@
 //import type { Game } from ".generated-sources/openapi/models/Game"
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
-
-const GameRow: React.FC<{ gameId: string }> = ({ gameId }) => {
-	return <TableCell>{gameId}</TableCell>
-}
+import GameComponent from "./GameComponent"
 
 const Games: React.FC<{ games: Set<string> }> = ({ games }) => {
 	return (
@@ -20,7 +17,9 @@ const Games: React.FC<{ games: Set<string> }> = ({ games }) => {
 					<TableBody>
 						{[...games].map((gameId) => (
 							<TableRow key={gameId}>
-								<GameRow gameId={gameId} />
+								<TableCell>
+									<GameComponent gameId={gameId} />
+								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
