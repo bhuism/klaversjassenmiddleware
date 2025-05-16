@@ -16,7 +16,7 @@ export async function loader({ context }: Route.LoaderArgs) {
 
 	const configuration = new Configuration({
 		basePath: constants.apiUrl,
-		headers: { "API-Key": user.id, "API-Secret": context.apiSecret },
+		headers: { "API-Key": `${user.id}`, "API-Secret": context.apiSecret },
 	})
 
 	const games = await new GameApi(configuration).getGames()
