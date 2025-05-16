@@ -113,7 +113,6 @@ const MenuBar: React.FC = () => {
 			title: "Logout",
 			onClick: () => {
 				signOut()
-				window.location.href = "/"
 			},
 		},
 	]
