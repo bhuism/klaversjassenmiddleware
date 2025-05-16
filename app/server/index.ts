@@ -1,5 +1,6 @@
-import { type User, skipCSRFCheck } from "@auth/core"
+import { skipCSRFCheck } from "@auth/core"
 import Google from "@auth/core/providers/google"
+import type { User } from "@auth/core/types"
 import { authHandler, getAuthUser, initAuthConfig } from "@hono/auth-js"
 import type { MiddlewareHandler } from "hono"
 import { poweredBy } from "hono/powered-by"
@@ -8,10 +9,17 @@ import { i18next } from "remix-hono/i18next"
 import i18nextOpts from "~/localization/i18n.server"
 import { getLoadContext } from "./context"
 
-// Extend the default Session type to include custom properties
-declare module "@auth/core" {
+declare module "@auth/core/types" {
 	interface User {
-		id: string // Add a custom `id` property to the session user object
+		id: string
+		provider: string
+	}
+}
+
+declare module "@auth/core/jwt" {
+	interface JWT {
+		providerAccountId: string
+		provider: string
 	}
 }
 
@@ -51,12 +59,14 @@ export default await createHonoServer({
 						jwt({ token, account }) {
 							if (account) {
 								token.providerAccountId = account.providerAccountId
+								token.provider = account.provider
 							}
 							return token
 						},
 						session({ session, token }) {
 							if (typeof token.providerAccountId === "string") {
 								session.user.id = token.providerAccountId
+								session.user.provider = token.provider
 							}
 							c.set("user", session.user)
 							return session

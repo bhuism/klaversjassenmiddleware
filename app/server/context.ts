@@ -1,4 +1,4 @@
-import type { User } from "@auth/core"
+import type { User } from "@auth/core/types"
 import type { Context } from "hono"
 import { createGetLoadContext } from "react-router-hono-server/cloudflare"
 import { i18next } from "remix-hono/i18next"
