@@ -13,7 +13,6 @@ const Home: React.FC<Route.ComponentProps> = () => {
 		<CenterComponents>
 			<h3>Home is where the heart is</h3>
 			<TimeComponent slug="homepage" />
-			<Typography>{`testSecret=${constants.testSecret}`}</Typography>
 			<Typography>{`gitDate=${constants.gitDate}`}</Typography>
 			<Typography>{`gitHash=${constants.gitHash}`}</Typography>
 		</CenterComponents>
