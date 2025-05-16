@@ -6,7 +6,7 @@
 	"editor.codeActionsOnSave": {
 		"source.fixAll": "always",
 		"source.organizeImports": "never",
-		"source.organizeImports.biome": "always",
+		"source.organizeImports.biome": "explicit",
 		"quickfix.biome": "always"
 	},
 	"eslint.enable": false,
