@@ -1,6 +1,6 @@
 import LoginButton from "~/components/LoginButton"
-import CenterComponents from "~/utils/CenterComponents"
 import Star from "~/layout/Star"
+import CenterComponents from "~/utils/CenterComponents"
 
 const Home: React.FC = () => {
 	return (
