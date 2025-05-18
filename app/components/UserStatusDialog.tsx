@@ -1,5 +1,6 @@
 import { useSession } from "@hono/auth-js/react"
 import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
+import dayjs from "dayjs"
 
 const UserStatusDialog: React.FC<{
 	visible: boolean
@@ -33,7 +34,7 @@ const UserStatusDialog: React.FC<{
 						)}
 					</dd>
 					<dt>Experation</dt>
-					<dd>{session.expires ? `${session.expires}·(${session.expires})` : ""}</dd>
+					<dd>{session.expires ? `${session.expires}·(${dayjs(new Date()).to(session.expires)})` : ""}</dd>
 				</dl>
 			</DialogContent>
 			<DialogActions>

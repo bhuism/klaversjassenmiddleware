@@ -52,17 +52,17 @@ export default await createHonoServer({
 			initAuthConfig((c) => {
 				return {
 					callbacks: {
-						signIn() {
+						async signIn() {
 							return true
 						},
-						jwt({ token, account }) {
+						async jwt({ token, account }) {
 							if (account) {
 								token.providerAccountId = account.providerAccountId
 								token.provider = account.provider
 							}
 							return token
 						},
-						session({ session, token }) {
+						async session({ session, token }) {
 							if (typeof token.providerAccountId === "string") {
 								session.user.id = token.providerAccountId
 								session.user.provider = token.provider
@@ -78,6 +78,9 @@ export default await createHonoServer({
 							clientSecret: c.env.GOOGLE_SECRET,
 						}),
 					],
+					session: {
+						maxAge: 365 * 24 * 60 * 60 * 5, // 5 years, should be fine
+					},
 				}
 			})
 		)
