@@ -13,7 +13,7 @@ export async function loader({ context }: Route.LoaderArgs) {
 		if (user?.id && user?.provider) {
 			const configuration = new Configuration({
 				basePath: constants.apiUrl,
-				headers: { "API-Key": `${user.provider}|${user.id}`, "API-Secret": context.apiSecret },
+				headers: { "API-Key": `${user.id}`, "API-Secret": context.apiSecret },
 			})
 
 			games = await new GameApi(configuration).getGames()
