@@ -103,10 +103,10 @@ export default await createHonoServer({
 
 		app.use("*", myVerifyAuth())
 
-		app.get("/authUser", (c) => {
-			const auth = c.get("authUser")
-			return c.json(auth)
-		})
+		// app.get("/authUser", (c) => {
+		// 	const auth = c.get("authUser")
+		// 	return c.json(auth)
+		// })
 	},
 	defaultLogger: false,
 	getLoadContext,

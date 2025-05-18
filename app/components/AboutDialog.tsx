@@ -18,8 +18,6 @@ const AboutDialog: React.FC<{
 			</DialogTitle>
 			<DialogContent dividers>
 				<dl>
-					<dt>Mode</dt>
-					<dd>{`${import.meta.env.MODE}`}</dd>
 					<dt>Git timestamp</dt>
 					<dd>
 						{dayjs(constants.gitDate).locale(language).format("LLLL")} (

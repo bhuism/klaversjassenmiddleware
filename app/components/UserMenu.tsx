@@ -35,11 +35,11 @@ const UserMenu: React.FC = () => {
 			title: "Status",
 			onClick: () => setUserStatusDialogVisible(true),
 		},
-		{
-			id: "session",
-			title: "Session",
-			onClick: () => window.location.replace("/authUser"),
-		},
+		// {
+		// 	id: "session",
+		// 	title: "Session",
+		// 	onClick: () => window.location.replace("/authUser"),
+		// },
 		{
 			id: "about",
 			title: "About",
