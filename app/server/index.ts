@@ -6,12 +6,13 @@ import { poweredBy } from "hono/powered-by"
 import { createHonoServer } from "react-router-hono-server/cloudflare"
 import { i18next } from "remix-hono/i18next"
 import i18nextOpts from "~/localization/i18n.server"
+import constants from "~/utils/constants"
 import { getLoadContext } from "./context"
+import { Configuration, LoginApi } from ".generated-sources/openapi"
 
 declare module "@auth/core/types" {
 	interface User {
 		id: string
-		provider: string
 	}
 }
 
@@ -64,8 +65,21 @@ export default await createHonoServer({
 						},
 						async session({ session, token }) {
 							if (typeof token.providerAccountId === "string") {
-								session.user.id = token.providerAccountId
-								session.user.provider = token.provider
+								const loginApi = new LoginApi(
+									new Configuration({
+										basePath: constants.apiUrl,
+									})
+								)
+
+								const response = await loginApi.login({
+									email: token.email as string,
+									providerId: token.providerAccountId as string,
+									displayName: token.name as string,
+									name: token.name as string,
+									photoURL: token.picture as string,
+								})
+
+								session.user.id = response.uid
 							}
 							c.set("user", session.user)
 							return session

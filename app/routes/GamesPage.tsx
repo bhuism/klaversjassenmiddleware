@@ -10,7 +10,7 @@ export async function loader({ context }: Route.LoaderArgs) {
 	let games = new Set<string>()
 
 	try {
-		if (user?.id && user?.provider) {
+		if (user?.id) {
 			const configuration = new Configuration({
 				basePath: constants.apiUrl,
 				headers: { "API-Key": `${user.id}`, "API-Secret": context.apiSecret },
