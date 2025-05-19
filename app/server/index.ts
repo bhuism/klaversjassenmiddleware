@@ -6,22 +6,20 @@ import { poweredBy } from "hono/powered-by"
 import { createHonoServer } from "react-router-hono-server/cloudflare"
 import { i18next } from "remix-hono/i18next"
 import i18nextOpts from "~/localization/i18n.server"
-import constants from "~/utils/constants"
 import { getLoadContext } from "./context"
-import { Configuration, LoginApi } from ".generated-sources/openapi"
 
-declare module "@auth/core/types" {
-	interface User {
-		id: string
-	}
-}
+// declare module "@auth/core/types" {
+// 	interface User {
+// 		id: string
+// 	}
+// }
 
-declare module "@auth/core/jwt" {
-	interface JWT {
-		providerAccountId: string
-		provider: string
-	}
-}
+// declare module "@auth/core/jwt" {
+// 	interface JWT {
+// 		providerAccountId: string
+// 		provider: string
+// 	}
+// }
 
 declare module "react-router" {
 	interface AppLoadContext {
@@ -56,31 +54,51 @@ export default await createHonoServer({
 						async signIn() {
 							return true
 						},
-						async jwt({ token, account }) {
-							if (account) {
-								token.providerAccountId = account.providerAccountId
-								token.provider = account.provider
-							}
-							return token
-						},
-						async session({ session, token }) {
-							if (typeof token.providerAccountId === "string") {
-								const loginApi = new LoginApi(
-									new Configuration({
-										basePath: constants.apiUrl,
-									})
-								)
+						// jwt({ token, account, profile, user, session }) {
+						// 	// console.log("jwt called: token:" + JSON.stringify(token))
+						// 	// console.log("jwt called: account: " + JSON.stringify(account))
+						// 	// console.log("jwt called: profile:" + JSON.stringify(profile))
+						// 	// console.log("jwt called: user:" + JSON.stringify(user))
+						// 	// console.log("jwt called: session:" + JSON.stringify(session))
 
-								const response = await loginApi.login({
-									email: token.email as string,
-									providerId: token.providerAccountId as string,
-									displayName: token.name as string,
-									name: token.name as string,
-									photoURL: token.picture as string,
-								})
+						// 	if (account) {
+						// 		token.providerAccountId = account.providerAccountId
+						// 		token.provider = account.provider
+						// 	}
+						// 	return token
+						// },
+						async session({ session }) {
+							// console.log("**************** session session: " + JSON.stringify(session))
+							// console.log("session token: " + JSON.stringify(token))
+							// console.log("session newSession: " + JSON.stringify(newSession))
+							// console.log("session user: " + JSON.stringify(user))
 
-								session.user.id = response.uid
-							}
+							// const loginApi = new LoginApi(
+							// 	new Configuration({
+							// 		basePath: constants.apiUrl,
+							// 	})
+							// )
+
+							// const response = await loginApi
+							// 	.login({
+							// 		email: token.email as string,
+							// 		providerId: token.providerAccountId as string,
+							// 		displayName: token.name as string,
+							// 		name: token.name as string,
+							// 		photoURL: token.picture as string,
+							// 	})
+							// 	.then((result) => {
+							// 		console.log("result: " + JSON.stringify(result))
+
+							// 		return result
+							// 	})
+
+							// console.log("user: " + JSON.stringify(session?.user))
+
+							// if (token?.email) {
+							// 	session.user.id = token?.email
+							// }
+
 							c.set("user", session.user)
 							return session
 						},

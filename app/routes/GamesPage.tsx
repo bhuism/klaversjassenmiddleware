@@ -10,10 +10,10 @@ export async function loader({ context }: Route.LoaderArgs) {
 	let games = new Set<string>()
 
 	try {
-		if (user?.id) {
+		if (user?.email) {
 			const configuration = new Configuration({
 				basePath: constants.apiUrl,
-				headers: { "API-Key": `${user.id}`, "API-Secret": context.apiSecret },
+				headers: { "API-Key": `${user.email}`, "API-Secret": context.apiSecret },
 			})
 
 			games = await new GameApi(configuration).getGames()
