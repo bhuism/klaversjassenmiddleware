@@ -1,6 +1,5 @@
-//import type { Game } from ".generated-sources/openapi/models/Game"
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
-import GameComponent from "./GameComponent"
+import { NavLink } from "react-router"
 
 const Games: React.FC<{ games: Set<string> }> = ({ games }) => {
 	return (
@@ -18,7 +17,7 @@ const Games: React.FC<{ games: Set<string> }> = ({ games }) => {
 						{[...games].map((gameId) => (
 							<TableRow key={gameId}>
 								<TableCell>
-									<GameComponent gameId={gameId} />
+									<NavLink to={`/game/${gameId}`}>{gameId}</NavLink>
 								</TableCell>
 							</TableRow>
 						))}
