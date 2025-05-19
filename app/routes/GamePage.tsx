@@ -1,37 +1,44 @@
-import { Typography } from "@mui/material"
+import React from "react"
+import GameStats from "~/components/GameStats"
 import constants from "~/utils/constants"
 import type { Route } from "./+types/GamePage"
-import { Configuration, GameApi } from ".generated-sources/openapi"
+import { Configuration, type Game, GameApi } from ".generated-sources/openapi"
 //import { type IRefPhaserGame, PhaserGame } from "~/game/PhaserGame"
 
 export async function loader({ context, params: { gameId } }: Route.LoaderArgs) {
 	const { user } = context
 
-	try {
-		if (user?.email) {
-			const configuration = new Configuration({
-				basePath: constants.apiUrl,
-				headers: { "API-Key": `${user.email}`, "API-Secret": context.apiSecret },
-			})
+	if (user?.email) {
+		const configuration = new Configuration({
+			basePath: constants.apiUrl,
+			headers: { "API-Key": `${user.email}`, "API-Secret": context.apiSecret },
+		})
 
-			const game = await new GameApi(configuration).getGame(gameId)
+		const game = new GameApi(configuration).getGame(gameId)
 
-			return { game: game }
-		}
-	} catch (e) {
-		// biome-ignore lint/suspicious/noConsole: <explanation>
-		console.error(e)
+		return game
 	}
 
-	return { game: undefined }
+	return undefined
 }
 
-const GamePage: React.FC<Route.ComponentProps> = ({ loaderData: { game } }) => {
+export const GameContext = React.createContext<Game | undefined>(undefined)
+
+const GamePage: React.FC<Route.ComponentProps> = ({ loaderData: game }) => {
+	// biome-ignore lint/suspicious/noConsole: <explanation>
+	// biome-ignore lint/style/useTemplate: <explanation>
+	console.log("game=" + game?.creator)
+
 	//const phaserRef = useRef<IRefPhaserGame | null>(null)
 
 	// const toggleFullScreen = () => {
 	// 	phaserRef.current?.game?.scale.toggleFullscreen()
 	// }
+
+	if (!game) {
+		return "no game"
+	}
+
 	return (
 		<>
 			{/* <button type="button" onClick={toggleFullScreen} className="button">
@@ -42,7 +49,9 @@ const GamePage: React.FC<Route.ComponentProps> = ({ loaderData: { game } }) => {
 
 			{/* <PhaserGame ref={phaserRef} /> */}
 
-			<Typography>{`gameId: ${game?.created}`}</Typography>
+			<GameContext.Provider value={game}>
+				<GameStats game={game} />
+			</GameContext.Provider>
 			{/* <PhaserComponent /> */}
 		</>
 	)
