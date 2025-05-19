@@ -26,9 +26,7 @@ export async function loader({ context }: Route.LoaderArgs) {
 	return { games }
 }
 
-const GamesPage: React.FC<Route.ComponentProps> = ({ loaderData }) => {
-	const { games } = loaderData
-
+const GamesPage: React.FC<Route.ComponentProps> = ({ loaderData: { games } }) => {
 	return (
 		<>
 			<Games games={games} />
