@@ -1,16 +1,11 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
 import dayjs from "dayjs"
-import { useTranslation } from "react-i18next"
 import constants from "~/utils/constants"
 
 const AboutDialog: React.FC<{
 	visible: boolean
 	onClose: () => void
 }> = ({ visible, onClose }) => {
-	const {
-		i18n: { language },
-	} = useTranslation()
-
 	return (
 		<Dialog open={visible} onClose={onClose} title="Status" fullWidth maxWidth="sm">
 			<DialogTitle>
@@ -20,8 +15,7 @@ const AboutDialog: React.FC<{
 				<dl>
 					<dt>Git timestamp</dt>
 					<dd>
-						{dayjs(constants.gitDate).locale(language).format("LLLL")} (
-						{dayjs().locale(language).to(dayjs(constants.gitDate))})
+						{dayjs(constants.gitDate).format("LLLL")} ({dayjs().to(dayjs(constants.gitDate))})
 					</dd>
 					<dt>Git Hash</dt>
 					<dd>

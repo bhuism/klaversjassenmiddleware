@@ -10,9 +10,9 @@ import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
-import { SessionProvider } from "@hono/auth-js/react"
 import { SnackbarProvider } from "notistack"
 import { Outlet } from "react-router"
+import AuthSessionProvider from "~/provider/AuthSessionProvider"
 import theme from "./theme"
 
 const RootLayout: React.FC = () => {
@@ -29,9 +29,9 @@ const RootLayout: React.FC = () => {
 						<ThemeProvider theme={theme} defaultMode="system">
 							<InitColorSchemeScript defaultMode="system" attribute="class" />
 							<CssBaseline />
-							<SessionProvider>
+							<AuthSessionProvider>
 								<Outlet />
-							</SessionProvider>
+							</AuthSessionProvider>
 						</ThemeProvider>
 					</Box>
 				</Box>

@@ -10,7 +10,7 @@ declare module "react-router" {
 }
 
 export default {
-	ssr: true,
+	ssr: false,
 	future: {
 		// unstable_middleware: true,
 		unstable_viteEnvironmentApi: true,

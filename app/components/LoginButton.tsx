@@ -1,17 +1,17 @@
-import { signIn, signOut, useSession } from "@hono/auth-js/react"
 import { Button, CircularProgress } from "@mui/material"
+import { useAuth } from "react-oidc-context"
 
 const LoginButton: React.FC = () => {
-	const { status } = useSession()
+	const { isLoading, isAuthenticated, signinRedirect, removeUser } = useAuth()
 
-	if (status === "loading") {
+	if (isLoading) {
 		return <CircularProgress />
 	}
 
-	if (status === "authenticated") {
+	if (isAuthenticated) {
 		return (
 			<>
-				<Button variant="outlined" size="large" onClick={() => signOut({ redirect: true })}>
+				<Button variant="outlined" size="large" onClick={() => removeUser()}>
 					Sign Out
 				</Button>
 			</>
@@ -20,7 +20,7 @@ const LoginButton: React.FC = () => {
 
 	return (
 		<>
-			<Button variant="outlined" size="large" onClick={() => signIn("google")}>
+			<Button variant="outlined" size="large" onClick={() => signinRedirect()}>
 				Sign In
 			</Button>
 		</>

@@ -5,6 +5,7 @@ const useLoadOnce = <T,>(queryFn: () => Promise<T>, initialData: T | undefined =
 	const [isLoading, setIsLoading] = useState(true)
 	const [error, setError] = useState<Error>()
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		let didCancel = false
 
@@ -20,7 +21,7 @@ const useLoadOnce = <T,>(queryFn: () => Promise<T>, initialData: T | undefined =
 		return () => {
 			didCancel = true
 		}
-	}, [queryFn])
+	}, [])
 
 	return { data, isLoading, error }
 }

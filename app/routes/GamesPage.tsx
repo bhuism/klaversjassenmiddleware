@@ -1,35 +1,31 @@
+import { CircularProgress, Typography } from "@mui/material"
 import Games from "~/components/Games"
-import { Configuration, GameApi } from ".generated-sources/openapi"
+import useGameApi from "~/hooks/useGameApi"
+import useLoadOnce from "~/hooks/useLoadOnce"
+import Star from "~/layout/Star"
+import CenterComponents from "~/utils/CenterComponents"
 
-import constants from "~/utils/constants"
-import type { Route } from "./+types/GamesPage"
+const GamesPage: React.FC = () => {
+	const { cardApi } = useGameApi()
 
-export async function loader({ context }: Route.LoaderArgs) {
-	const { user } = context
+	const { data, isLoading, error } = useLoadOnce<Set<string>>(() => cardApi.getGames(), new Set())
 
-	let games = new Set<string>()
-
-	try {
-		if (user?.email) {
-			const configuration = new Configuration({
-				basePath: constants.apiUrl,
-				headers: { "API-Key": `${user.email}`, "API-Secret": context.apiSecret },
-			})
-
-			games = await new GameApi(configuration).getGames()
-		}
-	} catch (e) {
-		// biome-ignore lint/suspicious/noConsole: <explanation>
-		console.error(e)
+	if (error) {
+		return <span style={{ color: "red" }}>{error.message}</span>
 	}
 
-	return { games }
-}
-
-const GamesPage: React.FC<Route.ComponentProps> = ({ loaderData: { games } }) => {
+	if (isLoading || !data) {
+		return (
+			<CenterComponents>
+				<Star />
+				<CircularProgress />
+				<Typography>Loading games...</Typography>
+			</CenterComponents>
+		)
+	}
 	return (
 		<>
-			<Games games={games} />
+			<Games games={data} />
 		</>
 	)
 }

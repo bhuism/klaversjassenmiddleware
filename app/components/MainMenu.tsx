@@ -1,10 +1,13 @@
 import { Menu as MenuIcon } from "@mui/icons-material"
 import { Box, Button, IconButton, Menu, MenuItem, Typography } from "@mui/material"
 import { useState } from "react"
+import { useAuth } from "react-oidc-context"
 import { Link, useNavigate } from "react-router"
 import type { MyMenu } from "./MenuBar"
 
 const MainMenu = () => {
+	const { isAuthenticated, isLoading } = useAuth()
+
 	const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget)
@@ -16,14 +19,18 @@ const MainMenu = () => {
 		setAnchorElNav(null)
 	}
 
-	const menu: MyMenu[] = [
-		{ id: "games", title: "Games", onClick: () => navigate("/games") },
-		{
-			id: "messageboard",
-			title: "Message Board",
-			onClick: () => navigate("/messageboard"),
-		},
-	]
+	const menu: MyMenu[] =
+		isAuthenticated && !isLoading
+			? [
+					{ id: "games", title: "Games", onClick: () => navigate("/games") },
+					{
+						id: "messageboard",
+						title: "Message Board",
+						onClick: () => navigate("/messageboard"),
+					},
+				]
+			: []
+
 	return (
 		<>
 			<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

@@ -1,16 +1,15 @@
-import { useSession } from "@hono/auth-js/react"
-import { signOut } from "@hono/auth-js/react"
 import { AccountCircle } from "@mui/icons-material"
 import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import type React from "react"
 import { useState } from "react"
+import { useAuth } from "react-oidc-context"
 import { useNavigate } from "react-router"
 import AboutDialog from "./AboutDialog"
 import type { MyMenu } from "./MenuBar"
 import UserStatusDialog from "./UserStatusDialog"
 
 const UserMenu: React.FC = () => {
-	const { data: session } = useSession()
+	const { isAuthenticated, user, removeUser } = useAuth()
 	const [userStatusDialogVisible, setUserStatusDialogVisible] = useState<boolean>(false)
 	const [aboutDialogVisible, setAboutDialogVisible] = useState<boolean>(false)
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
@@ -48,18 +47,16 @@ const UserMenu: React.FC = () => {
 		{
 			id: "logout",
 			title: "Logout",
-			onClick: () => {
-				signOut()
-			},
+			onClick: () => removeUser(),
 		},
 	]
 
-	return session?.user ? (
+	return isAuthenticated && user ? (
 		<>
-			<Tooltip title={session.user.name}>
+			<Tooltip title={user.profile.name}>
 				<IconButton onClick={handleOpenUserMenu} sx={{ mr: 1 }}>
-					{session?.user?.name && session?.user?.image ? (
-						<Avatar alt={session.user.name} src={session.user.image} />
+					{user.profile.name && user.profile.picture ? (
+						<Avatar alt={user.profile.name} src={user.profile.picture} />
 					) : (
 						<AccountCircle />
 					)}

@@ -1,16 +1,22 @@
 import type React from "react"
-import type { Game } from ".generated-sources/openapi"
+import { useContext } from "react"
+import { GameContext } from "~/context/GameContext"
 
 // const PlayerName: React.FC<{ playerUid: string }> = ({ playerUid }) => {
 // 	return <Typography>{`${playerUid}`}</Typography>
 // }
 
-const GameStats: React.FC<{ game: Game }> = ({ game }) => {
+const GameStats: React.FC = () => {
+	const game = useContext(GameContext)
+
+	// biome-ignore lint/suspicious/noConsole: <explanation>
+	console.log({ foundGame: game })
+
 	if (!game) {
 		return <>no game</>
 	}
 
-	return <>{game.creator}</>
+	return <>creator: {game.creator}</>
 
 	// const allPoints = game.calculateAllTrickPoints(game)
 

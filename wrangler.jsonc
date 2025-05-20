@@ -2,27 +2,10 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "klaversjassen",
 	"compatibility_date": "2025-04-04",
-	"compatibility_flags": ["nodejs_compat"],
-	// "main": "app/server/index.ts",
-	"main": "./build/server/index.js",
+	"pages_build_output_dir": "./build/client",
 	"upload_source_maps": true,
-	"routes": [
-		{
-			"pattern": "www.klaversjassen.nl",
-			"custom_domain": true
-		}
-	],
 	"vars": {
 		"APP_ENV": "production",
-		"NODE_ENV": "production",
-		"AUTH_URL": "https://www.klaversjassen.nl/api/auth"
-	},
-	"observability": {
-		"enabled": true,
-		"logs": { "enabled": true, "head_sampling_rate": 1 }
-	},
-	"assets": {
-		"directory": "./build/client/",
-		"binding": "ASSETS"
+		"NODE_ENV": "production"
 	}
 }

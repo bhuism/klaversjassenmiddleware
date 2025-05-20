@@ -1,6 +1,6 @@
 import type React from "react"
 import { useContext } from "react"
-import { GameContext } from "~/routes/GamePage"
+import { GameContext } from "~/context/GameContext"
 
 const UsThem: React.FC<React.PropsWithChildren<{ zeroTwo: boolean }>> = ({ zeroTwo }) => {
 	//	const { uid } = useContext(UidContext)

@@ -1,14 +1,29 @@
-import { useSession } from "@hono/auth-js/react"
-import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
+import {
+	Avatar,
+	Button,
+	CircularProgress,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Typography,
+} from "@mui/material"
 import dayjs from "dayjs"
+import { useAuth } from "react-oidc-context"
 
 const UserStatusDialog: React.FC<{
 	visible: boolean
 	onClose: () => void
 }> = ({ visible, onClose }) => {
-	const { data: session } = useSession()
+	const { user, isAuthenticated, error, isLoading } = useAuth()
 
-	if (!session?.user) return <></>
+	if (isLoading) {
+		return <CircularProgress />
+	}
+
+	if (!user || !isAuthenticated || error) {
+		return <></>
+	}
 
 	return (
 		<Dialog open={visible} onClose={onClose} title="Status" fullWidth maxWidth="sm">
@@ -18,19 +33,19 @@ const UserStatusDialog: React.FC<{
 			<DialogContent dividers>
 				<dl>
 					<dt>Volledige naam</dt>
-					<dd>{session.user.name}</dd>
+					<dd>{user.profile.name}</dd>
 					<dt>Email</dt>
-					<dd>{session.user.email}</dd>
+					<dd>{user.profile.email}</dd>
 					<dt>Avatar</dt>
 					<dd>
-						{session.user.name && session.user.image ? (
-							<Avatar alt={session.user.name} src={session.user.image} />
+						{user.profile.name && user.profile.picture ? (
+							<Avatar alt={user.profile.name} src={user.profile.picture} />
 						) : (
 							<></>
 						)}
 					</dd>
 					<dt>Experation</dt>
-					<dd>{session.expires ? `${session.expires}·(${dayjs(new Date()).to(session.expires)})` : ""}</dd>
+					<dd>{user.profile.exp ? `${user.profile.exp}·(${dayjs(new Date()).to(user.profile.exp)})` : ""}</dd>
 				</dl>
 			</DialogContent>
 			<DialogActions>

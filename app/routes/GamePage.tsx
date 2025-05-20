@@ -1,43 +1,36 @@
-import React from "react"
+import { CircularProgress, Typography } from "@mui/material"
+import type React from "react"
 import GameStats from "~/components/GameStats"
-import constants from "~/utils/constants"
+import { GameContext } from "~/context/GameContext"
+import useCardApi from "~/hooks/useGameApi"
+import useLoadOnce from "~/hooks/useLoadOnce"
+import Star from "~/layout/Star"
+import CenterComponents from "~/utils/CenterComponents"
 import type { Route } from "./+types/GamePage"
-import { Configuration, type Game, GameApi } from ".generated-sources/openapi"
+import type { Game } from ".generated-sources/openapi"
 //import { type IRefPhaserGame, PhaserGame } from "~/game/PhaserGame"
 
-export async function loader({ context, params: { gameId } }: Route.LoaderArgs) {
-	const { user } = context
+const GamePage: React.FC<Route.ComponentProps> = ({ params: { gameId } }) => {
+	const { cardApi } = useCardApi()
 
-	if (user?.email) {
-		const configuration = new Configuration({
-			basePath: constants.apiUrl,
-			headers: { "API-Key": `${user.email}`, "API-Secret": context.apiSecret },
-		})
+	const { data, error, isLoading } = useLoadOnce<Game>(() => cardApi.getGame(gameId))
 
-		const game = new GameApi(configuration).getGame(gameId)
-
-		return game
+	if (isLoading) {
+		return (
+			<CenterComponents>
+				<Star />
+				<CircularProgress />
+				<Typography>{`Game ${gameId} is loading...`}</Typography>
+			</CenterComponents>
+		)
 	}
 
-	return undefined
-}
+	if (!data || error) {
+		return <Typography>{`Error: ${error}`}</Typography>
+	}
 
-export const GameContext = React.createContext<Game | undefined>(undefined)
-
-const GamePage: React.FC<Route.ComponentProps> = ({ loaderData: game }) => {
 	// biome-ignore lint/suspicious/noConsole: <explanation>
-	// biome-ignore lint/style/useTemplate: <explanation>
-	console.log("game=" + game?.creator)
-
-	//const phaserRef = useRef<IRefPhaserGame | null>(null)
-
-	// const toggleFullScreen = () => {
-	// 	phaserRef.current?.game?.scale.toggleFullscreen()
-	// }
-
-	if (!game) {
-		return "no game"
-	}
+	console.log({ game: data })
 
 	return (
 		<>
@@ -49,8 +42,8 @@ const GamePage: React.FC<Route.ComponentProps> = ({ loaderData: game }) => {
 
 			{/* <PhaserGame ref={phaserRef} /> */}
 
-			<GameContext.Provider value={game}>
-				<GameStats game={game} />
+			<GameContext.Provider value={data}>
+				<GameStats />
 			</GameContext.Provider>
 			{/* <PhaserComponent /> */}
 		</>
