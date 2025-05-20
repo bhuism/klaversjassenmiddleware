@@ -20,8 +20,8 @@
 		"check:fix": "biome check --fix .",
 		"check:unused": "knip --max-issues 13",
 		"check:unused:fix": "knip --fix",
-		"typegen": "react-router typegen ; wrangler types --env-interface CloudflareBindings",
-		"deploy": "rm -Rf .wrangler ; GITHUB_SHA=$(git rev-parse HEAD) GITHUB_DATE=$(git show --no-patch --format=%cI) npm run build && wrangler pages deploy --commit-dirty=true",
+		"typegen": "react-router typegen",
+		"deploy": "rm -Rf .wrangler ; GITHUB_SHA=$(git rev-parse HEAD) GITHUB_DATE=$(git show --no-patch --format=%cI) npm run build && wrangler pages deploy dist --project-name=klaversjassen --commit-dirty=true",
 		"codegen": "rm -Rf .generated-sources/openapi ; openapi-generator-cli generate -i https://api.klaversjassen.nl/schema/api.yaml -g typescript-fetch -o .generated-sources/openapi --additional-properties=supportsES6=true,typescriptThreePlus=true,useSingleRequestParameter=false",
 		"codegen-help": "openapi-generator-cli config-help -g typescript-fetch"
 	},
