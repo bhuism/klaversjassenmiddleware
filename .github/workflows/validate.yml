@@ -111,7 +111,7 @@ jobs:
         with:
           name: build-client
       - name: Test
-        run: ls -laR build
+        run: ls -laR .
       - name: Publish
         uses: cloudflare/wrangler-action@v3
         with:
