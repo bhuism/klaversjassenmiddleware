@@ -8,10 +8,19 @@ import CenterComponents from "~/utils/CenterComponents"
 import Star from "./Star"
 
 const PrivateLayout: React.FC = () => {
-	const { isAuthenticated, isLoading, error } = useAuth()
+	const { isAuthenticated, isLoading, error, activeNavigator } = useAuth()
 	const { pathname } = useLocation()
 	const queryClient = new QueryClient()
 
+	if (activeNavigator) {
+		return (
+			<CenterComponents>
+				<Star />
+				<CircularProgress />
+				<Typography>{activeNavigator}</Typography>
+			</CenterComponents>
+		)
+	}
 	if (isLoading) {
 		return (
 			<CenterComponents>
@@ -27,7 +36,9 @@ const PrivateLayout: React.FC = () => {
 			<CenterComponents>
 				<Star />
 				<CircularProgress />
-				<Typography style={{ color: "red" }}>{error.message}</Typography>
+				<Typography style={{ color: "red" }}>
+					{error.name}:{error.message}
+				</Typography>
 			</CenterComponents>
 		)
 	}

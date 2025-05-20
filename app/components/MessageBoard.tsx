@@ -1,7 +1,6 @@
 import { Button, Typography } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useWebSocket, { ReadyState } from "react-use-websocket"
-import useDidUpdateEffect from "~/hooks/useDidUpdateEffect"
 import constants from "~/utils/constants"
 
 const MessageBoard: React.FC = () => {
@@ -9,9 +8,13 @@ const MessageBoard: React.FC = () => {
 		share: true,
 	})
 
-	const [value, setValue] = useState<string>()
+	const generateRandom = () => {
+		return Math.random().toString(36).substring(2, 10)
+	}
 
-	useDidUpdateEffect(() => {
+	const [value, setValue] = useState<string>(generateRandom())
+
+	useEffect(() => {
 		sendJsonMessage({ key: value })
 	}, [sendJsonMessage, value])
 
@@ -20,7 +23,7 @@ const MessageBoard: React.FC = () => {
 			<Button
 				type="button"
 				variant="outlined"
-				onClick={() => setValue(Math.random().toString(36).substring(2, 7))}
+				onClick={() => setValue(generateRandom())}
 				disabled={readyState !== ReadyState.OPEN}
 			>
 				Send
