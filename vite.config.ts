@@ -13,9 +13,9 @@ const pwaAssets = pwaDefineConfig({
 
 const pwaOptions: Partial<VitePWAOptions> = {
 	base: "/",
-	registerType: "autoUpdate",
+	registerType: "prompt",
 	includeAssets: ["favicon.png"],
-	injectRegister: "inline",
+	// injectRegister: "script-defer",
 	outDir: "build/client",
 	manifest: {
 		name: "Klavers Jassen",
