@@ -1,3 +1,4 @@
+// import { registerSW } from "virtual:pwa-register"
 import { CircularProgress, Typography } from "@mui/material"
 import type { PropsWithChildren } from "react"
 import type { LinksFunction } from "react-router"
@@ -29,6 +30,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 }
 
 export default function Root() {
+	// registerSW({ immediate: true })
 	return <Outlet />
 }
 

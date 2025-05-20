@@ -25,16 +25,17 @@ const pwaOptions: Partial<VitePWAOptions> = {
 		background_color: "#000000",
 		start_url: ".",
 	},
-	pwaAssets: pwaAssets,
+	pwaAssets,
 	workbox: {
 		globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
 		cleanupOutdatedCaches: true,
 		clientsClaim: true,
 	},
+
 	devOptions: {
-		enabled: true,
+		enabled: false,
 		navigateFallback: "index.html",
-		suppressWarnings: false,
+		suppressWarnings: true,
 		type: "module",
 	},
 }
@@ -51,7 +52,7 @@ export default defineConfig({
 	define: {
 		__DATE__: `'${new Date().toISOString()}'`,
 	},
-	plugins: [tailwindcss(), VitePWA(pwaOptions), reactRouterDevTools(), reactRouter(), tsconfigPaths()],
+	plugins: [tailwindcss(), reactRouterDevTools(), reactRouter(), tsconfigPaths(), VitePWA(pwaOptions)],
 	server: {
 		open: true,
 		// biome-ignore lint/nursery/noProcessEnv: Its ok to use process.env here
