@@ -14,6 +14,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 		<html className="dark" lang={"en"} dir={"ltr"}>
 			<head>
 				<meta charSet="utf-8" />
+				<meta name="description" content="Klavers Jassen, Cardgame, cards, game, cardgame, play" />
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 				<link rel="manifest" href="/manifest.webmanifest" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
