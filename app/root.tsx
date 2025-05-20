@@ -13,6 +13,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 	return (
 		<html className="dark" lang={"en"} dir={"ltr"}>
 			<head>
+				<script src="/registerSW.js" />
 				<meta charSet="utf-8" />
 				<link rel="icon" href="/favicon.ico" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />

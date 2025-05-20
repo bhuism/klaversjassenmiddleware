@@ -13,9 +13,9 @@ const pwaAssets = pwaDefineConfig({
 
 const pwaOptions: Partial<VitePWAOptions> = {
 	base: "/",
-	registerType: "prompt",
+	registerType: "autoUpdate",
 	includeAssets: ["favicon.png"],
-	// injectRegister: "script-defer",
+	injectRegister: "script",
 	outDir: "build/client",
 	manifest: {
 		name: "Klavers Jassen",
@@ -33,15 +33,19 @@ const pwaOptions: Partial<VitePWAOptions> = {
 	},
 
 	devOptions: {
-		enabled: false,
-		navigateFallback: "index.html",
-		suppressWarnings: true,
+		// biome-ignore lint/nursery/noProcessEnv: <explanation>
+		enabled: process.env.SW_DEV === "true",
+		/* when using generateSW the PWA plugin will switch to classic */
 		type: "module",
+		navigateFallback: "index.html",
 	},
 }
 
 export default defineConfig({
 	build: {
+		// rollupOptions: {
+		// 	external: ["workbox-window"],
+		// },
 		ssr: false,
 		// biome-ignore lint/nursery/noProcessEnv: <explanation>
 		sourcemap: process.env.SOURCE_MAP === "true",
