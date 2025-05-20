@@ -13,6 +13,12 @@ async function hydrate() {
 	})
 }
 
+if ("serviceWorker" in navigator) {
+	window.addEventListener("load", () => {
+		navigator.serviceWorker.register("/sw.js", { scope: "/" })
+	})
+}
+
 if (window.requestIdleCallback) {
 	window.requestIdleCallback(hydrate)
 } else {

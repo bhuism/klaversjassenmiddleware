@@ -15,7 +15,8 @@ const pwaOptions: Partial<VitePWAOptions> = {
 	base: "/",
 	registerType: "autoUpdate",
 	includeAssets: ["favicon.png"],
-	injectRegister: "script",
+	strategies: "generateSW",
+	injectRegister: "inline",
 	outDir: "build/client",
 	manifest: {
 		name: "Klavers Jassen",

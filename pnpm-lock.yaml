@@ -71,6 +71,9 @@ importers:
       tailwind-merge:
         specifier: 3.3.0
         version: 3.3.0
+      workbox-window:
+        specifier: 7.3.0
+        version: 7.3.0
     devDependencies:
       '@babel/preset-typescript':
         specifier: 7.27.1

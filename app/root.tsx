@@ -1,8 +1,8 @@
+import { useRegisterSW } from "virtual:pwa-register/react"
 import { CircularProgress, Typography } from "@mui/material"
 import type { PropsWithChildren } from "react"
 import type { LinksFunction } from "react-router"
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, useRouteError } from "react-router"
-// import { registerSW } from "virtual:pwa-register"
 import Star from "./layout/Star"
 import tailwindcss from "./tailwind.css?url"
 import CenterComponents from "./utils/CenterComponents"
@@ -13,7 +13,6 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 	return (
 		<html className="dark" lang={"en"} dir={"ltr"}>
 			<head>
-				<script src="/registerSW.js" />
 				<meta charSet="utf-8" />
 				<link rel="icon" href="/favicon.ico" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,6 +30,17 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 }
 
 export default function Root() {
+	const intervalMS = 60 * 60 * 1000
+
+	useRegisterSW({
+		onRegistered(r) {
+			r &&
+				setInterval(() => {
+					r.update()
+				}, intervalMS)
+		},
+	})
+
 	return <Outlet />
 }
 
