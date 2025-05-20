@@ -4,9 +4,9 @@ concurrency:
   cancel-in-progress: true
 on:
   push:
-    branches: [middleware]
+    branches: [nossr]
   pull_request:
-    branches: [middleware]
+    branches: [nossr]
 permissions:
   actions: write
   contents: read
