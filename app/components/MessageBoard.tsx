@@ -1,5 +1,7 @@
-import { useCallback } from "react"
+import { Button, Typography } from "@mui/material"
+import { useState } from "react"
 import useWebSocket, { ReadyState } from "react-use-websocket"
+import useDidUpdateEffect from "~/hooks/useDidUpdateEffect"
 import constants from "~/utils/constants"
 
 const MessageBoard: React.FC = () => {
@@ -7,22 +9,24 @@ const MessageBoard: React.FC = () => {
 		share: true,
 	})
 
-	const handleClickSendMessage = useCallback(
-		() => sendJsonMessage({ key: Math.random().toString(36).substring(2, 7) }),
-		[sendJsonMessage]
-	)
+	const [value, setValue] = useState<string>()
+
+	useDidUpdateEffect(() => {
+		sendJsonMessage({ key: value })
+	}, [sendJsonMessage, value])
 
 	return (
 		<div>
-			<button
+			<Button
 				type="button"
-				onClick={handleClickSendMessage}
-				className="button"
+				variant="outlined"
+				onClick={() => setValue(Math.random().toString(36).substring(2, 7))}
 				disabled={readyState !== ReadyState.OPEN}
 			>
 				Send
-			</button>
-			<p>{`${JSON.stringify(lastJsonMessage)}`}</p>
+			</Button>
+			<Typography>{`value: ${value}`}</Typography>
+			<Typography>{`lastJsonMessage: ${JSON.stringify(lastJsonMessage)}`}</Typography>
 		</div>
 	)
 }

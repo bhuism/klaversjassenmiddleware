@@ -12,31 +12,32 @@ import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 import { SnackbarProvider } from "notistack"
 import { Outlet } from "react-router"
+import SocketGuard from "~/components/SocketGuard"
 import AuthSessionProvider from "~/provider/AuthSessionProvider"
 import theme from "./theme"
 
 const RootLayout: React.FC = () => {
 	return (
 		<SnackbarProvider maxSnack={10} autoHideDuration={3000}>
-			{/* <SocketGuard> */}
-			<LocalizationProvider
-				dateAdapter={AdapterDayjs}
-				adapterLocale="nl"
-				localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
-			>
-				<Box sx={{ display: "flex" }}>
-					<Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-						<ThemeProvider theme={theme} defaultMode="system">
-							<InitColorSchemeScript defaultMode="system" attribute="class" />
-							<CssBaseline />
-							<AuthSessionProvider>
-								<Outlet />
-							</AuthSessionProvider>
-						</ThemeProvider>
+			<SocketGuard>
+				<LocalizationProvider
+					dateAdapter={AdapterDayjs}
+					adapterLocale="nl"
+					localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
+				>
+					<Box sx={{ display: "flex" }}>
+						<Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+							<ThemeProvider theme={theme} defaultMode="system">
+								<InitColorSchemeScript defaultMode="system" attribute="class" />
+								<CssBaseline />
+								<AuthSessionProvider>
+									<Outlet />
+								</AuthSessionProvider>
+							</ThemeProvider>
+						</Box>
 					</Box>
-				</Box>
-			</LocalizationProvider>
-			{/* </SocketGuard> */}
+				</LocalizationProvider>
+			</SocketGuard>
 		</SnackbarProvider>
 	)
 }
