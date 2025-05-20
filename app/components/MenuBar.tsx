@@ -38,13 +38,23 @@ const MenuBar: React.FC = () => {
 		<AppBar position="static">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<IconButton component={RouterLink} to="/" sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
+					<IconButton
+						component={RouterLink}
+						to="/"
+						sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+						aria-label="Home"
+					>
 						<FavoriteBorderTwoTone />
 					</IconButton>
 
 					<MainMenu />
 
-					<IconButton component={RouterLink} to="/" sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
+					<IconButton
+						component={RouterLink}
+						to="/"
+						sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+						aria-label="Home"
+					>
 						<FavoriteBorderTwoTone />
 					</IconButton>
 
@@ -69,7 +79,7 @@ const MenuBar: React.FC = () => {
 
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Theme">
-							<IconButton sx={{ mr: 1 }} onClick={handleModeClick}>
+							<IconButton sx={{ mr: 1 }} onClick={handleModeClick} aria-label="Switch theme">
 								{mode === "dark" ? (
 									<DarkModeTwoTone />
 								) : mode === "light" ? (

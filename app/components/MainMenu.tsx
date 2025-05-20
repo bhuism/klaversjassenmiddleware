@@ -35,7 +35,7 @@ const MainMenu = () => {
 					<>
 						<IconButton
 							size="large"
-							aria-label="account of current user"
+							aria-label="Account of current user"
 							aria-controls="menu-appbar-main"
 							aria-haspopup="true"
 							onClick={handleOpenNavMenu}

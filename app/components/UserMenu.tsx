@@ -54,7 +54,7 @@ const UserMenu: React.FC = () => {
 	return isAuthenticated && user ? (
 		<>
 			<Tooltip title={user.profile.name}>
-				<IconButton onClick={handleOpenUserMenu} sx={{ mr: 1 }}>
+				<IconButton onClick={handleOpenUserMenu} sx={{ mr: 1 }} aria-label="User menu">
 					{user.profile.name && user.profile.picture ? (
 						<Avatar alt={user.profile.name} src={user.profile.picture} />
 					) : (
