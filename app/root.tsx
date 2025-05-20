@@ -42,7 +42,7 @@ export const ErrorBoundary = () => {
 			<div className="relative mx-auto max-w-[90rem] sm:px-6 lg:px-8">
 				<div className="relative  min-h-72 flex flex-col justify-center sm:overflow-hidden sm:rounded-2xl p-1 md:p-4 lg:p-6">
 					<h1 className="text-center w-full text-red-600 text-2xl pb-2">{`${errorStatusCode}`}</h1>
-					<p className="text-lg dark:text-white text-center w-full">{`${errorStatusCode}`}</p>
+					<p className="text-lg dark:text-white text-center w-full">{`${error}`}</p>
 				</div>
 			</div>
 		</div>

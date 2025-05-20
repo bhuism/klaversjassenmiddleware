@@ -1,6 +1,4 @@
-import { href, useNavigate } from "react-router"
-import { Icon } from "~/library/icon/Icon"
-import { Link } from "~/library/link"
+import { Link, href, useNavigate } from "react-router"
 
 export default function Route404() {
 	const navigate = useNavigate()
@@ -9,7 +7,7 @@ export default function Route404() {
 		<div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-blue-950 dark:to-blue-900 dark:text-white flex items-center justify-center p-4">
 			<div className="max-w-2xl w-full text-center">
 				<div className="mb-8 flex justify-center">
-					<Icon name="Ghost" className="h-24 w-24 text-indigo-600 animate-float" />
+					<img src="/ghost.svg" className="h-24 w-24 text-indigo-600 animate-float" alt="ghost" />
 				</div>
 
 				<h1 className="text-6xl font-bold dark:text-white text-gray-900 mb-4">404</h1>

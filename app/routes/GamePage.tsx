@@ -29,9 +29,6 @@ const GamePage: React.FC<Route.ComponentProps> = ({ params: { gameId } }) => {
 		return <Typography>{`Error: ${error}`}</Typography>
 	}
 
-	// biome-ignore lint/suspicious/noConsole: <explanation>
-	console.log({ game: data })
-
 	return (
 		<>
 			{/* <button type="button" onClick={toggleFullScreen} className="button">
