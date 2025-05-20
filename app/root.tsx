@@ -14,7 +14,8 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 		<html className="dark" lang={"en"} dir={"ltr"}>
 			<head>
 				<meta charSet="utf-8" />
-				<link rel="icon" href="/favicon.ico" />
+				<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+				<link rel="manifest" href="/manifest.webmanifest" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<title>Klavers Jassen</title>
 				<Meta />
@@ -33,6 +34,7 @@ export default function Root() {
 	const intervalMS = 60 * 60 * 1000
 
 	useRegisterSW({
+		immediate: true,
 		onRegistered(r) {
 			r &&
 				setInterval(() => {

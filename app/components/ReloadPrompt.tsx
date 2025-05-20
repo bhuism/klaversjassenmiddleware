@@ -8,12 +8,12 @@ function ReloadPrompt() {
 		needRefresh: [needRefresh, setNeedRefresh],
 		updateServiceWorker,
 	} = useRegisterSW({
-		onRegistered(r) {
+		onRegistered(r: unknown) {
 			// biome-ignore lint/suspicious/noConsole: <explanation>
 			// biome-ignore lint/style/useTemplate: <explanation>
 			console.log("SW Registered: " + r)
 		},
-		onRegisterError(error) {
+		onRegisterError(error: unknown) {
 			// biome-ignore lint/suspicious/noConsole: <explanation>
 			console.log("SW registration error", error)
 		},

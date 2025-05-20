@@ -11,7 +11,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
 	registerType: "autoUpdate",
 	includeAssets: ["favicon.png"],
 	strategies: "generateSW",
-	injectRegister: "inline",
+	injectRegister: false,
 	outDir: "build/client",
 	manifest: {
 		name: "Klavers Jassen",
@@ -29,7 +29,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
 		},
 	},
 	workbox: {
-		globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
+		globPatterns: ["**/*.{js,css,html,svg,png,ico,woff,woff2}"],
 		cleanupOutdatedCaches: true,
 		clientsClaim: true,
 	},

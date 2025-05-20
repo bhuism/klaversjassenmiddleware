@@ -1,3 +1,4 @@
+import { registerSW } from "virtual:pwa-register"
 import { StrictMode, startTransition } from "react"
 import { hydrateRoot } from "react-dom/client"
 import { HydratedRouter } from "react-router/dom"
@@ -13,11 +14,13 @@ async function hydrate() {
 	})
 }
 
-if ("serviceWorker" in navigator) {
-	window.addEventListener("load", () => {
-		navigator.serviceWorker.register("/sw.js", { scope: "/" })
-	})
-}
+registerSW({ immediate: true })
+
+// if ("serviceWorker" in navigator) {
+// 	window.addEventListener("load", () => {
+// 		navigator.serviceWorker.register("/sw.js", { scope: "/" })
+// 	})
+// }
 
 if (window.requestIdleCallback) {
 	window.requestIdleCallback(hydrate)
