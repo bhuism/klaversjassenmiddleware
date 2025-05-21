@@ -21,7 +21,7 @@ const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 	const { enqueueSnackbar } = useSnackbar()
 
 	const { sendMessage, readyState } = useWebSocket<MessageType>(constants.wsUrl, {
-		// onOpen: () => console.log("connected"),
+		onOpen: () => sendMessage("ack"),
 		// onClose: () => console.log("disconnected"),
 		onError: (event: WebSocketEventMap["error"]) => console.error(JSON.stringify(event)),
 		disableJson: false,
