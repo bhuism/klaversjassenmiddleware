@@ -1,12 +1,14 @@
 import { Button, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
-import useWebSocket, { ReadyState } from "react-use-websocket"
-import constants from "~/utils/constants"
+import { useContext, useEffect, useState } from "react"
+import { ReadyState } from "react-use-websocket"
+import WebSocketContext from "~/context/WebSocketContext"
 
 const MessageBoard: React.FC = () => {
-	const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(constants.wsUrl, {
-		share: true,
-	})
+	// const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(constants.wsUrl, {
+	// 	share: true,
+	// })
+
+	const { sendJsonMessage, lastJsonMessage, readyState } = useContext(WebSocketContext)
 
 	const generateRandom = () => {
 		return Math.random().toString(36).substring(2, 10)
@@ -15,7 +17,9 @@ const MessageBoard: React.FC = () => {
 	const [value, setValue] = useState<string>(generateRandom())
 
 	useEffect(() => {
-		sendJsonMessage({ key: value })
+		if (sendJsonMessage) {
+			sendJsonMessage({ type: "message", message: value })
+		}
 	}, [sendJsonMessage, value])
 
 	return (

@@ -12,8 +12,8 @@ import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 import { SnackbarProvider } from "notistack"
 import { Outlet } from "react-router"
-import SocketGuard from "~/layout/SocketGuard"
 import AuthSessionProvider from "~/provider/AuthSessionProvider"
+import SocketGuard from "~/provider/SocketGuard"
 import theme from "./theme"
 
 const RootLayout: React.FC = () => {

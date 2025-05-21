@@ -1,7 +1,7 @@
 import { CloudOutlined } from "@mui/icons-material"
 import { IconButton, Tooltip } from "@mui/material"
 import useWebSocket, { ReadyState } from "react-use-websocket"
-import { connectionMap } from "~/layout/SocketGuard"
+import { connectionMap } from "~/provider/SocketGuard"
 import constants from "~/utils/constants"
 
 const ConnectionStatusIcon = () => {

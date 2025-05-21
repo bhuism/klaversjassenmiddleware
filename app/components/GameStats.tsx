@@ -1,6 +1,6 @@
 import type React from "react"
 import { useContext } from "react"
-import { GameContext } from "~/context/GameContext"
+import GameContext from "~/context/GameContext"
 
 // const PlayerName: React.FC<{ playerUid: string }> = ({ playerUid }) => {
 // 	return <Typography>{`${playerUid}`}</Typography>

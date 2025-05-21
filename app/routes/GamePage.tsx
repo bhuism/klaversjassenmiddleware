@@ -1,7 +1,7 @@
 import { CircularProgress, Typography } from "@mui/material"
 import type React from "react"
 import GameStats from "~/components/GameStats"
-import { GameContext } from "~/context/GameContext"
+import GameContext from "~/context/GameContext"
 import useCardApi from "~/hooks/useGameApi"
 import useLoadOnce from "~/hooks/useLoadOnce"
 import Star from "~/layout/Star"

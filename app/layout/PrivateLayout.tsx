@@ -1,19 +1,22 @@
 import { CircularProgress, Typography } from "@mui/material"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import type React from "react"
-import { useState } from "react"
 import { useAuth } from "react-oidc-context"
 import { Navigate, Outlet, useLocation } from "react-router"
+import useWebSocket from "react-use-websocket"
 import LoginButton from "~/components/LoginButton"
 import MenuBar from "~/components/menu/MenuBar"
+import WebSocketContext from "~/context/WebSocketContext"
+import type { MessageType } from "~/provider/SocketGuard"
 import CenterComponents from "~/utils/CenterComponents"
+import constants from "~/utils/constants"
 import Star from "./Star"
 
 const PrivateLayout: React.FC = () => {
 	const { isAuthenticated, isLoading, error, activeNavigator, removeUser } = useAuth()
 	const { pathname } = useLocation()
 	const queryClient = new QueryClient()
-	const [hasError, setHasError] = useState<boolean>(false)
+	const { readyState, sendJsonMessage, lastJsonMessage } = useWebSocket<MessageType>(constants.wsUrl, { share: true })
 
 	if (activeNavigator) {
 		return (
@@ -24,6 +27,7 @@ const PrivateLayout: React.FC = () => {
 			</CenterComponents>
 		)
 	}
+
 	if (isLoading) {
 		return (
 			<CenterComponents>
@@ -35,25 +39,10 @@ const PrivateLayout: React.FC = () => {
 	}
 
 	if (error) {
-		setHasError(true)
-		removeUser().then(() => setHasError(false))
-
-		if (hasError) {
-			return (
-				<CenterComponents>
-					<Star />
-					<CircularProgress />
-					<Typography style={{ color: "red" }}>
-						{error.name}:{error.message}
-					</Typography>
-				</CenterComponents>
-			)
-		}
-
+		removeUser()
 		return (
 			<CenterComponents>
 				<Star />
-				<CircularProgress />
 				<Typography style={{ color: "red" }}>
 					{error.name}:{error.message}
 				</Typography>
@@ -63,14 +52,18 @@ const PrivateLayout: React.FC = () => {
 	}
 
 	if (!isAuthenticated && pathname !== "/") {
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		console.log("to root thou shall go")
 		return <Navigate to={"/"} />
 	}
 
 	return (
 		<>
 			<QueryClientProvider client={queryClient}>
-				<MenuBar />
-				<Outlet />
+				<WebSocketContext.Provider value={{ readyState, sendJsonMessage, lastJsonMessage }}>
+					<MenuBar />
+					<Outlet />
+				</WebSocketContext.Provider>
 			</QueryClientProvider>
 		</>
 	)
