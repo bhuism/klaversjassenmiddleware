@@ -1,5 +1,5 @@
-import Root from "./root";
+import Root from "./App";
 
 export default function Route404() {
-	return <Root/>
+	return <App/>
 }
