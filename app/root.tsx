@@ -31,7 +31,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 	)
 }
 
-export default function Root() {
+export default function App() {
 	const intervalMS = 60 * 60 * 1000
 
 	useRegisterSW({
