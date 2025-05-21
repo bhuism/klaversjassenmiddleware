@@ -1,13 +1,21 @@
 import { useSnackbar } from "notistack"
-import { type PropsWithChildren, useEffect } from "react"
+import type { PropsWithChildren } from "react"
 import { ReadyState } from "react-use-websocket"
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket"
 import constants from "~/utils/constants"
 
+export const connectionMap = {
+	[ReadyState.CONNECTING]: "Connecting",
+	[ReadyState.OPEN]: "Connected",
+	[ReadyState.CLOSING]: "Closing",
+	[ReadyState.CLOSED]: "Closed",
+	[ReadyState.UNINSTANTIATED]: "Uninstantiated",
+}
+
 const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 	const { enqueueSnackbar } = useSnackbar()
 
-	const { readyState, sendMessage } = useWebSocket(constants.wsUrl, {
+	const { sendMessage } = useWebSocket(constants.wsUrl, {
 		// onOpen: () => console.log("connected"),
 		// onClose: () => console.log("disconnected"),
 		onError: (event: WebSocketEventMap["error"]) => console.error(JSON.stringify(event)),
@@ -23,25 +31,22 @@ const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 			interval: 25000,
 		},
 		filter: (message): boolean => {
-			if ("syn" !== message.data) {
+			if ("syn" === message.data) {
+				enqueueSnackbar("Got syn, ACKing", { variant: "success" })
 				sendMessage("ack")
+				return false
+			}
+			if ("ack" === message.data) {
+				enqueueSnackbar("Got ACK", { variant: "success" })
 				return false
 			}
 			return true
 		},
 	})
 
-	useEffect(() => {
-		const connectionMap = {
-			[ReadyState.CONNECTING]: "Connecting",
-			[ReadyState.OPEN]: "Connected",
-			[ReadyState.CLOSING]: "Closing",
-			[ReadyState.CLOSED]: "Closed",
-			[ReadyState.UNINSTANTIATED]: "Uninstantiated",
-		}
-
-		enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: "success" })
-	}, [enqueueSnackbar, readyState])
+	// useEffect(() => {
+	// 	enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: "success" })
+	// }, [enqueueSnackbar, readyState])
 
 	return <>{children}</>
 }

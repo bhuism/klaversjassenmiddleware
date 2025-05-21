@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useAuth } from "react-oidc-context"
 import { Navigate, Outlet, useLocation } from "react-router"
 import LoginButton from "~/components/LoginButton"
-import MenuBar from "~/components/MenuBar"
+import MenuBar from "~/components/menu/MenuBar"
 import CenterComponents from "~/utils/CenterComponents"
 import Star from "./Star"
 

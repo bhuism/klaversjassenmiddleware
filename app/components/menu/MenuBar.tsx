@@ -8,6 +8,7 @@ import { AppBar, Box, Container, IconButton, Toolbar, Tooltip, Typography, useCo
 import type React from "react"
 
 import { Link as RouterLink } from "react-router"
+import ConnectionStatusIcon from "./ConnectionStatusIcon"
 import MainMenu from "./MainMenu"
 import UserMenu from "./UserMenu"
 
@@ -78,7 +79,7 @@ const MenuBar: React.FC = () => {
 					</Typography>
 
 					<Box sx={{ flexGrow: 0 }}>
-						<Tooltip title="Theme">
+						<Tooltip title="Switch Theme">
 							<IconButton sx={{ mr: 1 }} onClick={handleModeClick} aria-label="Switch theme">
 								{mode === "dark" ? (
 									<DarkModeTwoTone />
@@ -89,6 +90,8 @@ const MenuBar: React.FC = () => {
 								)}
 							</IconButton>
 						</Tooltip>
+
+						<ConnectionStatusIcon />
 
 						<UserMenu />
 					</Box>
