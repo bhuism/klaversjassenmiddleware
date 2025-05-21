@@ -65,7 +65,7 @@
 		"@vitest/ui": "3.1.4",
 		"babel-plugin-react-compiler": "19.1.0-rc.2",
 		"happy-dom": "17.4.7",
-		"knip": "5.57.0",
+		"knip": "5.57.1",
 		"lefthook": "1.11.13",
 		"playwright": "1.52.0",
 		"react-router-devtools": "5.0.6",
