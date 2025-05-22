@@ -1,5 +1,5 @@
 import { useSnackbar } from "notistack"
-import { type PropsWithChildren, useEffect } from "react"
+import type { PropsWithChildren } from "react"
 import { ReadyState } from "react-use-websocket"
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket"
 import constants from "~/utils/constants"
@@ -20,7 +20,7 @@ export type MessageType = {
 const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 	const { enqueueSnackbar } = useSnackbar()
 
-	const { sendMessage, readyState } = useWebSocket<MessageType>(constants.wsUrl, {
+	const { sendMessage } = useWebSocket<MessageType>(constants.wsUrl, {
 		onOpen: () => sendMessage("syn"),
 		// onClose: () => console.log("disconnected"),
 		onError: (event: WebSocketEventMap["error"]) => console.error(JSON.stringify(event)),
@@ -49,9 +49,9 @@ const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 		},
 	})
 
-	useEffect(() => {
-		enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: readyState === ReadyState.CLOSED ? "error" : "info" })
-	}, [enqueueSnackbar, readyState])
+	// useEffect(() => {
+	// 	enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: readyState === ReadyState.CLOSED ? "error" : "info" })
+	// }, [enqueueSnackbar, readyState])
 
 	return <>{children}</>
 }
