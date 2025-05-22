@@ -1,16 +1,7 @@
 import type React from "react"
-import { useContext } from "react"
-import GameContext from "~/context/GameContext"
+import type { GameState } from "~/types"
 
-const UsThem: React.FC<React.PropsWithChildren<{ zeroTwo: boolean }>> = ({ zeroTwo }) => {
-	//	const { uid } = useContext(UidContext)
-
-	const game = useContext(GameContext)
-
-	if (!game || !zeroTwo) {
-		return <>no game</>
-	}
-
+const UsThem: React.FC<React.PropsWithChildren<{ game: GameState; zeroTwo: boolean }>> = () => {
 	// if (
 	// 	(zeroTwo && (game.players[0] === uid || game.players[2] === uid)) ||
 	// 	(!zeroTwo && (game.players[1] === uid || game.players[3] === uid))

@@ -1,6 +1,6 @@
 import { createContext } from "react"
-import type { Game } from ".generated-sources/openapi"
+import type { GameState } from "~/types"
 
-const GameContext = createContext<Game | undefined>(undefined)
+const GameContext = createContext<GameState | undefined>(undefined)
 
 export default GameContext

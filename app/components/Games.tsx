@@ -5,7 +5,7 @@ const Games: React.FC<{ games: Set<string> }> = ({ games }) => {
 	return (
 		<>
 			<TableContainer component={Paper}>
-				<Table sx={{ minWidth: 650 }} aria-label="simple table">
+				<Table size="small">
 					<TableHead>
 						<TableRow>
 							<TableCell>Id</TableCell>
