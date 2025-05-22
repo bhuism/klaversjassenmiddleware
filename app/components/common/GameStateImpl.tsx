@@ -1,4 +1,4 @@
-import type { Cardtype, Choice, GameState, PlayerCard } from "~/types"
+import type { Cardtype, Choice, GameState, PlayerCard } from "~/types.tsx"
 import type { Suit } from "./enum"
 import { pointsRegular, pointsTrump, rankRegular, rankTrump, suitOf } from "./utils"
 

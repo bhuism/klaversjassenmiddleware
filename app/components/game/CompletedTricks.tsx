@@ -50,33 +50,35 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: GameState }>> = 
 	})
 
 	return (
-		<TableContainer>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableCell>slag</TableCell>
-						<TableCell colSpan={4}>kaarten</TableCell>
-						<TableCell>
-							<UsThem game={game} zeroTwo={true} />
-						</TableCell>
-						<TableCell>
-							<UsThem game={game} zeroTwo={false} />
-						</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{[...Array(game.tricksPlayed())].map((_x, trickNr) => (
-						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-						<TrickRow key={trickNr} game={game} trickNr={trickNr} points={allPoints[trickNr]} />
-					))}
-					<TableRow style={zeroTwoPoints + oneThreePoints !== 162 ? { background: "red" } : {}}>
-						<TableCell colSpan={5} />
-						<TableCell className={"fs-5"}>{zeroTwoPoints}</TableCell>
-						<TableCell className={"fs-5"}>{oneThreePoints}</TableCell>
-					</TableRow>
-				</TableBody>
-			</Table>
-		</TableContainer>
+		<Container>
+			<TableContainer>
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>slag</TableCell>
+							<TableCell colSpan={4}>kaarten</TableCell>
+							<TableCell>
+								<UsThem game={game} zeroTwo={true} />
+							</TableCell>
+							<TableCell>
+								<UsThem game={game} zeroTwo={false} />
+							</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{[...Array(game.tricksPlayed())].map((_x, trickNr) => (
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+							<TrickRow key={trickNr} game={game} trickNr={trickNr} points={allPoints[trickNr]} />
+						))}
+						<TableRow style={zeroTwoPoints + oneThreePoints !== 162 ? { background: "red" } : {}}>
+							<TableCell colSpan={5} />
+							<TableCell className={"fs-5"}>{zeroTwoPoints}</TableCell>
+							<TableCell className={"fs-5"}>{oneThreePoints}</TableCell>
+						</TableRow>
+					</TableBody>
+				</Table>
+			</TableContainer>
+		</Container>
 	)
 }
 export default CompletedTricks

@@ -12,12 +12,14 @@
 // 	lastLogin: Timestamp
 // }
 
-interface PlayerCard {
+import type { Suit } from "./components/common/enum"
+
+export interface PlayerCard {
 	player: number
 	card: Cardtype
 }
 
-interface Choice {
+export interface Choice {
 	player: number
 	trump: Suit
 	go: boolean
@@ -31,7 +33,7 @@ export interface GameState {
 	dealer: number
 	playerCard: Array<PlayerCard>
 	players: Array<string>
-	turns: Array<Card>
+	turns: Array<Cardtype>
 	trump: Suit
 	ended: boolean
 	elder?: number
@@ -63,7 +65,7 @@ export interface GameState {
 
 	tricksPlayed(): number
 
-	getCardHolderByCard(card: Card): number
+	getCardHolderByCard(card: Cardtype): number
 
 	// call(firestore: Firestore, player: number, go: boolean): Promise<void>;
 
@@ -88,7 +90,7 @@ export interface GameState {
 // 	comment: string
 // }
 
-type Cardtype =
+export type Cardtype =
 	| "1b"
 	| "1p"
 	| "2c"

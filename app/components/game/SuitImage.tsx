@@ -1,7 +1,6 @@
 import { createSvgIcon } from "@mui/material"
 import type React from "react"
-import type { Suit } from ".generated-sources/openapi"
-//import { Suit } from "../common/enum"
+import { Suit } from "../common/enum"
 
 const ClubIcon = createSvgIcon(
 	// biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
@@ -18,15 +17,15 @@ const ClubIcon = createSvgIcon(
 	"Club"
 )
 
-const SuitImage: React.FC<React.PropsWithChildren<{ suit: Suit }>> = ({ suit }) => {
+const SuitImage: React.FC<{ suit: Suit }> = ({ suit }) => {
 	switch (suit) {
-		case "Clubs":
+		case Suit.Clubs:
 			return <ClubIcon />
-		case "Diamonds":
+		case Suit.Diamonds:
 			return <ClubIcon />
-		case "Hearts":
+		case Suit.Hearts:
 			return <ClubIcon />
-		case "Spades":
+		case Suit.Spades:
 			return <ClubIcon />
 	}
 }
