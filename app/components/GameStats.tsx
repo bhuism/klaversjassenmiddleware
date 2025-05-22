@@ -1,8 +1,8 @@
+import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import { tableCellClasses } from "@mui/material/TableCell"
 import type React from "react"
-import { useContext } from "react"
-import GameContext from "~/context/GameContext"
+import type { GameState } from "~/types"
 import UsThem from "./UsThem"
 import { trickSummer } from "./common/utils"
 import CompletedPlayerCards from "./game/CompletedPlayerCards"
@@ -14,13 +14,7 @@ import SuitImage from "./game/SuitImage"
 // 	return <Typography>{`${playerUid}`}</Typography>
 // }
 
-const GameStats: React.FC = () => {
-	const game = useContext(GameContext)
-
-	if (!game) {
-		return <>no game</>
-	}
-
+const GameStats: React.FC<{ game: GameState }> = ({ game }) => {
 	const allPoints = game.calculateAllTrickPoints(game)
 
 	const { zeroTwoPoints, oneThreePoints } = allPoints.reduce(trickSummer, {
@@ -116,7 +110,7 @@ const GameStats: React.FC = () => {
 					</TableRow>
 					<TableRow>
 						<TableCell colSpan={2}>
-							gegaan <i className={"bi bi-arrow-right-circle"} />
+							gegaan <PlayArrowIcon />
 						</TableCell>
 						<TableCell colSpan={10}>
 							<PlayerName playerUid={[...game.players][game.elder as number]} />

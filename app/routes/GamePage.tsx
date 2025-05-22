@@ -3,7 +3,6 @@ import type React from "react"
 import GameStats from "~/components/GameStats"
 import GameStateImpl from "~/components/common/GameStateImpl"
 import { Suit } from "~/components/common/enum"
-import GameContext from "~/context/GameContext"
 import useCardApi from "~/hooks/useGameApi"
 import useLoadOnce from "~/hooks/useLoadOnce"
 import Star from "~/layout/Star"
@@ -18,7 +17,11 @@ const GamePage: React.FC<Route.ComponentProps> = ({ params: { gameId } }) => {
 
 	const { data, error, isLoading } = useLoadOnce<Game>(() => cardApi.getGame(gameId))
 
-	if (isLoading) {
+	if (error !== undefined) {
+		return <Typography>{`Error: ${error}`}</Typography>
+	}
+
+	if (isLoading || data === undefined) {
 		return (
 			<CenterComponents>
 				<Star />
@@ -26,10 +29,6 @@ const GamePage: React.FC<Route.ComponentProps> = ({ params: { gameId } }) => {
 				<Typography>{`Game ${gameId} is loading...`}</Typography>
 			</CenterComponents>
 		)
-	}
-
-	if (!data || error) {
-		return <Typography>{`Error: ${error}`}</Typography>
 	}
 
 	const cardMap: Record<CardNr, string> = {
@@ -92,9 +91,7 @@ const GamePage: React.FC<Route.ComponentProps> = ({ params: { gameId } }) => {
 
 			{/* <PhaserGame ref={phaserRef} /> */}
 
-			<GameContext.Provider value={game}>
-				<GameStats />
-			</GameContext.Provider>
+			<GameStats game={game} />
 			{/* <PhaserComponent /> */}
 		</>
 	)
