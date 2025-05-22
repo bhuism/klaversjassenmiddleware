@@ -37,7 +37,7 @@ const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 		},
 		filter: (message): boolean => {
 			if ("syn" === message.data) {
-				enqueueSnackbar("Got syn, ACKing", { variant: "success" })
+				enqueueSnackbar("Got SYN", { variant: "success" })
 				sendMessage("ack")
 				return false
 			}
