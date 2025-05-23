@@ -46,7 +46,7 @@ const PrivateLayout: React.FC = () => {
 					{error.name}:{error.message}
 				</Typography>
 				<LoginButton />
-				<Button variant="outlined" href="/">
+				<Button variant="outlined" href="/" size="large">
 					Reload
 				</Button>
 			</CenterComponents>

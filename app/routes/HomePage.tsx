@@ -15,7 +15,7 @@ const Home: React.FC = () => {
 			{isAuthenticated ? (
 				<>
 					<h3>Home is where the heart is</h3>
-					<Button variant="outlined" onClick={() => navigate("/games")}>
+					<Button variant="outlined" onClick={() => navigate("/games")} size="large">
 						Games
 					</Button>
 				</>
