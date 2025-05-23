@@ -9,13 +9,20 @@ function ReloadPrompt() {
 		updateServiceWorker,
 	} = useRegisterSW({
 		onRegistered(r: unknown) {
-			// biome-ignore lint/suspicious/noConsole: <explanation>
-			// biome-ignore lint/style/useTemplate: <explanation>
-			console.log("SW Registered: " + r)
+			// biome-ignore lint/nursery/noProcessEnv: <explanation>
+			if ("development" === process.env.NODE_ENV) {
+				// biome-ignore lint/suspicious/noConsole: <explanation>
+				// biome-ignore lint/style/useTemplate: <explanation>
+				console.log("SW Registered: " + r)
+			}
 		},
 		onRegisterError(error: unknown) {
-			// biome-ignore lint/suspicious/noConsole: <explanation>
-			console.log("SW registration error", error)
+			// biome-ignore lint/nursery/noProcessEnv: <explanation>
+			if ("development" === process.env.NODE_ENV) {
+				// biome-ignore lint/suspicious/noConsole: <explanation>
+				// biome-ignore lint/style/useTemplate: <explanation>
+				console.error("SW registration error", error)
+			}
 		},
 	})
 
