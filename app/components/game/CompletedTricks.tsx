@@ -89,8 +89,8 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: GameState }>> = 
 						))}
 						<TableRow style={zeroTwoPoints + oneThreePoints !== 162 ? { background: "red" } : {}}>
 							<TableCell colSpan={5} />
-							<TableCell className={"fs-5"}>{zeroTwoPoints}</TableCell>
-							<TableCell className={"fs-5"}>{oneThreePoints}</TableCell>
+							<TableCell align="center">{zeroTwoPoints}</TableCell>
+							<TableCell align="center">{oneThreePoints}</TableCell>
 						</TableRow>
 					</TableBody>
 				</Table>

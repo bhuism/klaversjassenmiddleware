@@ -1,3 +1,4 @@
+import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import { Table, TableBody, TableCell, TableContainer, TableRow, tableCellClasses } from "@mui/material"
 import type React from "react"
 import type { Cardtype, GameState } from "~/types"
@@ -32,22 +33,24 @@ const CompletedPlayerCards: React.FC<React.PropsWithChildren<{ game: GameState }
 				<TableBody>
 					{game.players.map((uid: string, index: number) => (
 						<TableRow key={uid}>
-							<TableCell key={uid} style={{ width: "20%" }} className={"text-center align-middle"}>
+							<TableCell key={uid} align="center">
 								<p>
+									<PlayerName playerUid={uid} />
 									{game.elder === game.players.indexOf(uid) ? (
 										<>
-											<i className={"bi bi-arrow-right-circle"} />{" "}
+											{" "}
+											<PlayArrowIcon />
 										</>
 									) : (
 										<></>
 									)}
-									<PlayerName playerUid={uid} />
 								</p>
 								<p className={"fs-5"}>{playerPoints(index)}</p>
 							</TableCell>
 							{game.getAllPlayerCards(index).map((c) => (
 								<TableCell
 									key={c}
+									align="center"
 									style={{
 										backgroundColor: winningCards.includes(c) ? "green" : "",
 									}}
