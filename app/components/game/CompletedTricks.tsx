@@ -23,29 +23,28 @@ const TrickRow: React.FC<
 > = ({ game, trickNr, points }) => {
 	return (
 		<TableRow>
-			<TableCell>{trickNr + 1}</TableCell>
+			<TableCell align="center">{trickNr + 1}</TableCell>
 			{[...Array(4)].map((_x, cardNr) => (
 				<TableCell
 					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 					key={cardNr}
+					align="center"
 					style={
 						game.determineTrickWinningCard(trickNr) === game.turns[trickNr * 4 + cardNr]
 							? { backgroundColor: "green" }
 							: {}
 					}
 				>
-					<Container>
-						<PlayingCard
-							style={{ width: "5vw", minWidth: "80px" }}
-							cardType={game.turns[trickNr * 4 + cardNr]}
-							front={true}
-						/>
-						<PlayerName playerUid={game.players[game.getCardHolderByCard(game.turns[trickNr * 4 + cardNr])]} />
-					</Container>
+					<PlayingCard
+						style={{ width: "5vw", minWidth: "80px" }}
+						cardType={game.turns[trickNr * 4 + cardNr]}
+						front={true}
+					/>
+					<PlayerName playerUid={game.players[game.getCardHolderByCard(game.turns[trickNr * 4 + cardNr])]} />
 				</TableCell>
 			))}
-			<td className={"fs-5 text-center align-middle"}>{points.zeroTwoPoints}</td>
-			<td className={"fs-5 text-center align-middle"}>{points.oneThreePoints}</td>
+			<TableCell align="center">{points.zeroTwoPoints}</TableCell>
+			<TableCell align="center">{points.oneThreePoints}</TableCell>
 		</TableRow>
 	)
 }
@@ -73,12 +72,12 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: GameState }>> = 
 				>
 					<TableHead>
 						<TableRow>
-							<TableCell>slag</TableCell>
+							<TableCell align="center">slag</TableCell>
 							<TableCell colSpan={4}>kaarten</TableCell>
-							<TableCell>
+							<TableCell align="center">
 								<UsThem game={game} zeroTwo={true} />
 							</TableCell>
-							<TableCell>
+							<TableCell align="center">
 								<UsThem game={game} zeroTwo={false} />
 							</TableCell>
 						</TableRow>

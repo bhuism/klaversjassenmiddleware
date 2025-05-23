@@ -31,3 +31,8 @@ body {
 		opacity: 0;
 	}
 }
+
+td img {
+	margin-left: auto;
+	margin-right: auto;
+}
