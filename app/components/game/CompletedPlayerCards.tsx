@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material"
+import { Table, TableBody, TableCell, TableContainer, TableRow, tableCellClasses } from "@mui/material"
 import type React from "react"
 import type { Cardtype, GameState } from "~/types"
 import PlayingCard from "../common/PlayingCard"
@@ -19,7 +19,16 @@ const CompletedPlayerCards: React.FC<React.PropsWithChildren<{ game: GameState }
 
 	return (
 		<TableContainer>
-			<Table>
+			<Table
+				size="small"
+				sx={{
+					[`& .${tableCellClasses.root}`]: {
+						borderBottom: "none",
+						padding: 0,
+						margin: 0,
+					},
+				}}
+			>
 				<TableBody>
 					{game.players.map((uid: string, index: number) => (
 						<TableRow key={uid}>

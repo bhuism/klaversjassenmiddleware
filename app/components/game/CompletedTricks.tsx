@@ -1,4 +1,13 @@
-import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import {
+	Container,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	tableCellClasses,
+} from "@mui/material"
 import type { GameState } from "~/types"
 import UsThem from "../UsThem"
 import PlayingCard from "../common/PlayingCard"
@@ -52,7 +61,16 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: GameState }>> = 
 	return (
 		<Container>
 			<TableContainer>
-				<Table>
+				<Table
+					size="small"
+					sx={{
+						[`& .${tableCellClasses.root}`]: {
+							borderBottom: "none",
+							padding: 0,
+							margin: 0,
+						},
+					}}
+				>
 					<TableHead>
 						<TableRow>
 							<TableCell>slag</TableCell>
