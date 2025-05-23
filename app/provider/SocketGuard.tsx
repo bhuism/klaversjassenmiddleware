@@ -37,12 +37,18 @@ const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 		},
 		filter: (message): boolean => {
 			if ("syn" === message.data) {
-				enqueueSnackbar("Got SYN", { variant: "success" })
+				// biome-ignore lint/nursery/noProcessEnv: <explanation>
+				if ("development" === process.env.NODE_ENV) {
+					enqueueSnackbar("Got SYN", { variant: "success" })
+				}
 				sendMessage("ack")
 				return false
 			}
 			if ("ack" === message.data) {
-				enqueueSnackbar("Got ACK", { variant: "success" })
+				// biome-ignore lint/nursery/noProcessEnv: <explanation>
+				if ("development" === process.env.NODE_ENV) {
+					enqueueSnackbar("Got ACK", { variant: "success" })
+				}
 				return false
 			}
 			return true
