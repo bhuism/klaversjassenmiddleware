@@ -38,7 +38,7 @@ const MenuBar: React.FC = () => {
 	return (
 		<AppBar position="static">
 			<Container maxWidth="xl">
-				<Toolbar disableGutters>
+				<Toolbar variant="dense" disableGutters>
 					<IconButton
 						component={RouterLink}
 						to="/"

@@ -1,4 +1,4 @@
-import { CircularProgress, Typography } from "@mui/material"
+import { Button, CircularProgress, Typography } from "@mui/material"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import type React from "react"
 import { useAuth } from "react-oidc-context"
@@ -13,7 +13,7 @@ import constants from "~/utils/constants"
 import Star from "./Star"
 
 const PrivateLayout: React.FC = () => {
-	const { isAuthenticated, isLoading, error, activeNavigator, removeUser } = useAuth()
+	const { isAuthenticated, isLoading, error, activeNavigator } = useAuth()
 	const { pathname } = useLocation()
 	const queryClient = new QueryClient()
 	const { readyState, sendJsonMessage, lastJsonMessage } = useWebSocket<MessageType>(constants.wsUrl, { share: true })
@@ -39,7 +39,6 @@ const PrivateLayout: React.FC = () => {
 	}
 
 	if (error) {
-		removeUser()
 		return (
 			<CenterComponents>
 				<Star />
@@ -47,6 +46,9 @@ const PrivateLayout: React.FC = () => {
 					{error.name}:{error.message}
 				</Typography>
 				<LoginButton />
+				<Button variant="outlined" href="/">
+					Reload
+				</Button>
 			</CenterComponents>
 		)
 	}
