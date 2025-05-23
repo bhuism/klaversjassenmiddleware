@@ -73,7 +73,10 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: GameState }>> = 
 					<TableHead>
 						<TableRow>
 							<TableCell align="center">slag</TableCell>
-							<TableCell colSpan={4}>kaarten</TableCell>
+							<TableCell align="center">1</TableCell>
+							<TableCell align="center">2</TableCell>
+							<TableCell align="center">3</TableCell>
+							<TableCell align="center">4</TableCell>
 							<TableCell align="center">
 								<UsThem game={game} zeroTwo={true} />
 							</TableCell>
