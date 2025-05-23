@@ -51,8 +51,8 @@ importers:
         specifier: 3.2.1
         version: 3.2.1
       phaser:
-        specifier: 3.88.2
-        version: 3.88.2
+        specifier: 3.90.0
+        version: 3.90.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -3992,8 +3992,8 @@ packages:
     resolution: {integrity: sha512-nri2TO5JE3/mRryik9LlHFT53cgHfRK0Lt0BAZQXku/AW3E6XLt2GaY8siWi7dvW/m1z0ecn+J+bpDa9ZN3IsQ==}
     engines: {node: '>=18'}
 
-  phaser@3.88.2:
-    resolution: {integrity: sha512-UBgd2sAFuRJbF2xKaQ5jpMWB8oETncChLnymLGHcrnT53vaqiGrQWbUKUDBawKLm24sghjKo4Bf+/xfv8espZQ==}
+  phaser@3.90.0:
+    resolution: {integrity: sha512-/cziz/5ZIn02uDkC9RzN8VF9x3Gs3XdFFf9nkiMEQT3p7hQlWuyjy4QWosU802qqno2YSLn2BfqwOKLv/sSVfQ==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -9079,7 +9079,7 @@ snapshots:
 
   peek-readable@7.0.0: {}
 
-  phaser@3.88.2:
+  phaser@3.90.0:
     dependencies:
       eventemitter3: 5.0.1
 
