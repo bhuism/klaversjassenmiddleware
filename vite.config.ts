@@ -15,6 +15,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
 	outDir: "build/client",
 	manifest: {
 		name: "Klavers Jassen",
+		display: "fullscreen",
 		short_name: "Klavers Jassen",
 		description: "Klavers Jassen",
 		theme_color: "#000000",
