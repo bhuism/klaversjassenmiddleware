@@ -20,6 +20,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
 		theme_color: "#000000",
 		background_color: "#000000",
 		start_url: ".",
+		orientation: "landscape-primary",
 	},
 	pwaAssets: {
 		preset,
