@@ -12,7 +12,7 @@
 // 	lastLogin: Timestamp
 // }
 
-import type { Suit } from "./components/common/enum"
+import type Suit from "./components/common/Suit"
 
 export interface PlayerCard {
 	player: number

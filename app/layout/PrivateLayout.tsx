@@ -5,9 +5,11 @@ import { useAuth } from "react-oidc-context"
 import { Navigate, Outlet, useLocation } from "react-router"
 import useWebSocket from "react-use-websocket"
 import LoginButton from "~/components/LoginButton"
+import ReloadPrompt from "~/components/ReloadPrompt"
 import MenuBar from "~/components/menu/MenuBar"
 import WebSocketContext from "~/context/WebSocketContext"
 import type { MessageType } from "~/provider/SocketGuard"
+import { UidContextProvider } from "~/provider/UidContextProvider"
 import CenterComponents from "~/utils/CenterComponents"
 import constants from "~/utils/constants"
 import Star from "./Star"
@@ -46,7 +48,7 @@ const PrivateLayout: React.FC = () => {
 					{error.name}:{error.message}
 				</Typography>
 				<LoginButton />
-				<Button variant="outlined" href="/" size="large">
+				<Button variant="outlined" href="/">
 					Reload
 				</Button>
 			</CenterComponents>
@@ -54,17 +56,29 @@ const PrivateLayout: React.FC = () => {
 	}
 
 	if (!isAuthenticated && pathname !== "/") {
-		// biome-ignore lint/suspicious/noConsole: <explanation>
-		console.log("to root thou shall go")
 		return <Navigate to={"/"} />
+	}
+
+	if (!isAuthenticated) {
+		return (
+			<>
+				<CenterComponents>
+					<Star />
+					<LoginButton />
+					<ReloadPrompt />
+				</CenterComponents>
+			</>
+		)
 	}
 
 	return (
 		<>
 			<QueryClientProvider client={queryClient}>
 				<WebSocketContext.Provider value={{ readyState, sendJsonMessage, lastJsonMessage }}>
-					<MenuBar />
-					<Outlet />
+					<UidContextProvider>
+						<MenuBar />
+						<Outlet />
+					</UidContextProvider>
 				</WebSocketContext.Provider>
 			</QueryClientProvider>
 		</>

@@ -2,7 +2,7 @@ import { CircularProgress, Typography } from "@mui/material"
 import type React from "react"
 import GameStats from "~/components/GameStats"
 import GameStateImpl from "~/components/common/GameStateImpl"
-import { Suit } from "~/components/common/enum"
+import Suit from "~/components/common/Suit"
 import useCardApi from "~/hooks/useGameApi"
 import useLoadOnce from "~/hooks/useLoadOnce"
 import Star from "~/layout/Star"
@@ -13,7 +13,7 @@ import type { Card, CardNr, Game, Suit as OpenApiSuit } from ".generated-sources
 //import { type IRefPhaserGame, PhaserGame } from "~/game/PhaserGame"
 
 const GamePage: React.FC<Route.ComponentProps> = ({ params: { gameId } }) => {
-	const { cardApi } = useCardApi()
+	const cardApi = useCardApi()
 
 	const { data, error, isLoading } = useLoadOnce<Game>(() => cardApi.getGame(gameId))
 
@@ -66,7 +66,7 @@ const GamePage: React.FC<Route.ComponentProps> = ({ params: { gameId } }) => {
 		data.updated,
 		data.creator,
 		data.dealer,
-		data.playerCard.map(
+		[...data.playerCard].map(
 			(pc) =>
 				({
 					player: pc.player,
@@ -74,7 +74,7 @@ const GamePage: React.FC<Route.ComponentProps> = ({ params: { gameId } }) => {
 				}) as PlayerCard
 		),
 		[...data.players.values()],
-		data.turns.map((c) => convertCard(c)),
+		[...data.turns].map((c) => convertCard(c)),
 		suitMap[data.trump],
 		data.ended,
 		data.elder,

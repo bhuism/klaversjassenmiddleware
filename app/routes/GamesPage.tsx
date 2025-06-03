@@ -6,7 +6,7 @@ import Star from "~/layout/Star"
 import CenterComponents from "~/utils/CenterComponents"
 
 const GamesPage: React.FC = () => {
-	const { cardApi } = useGameApi()
+	const cardApi = useGameApi()
 
 	const { data, isLoading, error } = useLoadOnce<Set<string>>(() => cardApi.getGames(), new Set())
 

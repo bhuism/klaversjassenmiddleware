@@ -2,7 +2,7 @@ import { Button, CircularProgress } from "@mui/material"
 import { useAuth } from "react-oidc-context"
 
 const LoginButton: React.FC = () => {
-	const { isLoading, signinRedirect } = useAuth()
+	const { isLoading, removeUser } = useAuth()
 
 	if (isLoading) {
 		return <CircularProgress />
@@ -10,8 +10,8 @@ const LoginButton: React.FC = () => {
 
 	return (
 		<>
-			<Button variant="outlined" size="large" onClick={() => signinRedirect()}>
-				Sign In
+			<Button variant="outlined" onClick={() => removeUser()}>
+				Sign Out
 			</Button>
 		</>
 	)

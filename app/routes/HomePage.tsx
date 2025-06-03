@@ -1,35 +1,23 @@
-import { Button, Typography } from "@mui/material"
-import { useAuth } from "react-oidc-context"
+import { Button } from "@mui/material"
 import { useNavigate } from "react-router"
-import LoginButton from "~/components/LoginButton"
+import LogoutButton from "~/components/LogoutButton"
 import ReloadPrompt from "~/components/ReloadPrompt"
 import Star from "~/layout/Star"
 import CenterComponents from "~/utils/CenterComponents"
 
 const Home: React.FC = () => {
-	const { error, isAuthenticated } = useAuth()
 	const navigate = useNavigate()
 	return (
 		<CenterComponents>
 			<Star />
-			{isAuthenticated ? (
-				<>
-					<h3>Home is where the heart is</h3>
-					<Button variant="outlined" onClick={() => navigate("/games")} size="large">
-						Games
-					</Button>
-				</>
-			) : (
-				<></>
-			)}
-			<LoginButton />
-			{error ? (
-				<Typography style={{ color: "red" }}>
-					{error.name}:{error.message}
-				</Typography>
-			) : (
-				<></>
-			)}
+			<h3>Home is where the heart is</h3>
+			<Button variant="outlined" onClick={() => navigate("/selectPlayers")}>
+				New Game
+			</Button>
+			<Button variant="outlined" onClick={() => navigate("/games")}>
+				Games
+			</Button>
+			<LogoutButton />
 			<ReloadPrompt />
 		</CenterComponents>
 	)

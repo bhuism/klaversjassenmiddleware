@@ -1,13 +1,10 @@
 import { Menu as MenuIcon } from "@mui/icons-material"
 import { Box, Button, IconButton, Menu, MenuItem, Typography } from "@mui/material"
 import { useState } from "react"
-import { useAuth } from "react-oidc-context"
-import { Link, useNavigate } from "react-router"
+import { useNavigate } from "react-router"
 import type { MyMenu } from "./MenuBar"
 
 const MainMenu = () => {
-	const { isAuthenticated, isLoading } = useAuth()
-
 	const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget)
@@ -20,6 +17,7 @@ const MainMenu = () => {
 	}
 
 	const menu: MyMenu[] = [
+		{ id: "newgame", title: "New Game", onClick: () => navigate("/selectPlayers") },
 		{ id: "games", title: "Games", onClick: () => navigate("/games") },
 		{
 			id: "messageboard",
@@ -31,70 +29,61 @@ const MainMenu = () => {
 	return (
 		<>
 			<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-				{isAuthenticated && !isLoading ? (
-					<>
-						<IconButton
-							size="large"
-							aria-label="Account of current user"
-							aria-controls="menu-appbar-main"
-							aria-haspopup="true"
-							onClick={handleOpenNavMenu}
-							color="inherit"
-						>
-							<MenuIcon />
-						</IconButton>
-						<Menu
-							id="menu-appbar-main"
-							anchorEl={anchorElNav}
-							anchorOrigin={{
-								vertical: "bottom",
-								horizontal: "left",
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: "top",
-								horizontal: "left",
-							}}
-							open={Boolean(anchorElNav)}
-							onClose={handleCloseNavMenu}
-							sx={{ display: { xs: "block", md: "none" } }}
-						>
-							{menu.map((item) => (
-								<MenuItem
-									key={item.id}
-									onClick={() => {
-										handleCloseNavMenu()
-										item.onClick()
-									}}
-								>
-									<Typography sx={{ textAlign: "center" }}>{item.title}</Typography>
-								</MenuItem>
-							))}
-						</Menu>
-					</>
-				) : (
-					<></>
-				)}
+				<>
+					<IconButton
+						size="large"
+						aria-label="Account of current user"
+						aria-controls="menu-appbar-main"
+						aria-haspopup="true"
+						onClick={handleOpenNavMenu}
+						color="inherit"
+					>
+						<MenuIcon />
+					</IconButton>
+					<Menu
+						id="menu-appbar-main"
+						anchorEl={anchorElNav}
+						anchorOrigin={{
+							vertical: "bottom",
+							horizontal: "left",
+						}}
+						keepMounted
+						transformOrigin={{
+							vertical: "top",
+							horizontal: "left",
+						}}
+						open={Boolean(anchorElNav)}
+						onClose={handleCloseNavMenu}
+						sx={{ display: { xs: "block", md: "none" } }}
+					>
+						{menu.map((item) => (
+							<MenuItem
+								key={item.id}
+								onClick={() => {
+									handleCloseNavMenu()
+									item.onClick()
+								}}
+							>
+								<Typography sx={{ textAlign: "center" }}>{item.title}</Typography>
+							</MenuItem>
+						))}
+					</Menu>
+				</>
 			</Box>
 
 			<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-				{isAuthenticated && !isLoading ? (
-					<>
-						{menu.map((page) => (
-							<Button
-								key={page.id}
-								sx={{ my: 2, color: "white", display: "block" }}
-								onClick={handleCloseNavMenu}
-								component={Link}
-								to={page.id}
-							>
-								{page.title}
-							</Button>
-						))}
-					</>
-				) : (
-					<></>
-				)}
+				{menu.map((item) => (
+					<Button
+						key={item.id}
+						sx={{ my: 2, color: "white", display: "block" }}
+						onClick={() => {
+							handleCloseNavMenu()
+							item.onClick()
+						}}
+					>
+						{item.title}
+					</Button>
+				))}
 			</Box>
 		</>
 	)

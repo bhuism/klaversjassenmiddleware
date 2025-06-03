@@ -1,5 +1,5 @@
 import type { Cardtype, Choice, GameState, PlayerCard } from "~/types.tsx"
-import type { Suit } from "./enum"
+import type Suit from "./Suit"
 import { pointsRegular, pointsTrump, rankRegular, rankTrump, suitOf } from "./utils"
 
 class GameStateImpl implements GameState {

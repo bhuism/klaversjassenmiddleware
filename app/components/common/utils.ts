@@ -1,28 +1,28 @@
 import type { Cardtype } from "~/types"
-import { Suit } from "./enum"
+import Suit from "./Suit"
 
-// export function shuffle<U>(array: Array<U>): Array<U> {
-// 	let m = array.length,
-//   let t =
-// 		i
+export function shuffle<U>(array: Array<U>): Array<U> {
+	let m = array.length
+	let t: U
+	let i: number
 
-// 	// While there remain elements to shuffle…
-// 	while (m) {
-// 		// Pick a remaining element…
-// 		i = Math.floor(Math.random() * m--)
+	// While there remain elements to shuffle…
+	while (m) {
+		// Pick a remaining element…
+		i = Math.floor(Math.random() * m--)
 
-// 		// And swap it with the current element.
-// 		t = array[m]
-// 		array[m] = array[i]
-// 		array[i] = t
-// 	}
+		// And swap it with the current element.
+		t = array[m]
+		array[m] = array[i]
+		array[i] = t
+	}
 
-// 	return array
-// }
+	return array
+}
 
-// export function getRandomArbitrary(min: number, max: number): number {
-// 	return Math.round(Math.random() * (max - min + min))
-// }
+export function getRandomArbitrary(min: number, max: number): number {
+	return Math.round(Math.random() * (max - min + min))
+}
 
 export function trickSummer(
 	sum: { zeroTwoPoints: number; oneThreePoints: number },
@@ -34,40 +34,40 @@ export function trickSummer(
 	}
 }
 
-// export const allCardtype: Cardtype[] = [
-// 	"7c",
-// 	"8c",
-// 	"9c",
-// 	"Tc",
-// 	"Jc",
-// 	"Qc",
-// 	"Kc",
-// 	"Ac",
-// 	"7d",
-// 	"8d",
-// 	"9d",
-// 	"Td",
-// 	"Jd",
-// 	"Qd",
-// 	"Kd",
-// 	"Ad",
-// 	"7h",
-// 	"8h",
-// 	"9h",
-// 	"Th",
-// 	"Jh",
-// 	"Qh",
-// 	"Kh",
-// 	"Ah",
-// 	"7s",
-// 	"8s",
-// 	"9s",
-// 	"Ts",
-// 	"Js",
-// 	"Qs",
-// 	"Ks",
-// 	"As",
-// ]
+export const allCardtype: Cardtype[] = [
+	"7c",
+	"8c",
+	"9c",
+	"Tc",
+	"Jc",
+	"Qc",
+	"Kc",
+	"Ac",
+	"7d",
+	"8d",
+	"9d",
+	"Td",
+	"Jd",
+	"Qd",
+	"Kd",
+	"Ad",
+	"7h",
+	"8h",
+	"9h",
+	"Th",
+	"Jh",
+	"Qh",
+	"Kh",
+	"Ah",
+	"7s",
+	"8s",
+	"9s",
+	"Ts",
+	"Js",
+	"Qs",
+	"Ks",
+	"As",
+]
 
 export function suitOf(cardType: Cardtype): Suit {
 	switch (cardType.charAt(1)) {

@@ -9,7 +9,7 @@ import type { MyMenu } from "./MenuBar"
 import UserStatusDialog from "./UserStatusDialog"
 
 const UserMenu: React.FC = () => {
-	const { isAuthenticated, user, removeUser } = useAuth()
+	const { user, removeUser } = useAuth()
 	const [userStatusDialogVisible, setUserStatusDialogVisible] = useState<boolean>(false)
 	const [aboutDialogVisible, setAboutDialogVisible] = useState<boolean>(false)
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
@@ -51,7 +51,11 @@ const UserMenu: React.FC = () => {
 		},
 	]
 
-	return isAuthenticated && user ? (
+	if (!user) {
+		return <></>
+	}
+
+	return (
 		<>
 			<Tooltip title={user.profile.name}>
 				<IconButton onClick={handleOpenUserMenu} sx={{ mr: 1 }} aria-label="User menu">
@@ -92,8 +96,6 @@ const UserMenu: React.FC = () => {
 			<UserStatusDialog visible={userStatusDialogVisible} onClose={() => setUserStatusDialogVisible(false)} />
 			<AboutDialog visible={aboutDialogVisible} onClose={() => setAboutDialogVisible(false)} />
 		</>
-	) : (
-		<></>
 	)
 }
 

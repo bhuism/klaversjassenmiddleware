@@ -1,27 +1,14 @@
-import {
-	Avatar,
-	Button,
-	CircularProgress,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	Typography,
-} from "@mui/material"
-import dayjs from "dayjs"
-import { useAuth } from "react-oidc-context"
+import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
+import { useContext } from "react"
+import UidContext from "~/provider/UidContextProvider"
 
 const UserStatusDialog: React.FC<{
 	visible: boolean
 	onClose: () => void
 }> = ({ visible, onClose }) => {
-	const { user, isAuthenticated, error, isLoading } = useAuth()
+	const { user } = useContext(UidContext)
 
-	if (isLoading) {
-		return <CircularProgress />
-	}
-
-	if (!user || !isAuthenticated || error) {
+	if (!user) {
 		return <></>
 	}
 
@@ -32,20 +19,14 @@ const UserStatusDialog: React.FC<{
 			</DialogTitle>
 			<DialogContent dividers>
 				<dl>
+					<dt>Id</dt>
+					<dd>{user.id}</dd>
 					<dt>Volledige naam</dt>
-					<dd>{user.profile.name}</dd>
+					<dd>{user.displayName}</dd>
 					<dt>Email</dt>
-					<dd>{user.profile.email}</dd>
+					<dd>{user.email}</dd>
 					<dt>Avatar</dt>
-					<dd>
-						{user.profile.name && user.profile.picture ? (
-							<Avatar alt={user.profile.name} src={user.profile.picture} />
-						) : (
-							<></>
-						)}
-					</dd>
-					<dt>Experation</dt>
-					<dd>{user.profile.exp ? `${user.profile.exp}·(${dayjs(new Date()).to(user.profile.exp)})` : ""}</dd>
+					<dd>{user.photoURL ? <Avatar alt={user.displayName} src={user.photoURL} /> : <></>}</dd>
 				</dl>
 			</DialogContent>
 			<DialogActions>
