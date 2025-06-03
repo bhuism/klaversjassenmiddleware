@@ -57,9 +57,6 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 			[]
 		)
 
-		// biome-ignore lint/suspicious/noConsole: <explanation>
-		console.log({ newGame: newGame })
-
 		const postGame = convert(newGame)
 
 		cardApi
