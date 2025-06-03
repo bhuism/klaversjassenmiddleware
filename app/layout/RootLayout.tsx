@@ -10,11 +10,17 @@ import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
+import dayjs from "dayjs"
 import { SnackbarProvider } from "notistack"
 import { Outlet } from "react-router"
 import AuthSessionProvider from "~/provider/AuthSessionProvider"
 import SocketGuard from "~/provider/SocketGuard"
 import theme from "./theme"
+
+import relativeTime from "dayjs/plugin/relativeTime"
+
+dayjs.extend(relativeTime)
+dayjs.locale("nl")
 
 const RootLayout: React.FC = () => {
 	return (

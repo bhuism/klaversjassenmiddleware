@@ -1,9 +1,3 @@
-import dayjs from "dayjs"
-import "dayjs/locale/nl"
-import relativeTime from "dayjs/plugin/relativeTime"
-
-dayjs.extend(relativeTime)
-
 const constants = {
 	gitHash: import.meta.env.VITE_GIT_SHA as string,
 	gitDate: import.meta.env.VITE_GIT_DATE as Date,
