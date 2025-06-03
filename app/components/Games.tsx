@@ -1,9 +1,7 @@
 import {
-	Box,
 	CircularProgress,
 	Container,
 	Paper,
-	Stack,
 	Table,
 	TableBody,
 	TableCell,
@@ -48,30 +46,23 @@ const Games: React.FC<{ games: Set<string> }> = ({ games }) => {
 	return (
 		<>
 			<Container>
-				<Box alignItems="center">
-					<Stack
-						// divider={<Divider orientation="horizontal" flexItem />}
-						alignItems={"center"}
-					>
-						<TableContainer component={Paper}>
-							<Table size="small">
-								<TableHead>
-									<TableRow>
-										<TableCell>Id</TableCell>
-										<TableCell>Gemaakt door</TableCell>
-										<TableCell>Gemaakt op</TableCell>
-										<TableCell>Bijgewerkt</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{[...games].map((gameId) => (
-										<GameRow key={gameId} gameId={gameId} />
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Stack>
-				</Box>
+				<TableContainer component={Paper}>
+					<Table>
+						<TableHead>
+							<TableRow>
+								<TableCell>Id</TableCell>
+								<TableCell>Gemaakt door</TableCell>
+								<TableCell>Gemaakt op</TableCell>
+								<TableCell>Bijgewerkt</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{[...games].map((gameId) => (
+								<GameRow key={gameId} gameId={gameId} />
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
 			</Container>
 		</>
 	)
