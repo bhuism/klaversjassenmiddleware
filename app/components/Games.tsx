@@ -1,5 +1,5 @@
 import { DeleteOutlineTwoTone } from "@mui/icons-material"
-import { Box, Container } from "@mui/material"
+import { Box } from "@mui/material"
 import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
 import { useDialogs } from "@toolpad/core/useDialogs"
 import dayjs from "dayjs"
@@ -26,12 +26,13 @@ const Games: React.FC = () => {
 	}
 
 	const columns: GridColDef[] = [
-		{ field: "id" },
-		{ field: "creator", renderCell: (r) => <PlayerName playerUid={r.row.creator} /> },
-		{ field: "created", renderCell: (r) => `${dayjs(new Date()).to(r.row.created)}` },
+		{ field: "id", flex: 1 },
+		{ field: "creator", renderCell: (r) => <PlayerName playerUid={r.row.creator} />, flex: 1 },
+		{ field: "created", renderCell: (r) => `${dayjs(new Date()).to(r.row.created)}`, flex: 1 },
 		{
 			field: "updated",
 			renderCell: (r) => `${dayjs(new Date()).to(r.row.updated)}`,
+			flex: 1,
 		},
 	]
 
@@ -76,25 +77,23 @@ const Games: React.FC = () => {
 
 	return (
 		<>
-			<Container>
-				<Box alignItems="center">
-					<DataGrid
-						columns={[...columns, actions()]}
-						rows={data}
-						hideFooter
-						loading={isLoading}
-						onRowClick={(r) => navigate(`/game/${r.row.id}`)}
-						disableColumnFilter
-						disableColumnMenu
-						disableColumnResize
-						disableColumnSelector
-						disableColumnSorting
-						disableDensitySelector
-						disableMultipleRowSelection
-						disableVirtualization
-					/>
-				</Box>
-			</Container>
+			<Box sx={{ width: "100%" }}>
+				<DataGrid
+					columns={[...columns, actions()]}
+					rows={data}
+					hideFooter
+					loading={isLoading}
+					onRowClick={(r) => navigate(`/game/${r.row.id}`)}
+					disableColumnFilter
+					disableColumnMenu
+					disableColumnResize
+					disableColumnSelector
+					disableColumnSorting
+					disableDensitySelector
+					disableMultipleRowSelection
+					disableVirtualization
+				/>
+			</Box>
 		</>
 	)
 }
