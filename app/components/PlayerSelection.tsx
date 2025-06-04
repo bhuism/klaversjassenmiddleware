@@ -1,4 +1,4 @@
-import { Box, Button, Container, Stack, Typography } from "@mui/material"
+import { Box, Button, Grid, Stack, Typography } from "@mui/material"
 import type { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid"
 import { DataGrid } from "@mui/x-data-grid/DataGrid"
 import { useSnackbar } from "notistack"
@@ -40,17 +40,19 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 	}
 
 	const columns: GridColDef[] = [
-		{ field: "id", renderCell: (r) => <Typography>{`${r.row.displayName}`}</Typography>, renderHeader: () => <></> },
+		{
+			field: "id",
+			renderCell: (r) => `${r.row.displayName}`,
+			flex: 1,
+			headerName: "",
+		},
 	]
 
 	return (
 		<>
-			<Container>
-				<Box alignItems="center">
-					<Stack
-						// divider={<Divider orientation="horizontal" flexItem />}
-						alignItems={"center"}
-					>
+			<Grid container spacing={0}>
+				<Grid size={{ xs: 12, sm: 12, md: 10, lg: 8, xl: 6 }} offset={{ xs: 0, sm: 0, md: 1, lg: 2, xl: 3 }}>
+					<Stack alignItems={"center"} justifyItems={"center"} spacing={1}>
 						<Typography>Voeg hieronder spelers toe aan het spel.</Typography>
 						<Typography>
 							Er {players.ids.size === 2 ? "is" : "zijn"} nog {3 - players.ids.size} speler
@@ -66,59 +68,41 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 						{/* <Button variant="outlined" onClick={() => setPlayers([])}>
 									Opnieuw Spelers Kiezen
 								</Button> */}
-
-						<DataGrid
-							loading={isLoading}
-							columns={columns}
-							rows={friends}
-							// disableColumnFilter
-							disableColumnMenu
-							disableColumnResize
-							// disableColumnSelector
-							disableColumnSorting
-							disableDensitySelector
-							// disableVirtualization
-							density="compact"
-							// rowSelection={true}
-							hideFooter={true}
-							// showToolbar={false}
-							rowSelectionModel={players}
-							onRowSelectionModelChange={setPlayers}
-							checkboxSelection={true}
-							isRowSelectable={(r) => players.ids.size < 3 || [...players.ids].filter((row) => row === r.id).length > 0}
-							// slots={{
-							// 	toolbar: () => <></>,
-							// 	bottomContainer: () => <></>,
-							// 	panel: () => <></>,
-							// 	footer: () => <></>,
-							// 	pinnedRows: () => <></>,
-							// }}
-						/>
-						{/* <UserTable
-							buttons={[
-								{
-									callback: (u) => setPlayers(players.filter((p) => p !== u.id)),
-									button: <RemoveCircleOutlineIcon />,
-								},
-							]}
-							users={(friends ? friends : []).filter((u) => players.includes(u.id))}
-							caption={"Gekozen spelers:"}
-						/>
-						<UserTable
-							buttons={[
-								{
-									callback: (u) => {
-										setPlayers(players.concat(u.id))
-									},
-									button: <AddCircleOutlineIcon />,
-								},
-							]}
-							users={(friends ? friends : []).filter((u) => !players.includes(u.id))}
-							caption={"Vrienden"}
-						/> */}
+						<Box sx={{ width: "100%" }}>
+							<DataGrid
+								loading={isLoading}
+								columns={columns}
+								rows={friends}
+								disableColumnFilter
+								disableColumnMenu
+								disableColumnResize
+								disableColumnSelector
+								disableColumnSorting
+								disableDensitySelector
+								disableVirtualization
+								density="compact"
+								rowSelection
+								hideFooter
+								// showToolbar={false}
+								rowSelectionModel={players}
+								onRowSelectionModelChange={setPlayers}
+								checkboxSelection={true}
+								disableMultipleRowSelection={false}
+								isRowSelectable={(r) =>
+									players.ids.size < 3 || [...players.ids].filter((row) => row === r.id).length > 0
+								}
+								// slots={{
+								// 	toolbar: () => <></>,
+								// 	bottomContainer: () => <></>,
+								// 	panel: () => <></>,
+								// 	footer: () => <></>,
+								// 	pinnedRows: () => <></>,
+								// }}
+							/>
+						</Box>
 					</Stack>
-				</Box>
-			</Container>
+				</Grid>
+			</Grid>
 		</>
 	)
 }

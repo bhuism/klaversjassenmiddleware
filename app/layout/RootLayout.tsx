@@ -1,4 +1,4 @@
-import { Box, CssBaseline, InitColorSchemeScript, ThemeProvider } from "@mui/material"
+import { Box, CssBaseline, Grid, InitColorSchemeScript, ThemeProvider } from "@mui/material"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { nlNL } from "@mui/x-date-pickers/locales"
@@ -37,7 +37,14 @@ const RootLayout: React.FC = () => {
 								<InitColorSchemeScript defaultMode="system" attribute="class" />
 								<CssBaseline />
 								<AuthSessionProvider>
-									<Outlet />
+									<Grid container rowSpacing={2}>
+										<Grid
+											size={{ xs: 12, sm: 12, md: 10, lg: 8, xl: 6 }}
+											offset={{ xs: 0, sm: 0, md: 1, lg: 2, xl: 3 }}
+										>
+											<Outlet />
+										</Grid>
+									</Grid>
 								</AuthSessionProvider>
 							</ThemeProvider>
 						</Box>

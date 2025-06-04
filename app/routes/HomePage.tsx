@@ -8,18 +8,20 @@ import CenterComponents from "~/utils/CenterComponents"
 const Home: React.FC = () => {
 	const navigate = useNavigate()
 	return (
-		<CenterComponents>
-			<Star />
-			<h3>Home is where the heart is</h3>
-			<Button variant="outlined" onClick={() => navigate("/game")}>
-				New Game
-			</Button>
-			<Button variant="outlined" onClick={() => navigate("/games")}>
-				Games
-			</Button>
-			<LogoutButton />
-			<ReloadPrompt />
-		</CenterComponents>
+		<>
+			<CenterComponents>
+				<Star />
+				<h3>Home is where the heart is</h3>
+				<Button variant="outlined" onClick={() => navigate("/game")}>
+					New Game
+				</Button>
+				<Button variant="outlined" onClick={() => navigate("/games")}>
+					Games
+				</Button>
+				<LogoutButton />
+				<ReloadPrompt />
+			</CenterComponents>
+		</>
 	)
 }
 

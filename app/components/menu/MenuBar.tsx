@@ -36,7 +36,7 @@ const MenuBar: React.FC = () => {
 	}
 
 	return (
-		<AppBar position="static">
+		<AppBar position="relative">
 			<Container maxWidth="xl">
 				<Toolbar variant="dense" disableGutters>
 					<IconButton
