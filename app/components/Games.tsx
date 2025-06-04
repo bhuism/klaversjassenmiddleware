@@ -26,12 +26,11 @@ const Games: React.FC = () => {
 	}
 
 	const columns: GridColDef[] = [
-		{ field: "id", width: 100 },
-		{ field: "creator", width: 500, renderCell: (r) => <PlayerName playerUid={r.row.creator} /> },
+		{ field: "id" },
+		{ field: "creator", renderCell: (r) => <PlayerName playerUid={r.row.creator} /> },
 		{ field: "created", width: 200, renderCell: (r) => `${dayjs(new Date()).to(r.row.created)}` },
 		{
 			field: "updated",
-			width: 200,
 			renderCell: (r) => `${dayjs(new Date()).to(r.row.updated)}`,
 		},
 	]
