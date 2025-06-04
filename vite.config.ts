@@ -47,20 +47,17 @@ const pwaOptions: Partial<VitePWAOptions> = {
 
 export default defineConfig({
 	build: {
-		// rollupOptions: {
-		// 	external: ["workbox-window"],
-		// },
 		ssr: false,
 		// biome-ignore lint/nursery/noProcessEnv: <explanation>
 		sourcemap: process.env.SOURCE_MAP === "true",
-		//		rollupOptions: {
-		//			external: ["service-worker/**", "workbox-core", "workbox-precaching", "workbox-routing"],
-		//		},
 	},
 	define: {
 		__DATE__: `'${new Date().toISOString()}'`,
 	},
 	plugins: [tailwindcss(), reactRouterDevTools(), reactRouter(), tsconfigPaths(), VitePWA(pwaOptions)],
+	ssr: {
+		noExternal: ["@mui", "@mui/x-data-grid", "ui"],
+	},
 	server: {
 		open: true,
 		// biome-ignore lint/nursery/noProcessEnv: Its ok to use process.env here

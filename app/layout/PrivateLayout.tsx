@@ -1,5 +1,6 @@
 import { Button, CircularProgress, Typography } from "@mui/material"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { DialogsProvider } from "@toolpad/core/useDialogs"
 import type React from "react"
 import { useAuth } from "react-oidc-context"
 import { Navigate, Outlet, useLocation } from "react-router"
@@ -73,14 +74,16 @@ const PrivateLayout: React.FC = () => {
 
 	return (
 		<>
-			<QueryClientProvider client={queryClient}>
-				<WebSocketContext.Provider value={{ readyState, sendJsonMessage, lastJsonMessage }}>
-					<UidContextProvider>
-						<MenuBar />
-						<Outlet />
-					</UidContextProvider>
-				</WebSocketContext.Provider>
-			</QueryClientProvider>
+			<DialogsProvider>
+				<QueryClientProvider client={queryClient}>
+					<WebSocketContext.Provider value={{ readyState, sendJsonMessage, lastJsonMessage }}>
+						<UidContextProvider>
+							<MenuBar />
+							<Outlet />
+						</UidContextProvider>
+					</WebSocketContext.Provider>
+				</QueryClientProvider>
+			</DialogsProvider>
 		</>
 	)
 }

@@ -30,38 +30,33 @@ import type { User } from ".generated-sources/openapi"
 export function useIncomingInvitesAndFriends(): {
 	inComingInvites: Array<User>
 	friends: Array<User>
+	isLoading: boolean
 } {
 	const { user } = useContext(UidContext)
 	const cardApi = useCardApi()
-
-	if (!user) {
-		return {
-			inComingInvites: [],
-			friends: [],
-		}
-	}
-
 	const [inComingInvites, setInComingInvites] = useState<Array<User>>([])
 	const [friends, setFriends] = useState<Array<User>>([])
-
-	//	const invites = user?.invites
+	const [isLoading, setIsLoading] = useState<boolean>(true)
 
 	useEffect(() => {
+		setIsLoading(true)
 		cardApi
 			.getIncomingFriends()
 			.then((allInvites) => {
-				const invites = user.invites
-
-				setInComingInvites([...allInvites].filter((u) => ![...invites].includes(u.id)))
-				setFriends([...allInvites].filter((u) => [...invites].includes(u.id)))
+				if (user?.invites) {
+					const invites = user?.invites
+					setInComingInvites([...allInvites].filter((u) => ![...invites].includes(u.id)))
+					setFriends([...allInvites].filter((u) => [...invites].includes(u.id)))
+				}
 			})
 			.catch(() => {
 				setInComingInvites([])
 				setFriends([])
 			})
-	}, [user.invites, cardApi])
+			.finally(() => setIsLoading(false))
+	}, [user?.invites, cardApi])
 
-	return { inComingInvites: inComingInvites, friends: friends }
+	return { inComingInvites, friends, isLoading }
 }
 
 // export function useOutGoingInvites(): Array<User> | undefined {

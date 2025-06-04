@@ -1,68 +1,100 @@
-import {
-	CircularProgress,
-	Container,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-} from "@mui/material"
+import { DeleteOutlineTwoTone } from "@mui/icons-material"
+import { Box, Container } from "@mui/material"
+import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
+import { useDialogs } from "@toolpad/core/useDialogs"
 import dayjs from "dayjs"
+import { useSnackbar } from "notistack"
+import { useContext } from "react"
 import { useNavigate } from "react-router"
-import useCardApi from "~/hooks/useGameApi"
+import { default as useGameApi } from "~/hooks/useGameApi"
 import useLoadOnce from "~/hooks/useLoadOnce"
+import UidContext from "~/provider/UidContextProvider"
 import PlayerName from "./game/PlayerName"
 import type { Game } from ".generated-sources/openapi"
 
-const GameRow: React.FC<{ gameId: string }> = ({ gameId }) => {
-	const cardApi = useCardApi()
+const Games: React.FC = () => {
 	const navigate = useNavigate()
+	const cardApi = useGameApi()
+	const { user } = useContext(UidContext)
+	const { enqueueSnackbar } = useSnackbar()
+	const dialogs = useDialogs()
 
-	const { data, error, isLoading } = useLoadOnce<Game>(() => cardApi.getGame(gameId))
+	const { data, isLoading, error, reload } = useLoadOnce(() => cardApi.getGames(), [])
 
-	return (
-		<TableRow key={gameId} onClick={() => navigate(`/game/${gameId}`)}>
-			<TableCell>{gameId}</TableCell>
-			{isLoading || !data || error ? (
-				<TableCell>
-					<CircularProgress />
-				</TableCell>
-			) : (
-				<>
-					<TableCell>
-						<PlayerName playerUid={data?.creator} />
-					</TableCell>
-					<TableCell>{`${dayjs(new Date()).to(data.created)}`}</TableCell>
-					<TableCell>{`${dayjs(new Date()).to(data.updated)}`}</TableCell>
-				</>
-			)}
-		</TableRow>
-	)
-}
+	if (error) {
+		return <span style={{ color: "red" }}>{error.message}</span>
+	}
 
-const Games: React.FC<{ games: Set<string> }> = ({ games }) => {
+	const columns: GridColDef[] = [
+		{ field: "id", width: 100 },
+		{ field: "creator", width: 500, renderCell: (r) => <PlayerName playerUid={r.row.creator} /> },
+		{ field: "created", width: 200, renderCell: (r) => `${dayjs(new Date()).to(r.row.created)}` },
+		{
+			field: "updated",
+			width: 200,
+			renderCell: (r) => `${dayjs(new Date()).to(r.row.updated)}`,
+		},
+	]
+
+	const actions = (): GridColDef<Game> => {
+		return {
+			field: "actions",
+			type: "actions",
+			headerName: "",
+			cellClassName: "actions",
+			getActions: ({ row }) => {
+				return [
+					<GridActionsCellItem
+						key="delete"
+						icon={<DeleteOutlineTwoTone />}
+						disabled={user?.id !== row.creator}
+						label="Delete"
+						color="inherit"
+						onClick={async () => {
+							const confirmed = await dialogs.confirm(`Delete game ${row.id}?`, {
+								okText: "Delete",
+								cancelText: "Cancel",
+							})
+							if (confirmed) {
+								cardApi
+									.deleteGame(row.id)
+									.then(() => {
+										enqueueSnackbar(`Deleted game ${row.id}`, { variant: "success" })
+										reload()
+									})
+									.catch((e) => {
+										enqueueSnackbar(JSON.stringify(e), { variant: "error" })
+										// biome-ignore lint/suspicious/noConsole: <explanation>
+										console.error(e)
+									})
+							}
+						}}
+					/>,
+				]
+			},
+		}
+	}
+
 	return (
 		<>
 			<Container>
-				<TableContainer component={Paper}>
-					<Table>
-						<TableHead>
-							<TableRow>
-								<TableCell>Id</TableCell>
-								<TableCell>Gemaakt door</TableCell>
-								<TableCell>Gemaakt op</TableCell>
-								<TableCell>Bijgewerkt</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{[...games].map((gameId) => (
-								<GameRow key={gameId} gameId={gameId} />
-							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
+				<Box alignItems="center">
+					<DataGrid
+						columns={[...columns, actions()]}
+						rows={data}
+						hideFooter
+						loading={isLoading}
+						onRowClick={(r) => navigate(`/game/${r.row.id}`)}
+						disableColumnFilter
+						disableColumnMenu
+						disableColumnResize
+						disableColumnSelector
+						disableColumnSorting
+						disableDensitySelector
+						disableMultipleRowSelection
+						disableVirtualization
+					/>
+				</Box>
 			</Container>
 		</>
 	)

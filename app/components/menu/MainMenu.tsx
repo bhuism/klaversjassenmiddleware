@@ -17,7 +17,7 @@ const MainMenu = () => {
 	}
 
 	const menu: MyMenu[] = [
-		{ id: "newgame", title: "New Game", onClick: () => navigate("/selectPlayers") },
+		{ id: "newgame", title: "New Game", onClick: () => navigate("/game") },
 		{ id: "games", title: "Games", onClick: () => navigate("/games") },
 		{
 			id: "messageboard",
