@@ -1,7 +1,7 @@
 import { CircularProgress, Typography } from "@mui/material"
 import { useAuth } from "react-oidc-context"
 import { Navigate, useLocation } from "react-router"
-import LoginButton from "~/components/LoginButton"
+import LoginButton from "~/components/button/LoginButton"
 import ReloadButton from "~/components/button/ReloadButton"
 import Star from "~/layout/Star"
 import CenterComponents from "~/utils/CenterComponents"

@@ -1,7 +1,7 @@
 import { Button } from "@mui/material"
 import { useNavigate } from "react-router"
-import LogoutButton from "~/components/LogoutButton"
-import ReloadPrompt from "~/components/ReloadPrompt"
+import LogoutButton from "~/components/button/LogoutButton"
+import ReloadPrompt from "~/components/button/ReloadPrompt"
 import Star from "~/layout/Star"
 import CenterComponents from "~/utils/CenterComponents"
 

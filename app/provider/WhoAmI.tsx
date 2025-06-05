@@ -1,23 +1,52 @@
 import { CircularProgress, Typography } from "@mui/material"
+import { useQuery } from "@tanstack/react-query"
+import { useAuth } from "react-oidc-context"
 import { useNavigate } from "react-router"
+import LoginButton from "~/components/button/LoginButton"
 import ReloadButton from "~/components/button/ReloadButton"
-import useLoadOnce from "~/hooks/useLoadOnce"
 import useWhoAmIApi from "~/hooks/useWhoAmIApi"
 import Star from "~/layout/Star"
 import CenterComponents from "~/utils/CenterComponents"
 import { LOCAL_STORAGE_USERID_KEY } from "./UidContextProvider"
-import type { User } from ".generated-sources/openapi"
 
 const WhoAmI = () => {
 	const whoamiApi = useWhoAmIApi()
-	const { data, isLoading, error } = useLoadOnce<User>(() => whoamiApi.whoami())
+
+	//const { data, isLoading, error } = useLoadOnce<User>(() => whoamiApi.whoami())
+
 	const navigate = useNavigate()
 
-	if (error !== undefined) {
-		return <Typography>{`Error: ${error}`}</Typography>
+	const { user: authUser } = useAuth()
+	// const [user, setUser] = useState<User>()
+	// whoamiApi.whoami().then(setUser)
+
+	// if (error !== undefined) {
+	// 	return <Typography>{`Error: ${error}`}</Typography>
+	// }
+
+	const {
+		isPending,
+		error,
+		data: user,
+	} = useQuery({
+		queryKey: [authUser],
+		queryFn: () => whoamiApi.whoami(),
+	})
+
+	if (error) {
+		return (
+			<CenterComponents>
+				<Star />
+				<Typography style={{ color: "red" }}>
+					{error.name}:{error.message}
+				</Typography>
+				<LoginButton />
+				<ReloadButton />
+			</CenterComponents>
+		)
 	}
 
-	if (isLoading) {
+	if (isPending) {
 		return (
 			<CenterComponents>
 				<Star />
@@ -27,17 +56,18 @@ const WhoAmI = () => {
 		)
 	}
 
-	if (!data || !data.id || data.id.length !== 28) {
+	if (!user || !user.id || user.id.length !== 28) {
 		return (
 			<CenterComponents>
 				<Star />
 				<p>No User..</p>
+				<LoginButton />
 				<ReloadButton />
 			</CenterComponents>
 		)
 	}
 
-	localStorage.setItem(LOCAL_STORAGE_USERID_KEY, JSON.stringify(data))
+	localStorage.setItem(LOCAL_STORAGE_USERID_KEY, JSON.stringify(user))
 
 	navigate("/")
 }
