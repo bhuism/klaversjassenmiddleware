@@ -70,8 +70,10 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 									loading={isLoading}
 									columns={columns}
 									rows={friends}
+									hideFooter
 									disableColumnFilter
 									disableColumnMenu
+									disableAutosize
 									disableColumnResize
 									disableColumnSelector
 									disableColumnSorting
@@ -79,8 +81,6 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 									disableVirtualization
 									density="compact"
 									rowSelection
-									hideFooter
-									// showToolbar={false}
 									rowSelectionModel={players}
 									onRowSelectionModelChange={setPlayers}
 									checkboxSelection={true}
@@ -88,13 +88,12 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 									isRowSelectable={(r) =>
 										players.ids.size < 3 || [...players.ids].filter((row) => row === r.id).length > 0
 									}
-									// slots={{
-									// 	toolbar: () => <></>,
-									// 	bottomContainer: () => <></>,
-									// 	panel: () => <></>,
-									// 	footer: () => <></>,
-									// 	pinnedRows: () => <></>,
-									// }}
+									showCellVerticalBorder={false}
+									showColumnVerticalBorder={false}
+									scrollbarSize={0}
+									slots={{
+										columnHeaders: () => <></>,
+									}}
 								/>
 							</Box>
 						</Grid>

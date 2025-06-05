@@ -113,9 +113,10 @@ const Games: React.FC = () => {
 						label="Delete"
 						color="inherit"
 						onClick={async () => {
-							const confirmed = await dialogs.confirm(`Delete game ${row.id}?`, {
+							const confirmed = await dialogs.confirm(`Verwijder game ${row.id}?`, {
 								okText: "Delete",
 								cancelText: "Cancel",
+								title: "Weet u het zeker?",
 							})
 							if (confirmed) {
 								cardApi
@@ -141,19 +142,27 @@ const Games: React.FC = () => {
 		<>
 			<Box sx={{ width: "100%" }}>
 				<DataGrid
+					loading={isLoading}
 					columns={[...columns, actions()]}
 					rows={data}
 					hideFooter
-					loading={isLoading}
 					onRowClick={(r) => navigate(`/game/${r.row.id}`)}
 					disableColumnFilter
 					disableColumnMenu
+					disableAutosize
 					disableColumnResize
 					disableColumnSelector
 					disableColumnSorting
 					disableDensitySelector
 					disableMultipleRowSelection
 					disableVirtualization
+					density="compact"
+					showCellVerticalBorder={false}
+					showColumnVerticalBorder={false}
+					showToolbar={false}
+					slots={{
+						columnHeaders: () => <></>,
+					}}
 				/>
 			</Box>
 		</>
