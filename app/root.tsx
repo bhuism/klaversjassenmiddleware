@@ -3,7 +3,7 @@ import { CircularProgress, Typography } from "@mui/material"
 import type { PropsWithChildren } from "react"
 import type { LinksFunction } from "react-router"
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, useRouteError } from "react-router"
-import Star from "./layout/Star"
+import Logo192 from "./layout/Logo192"
 import tailwindcss from "./tailwind.css?url"
 import CenterComponents from "./utils/CenterComponents"
 
@@ -68,7 +68,7 @@ export const ErrorBoundary = () => {
 export const HydrateFallback = () => {
 	return (
 		<CenterComponents>
-			<Star />
+			<Logo192 />
 			<CircularProgress />
 			<Typography>Klavers Jassen is loading...</Typography>
 		</CenterComponents>

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router"
 import LoginButton from "~/components/button/LoginButton"
 import ReloadButton from "~/components/button/ReloadButton"
 import useWhoAmIApi from "~/hooks/useWhoAmIApi"
-import Star from "~/layout/Star"
+import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
 import { LOCAL_STORAGE_USERID_KEY } from "./UidContextProvider"
 
@@ -26,7 +26,7 @@ const WhoAmI = () => {
 	if (error) {
 		return (
 			<CenterComponents>
-				<Star />
+				<Logo192 />
 				<Typography style={{ color: "red" }}>
 					{error.name}:{error.message}
 				</Typography>
@@ -39,7 +39,7 @@ const WhoAmI = () => {
 	if (isPending) {
 		return (
 			<CenterComponents>
-				<Star />
+				<Logo192 />
 				<CircularProgress />
 				<p>Loading current User...</p>
 			</CenterComponents>
@@ -49,7 +49,7 @@ const WhoAmI = () => {
 	if (!user || !user.id || user.id.length !== 28) {
 		return (
 			<CenterComponents>
-				<Star />
+				<Logo192 />
 				<p>No User..</p>
 				<LoginButton />
 				<ReloadButton />

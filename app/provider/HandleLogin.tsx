@@ -3,7 +3,7 @@ import { useAuth } from "react-oidc-context"
 import { Navigate, useLocation } from "react-router"
 import LoginButton from "~/components/button/LoginButton"
 import ReloadButton from "~/components/button/ReloadButton"
-import Star from "~/layout/Star"
+import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
 import WhoAmI from "./WhoAmI"
 
@@ -18,7 +18,7 @@ const HandleLogin: React.FC = () => {
 	if (activeNavigator) {
 		return (
 			<CenterComponents>
-				<Star />
+				<Logo192 />
 				<CircularProgress />
 				<Typography>{activeNavigator}</Typography>
 			</CenterComponents>
@@ -28,7 +28,7 @@ const HandleLogin: React.FC = () => {
 	if (isLoading) {
 		return (
 			<CenterComponents>
-				<Star />
+				<Logo192 />
 				<CircularProgress />
 				<Typography>Auth is loading...</Typography>
 			</CenterComponents>
@@ -38,7 +38,7 @@ const HandleLogin: React.FC = () => {
 	if (error) {
 		return (
 			<CenterComponents>
-				<Star />
+				<Logo192 />
 				<Typography style={{ color: "red" }}>
 					{error.name}:{error.message}
 				</Typography>
@@ -52,7 +52,7 @@ const HandleLogin: React.FC = () => {
 		return (
 			<>
 				<CenterComponents>
-					<Star />
+					<Logo192 />
 					<LoginButton />
 					<ReloadButton />
 				</CenterComponents>

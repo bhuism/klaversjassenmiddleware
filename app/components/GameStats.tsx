@@ -14,7 +14,7 @@ import { tableCellClasses } from "@mui/material/TableCell"
 import { useQuery } from "@tanstack/react-query"
 import type React from "react"
 import useCardApi from "~/hooks/useGameApi"
-import Star from "~/layout/Star"
+import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
 import UsThem from "./UsThem"
 import { convertGame } from "./common/converters"
@@ -43,7 +43,7 @@ const GameStats: React.FC<{ gameId: string }> = ({ gameId }) => {
 	if (isLoading || game === undefined) {
 		return (
 			<CenterComponents>
-				<Star />
+				<Logo192 />
 				<CircularProgress />
 				<Typography>{`Game ${gameId} is loading...`}</Typography>
 			</CenterComponents>

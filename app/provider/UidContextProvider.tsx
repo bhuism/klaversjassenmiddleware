@@ -1,5 +1,5 @@
 import React from "react"
-import HandleLogin from "./HandLogin"
+import HandleLogin from "./HandleLogin"
 import type { MessageType } from "./SocketGuard"
 import type { User } from ".generated-sources/openapi"
 
