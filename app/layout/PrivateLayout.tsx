@@ -14,16 +14,16 @@ const PrivateLayout: React.FC = () => {
 	const { readyState, sendJsonMessage, lastJsonMessage } = useWebSocket<MessageType>(constants.wsUrl, { share: true })
 
 	return (
-		<UidContextProvider>
-			<DialogsProvider>
-				<QueryClientProvider client={queryClient}>
+		<DialogsProvider>
+			<QueryClientProvider client={queryClient}>
+				<UidContextProvider>
 					<WebSocketContext.Provider value={{ readyState, sendJsonMessage, lastJsonMessage }}>
 						<MenuBar />
 						<Outlet />
 					</WebSocketContext.Provider>
-				</QueryClientProvider>
-			</DialogsProvider>
-		</UidContextProvider>
+				</UidContextProvider>
+			</QueryClientProvider>
+		</DialogsProvider>
 	)
 }
 
