@@ -47,7 +47,11 @@ const UserMenu: React.FC = () => {
 		{
 			id: "logout",
 			title: "Logout",
-			onClick: () => removeUser(),
+			onClick: () => {
+				removeUser()
+				localStorage.clear()
+				navigate("/")
+			},
 		},
 	]
 

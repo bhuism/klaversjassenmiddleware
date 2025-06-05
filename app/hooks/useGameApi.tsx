@@ -1,21 +1,19 @@
-import { useMemo } from "react"
-import { useAuth } from "react-oidc-context"
+import { useContext, useMemo } from "react"
+import UidContext from "~/provider/UidContextProvider"
 import constants from "~/utils/constants"
 import { Configuration, DefaultApi } from ".generated-sources/openapi"
 
 const useCardApi = () => {
-	const { user } = useAuth()
+	const { user } = useContext(UidContext)
 
 	return useMemo(() => {
-		const token = user?.id_token
-
 		return new DefaultApi(
 			new Configuration({
 				basePath: constants.apiUrl,
-				headers: { Authorization: `Bearer ${token}` },
+				headers: { cardserverauth: `${user?.id}` },
 			})
 		)
-	}, [user?.id_token])
+	}, [user])
 }
 
 export default useCardApi

@@ -1,12 +1,9 @@
-import { CircularProgress, Typography } from "@mui/material"
 import React from "react"
-import { useAuth } from "react-oidc-context"
-import useCardApi from "~/hooks/useGameApi"
-import useLoadOnce from "~/hooks/useLoadOnce"
-import Star from "~/layout/Star"
-import CenterComponents from "~/utils/CenterComponents"
+import HandleLogin from "./HandLogin"
 import type { MessageType } from "./SocketGuard"
 import type { User } from ".generated-sources/openapi"
+
+export const LOCAL_STORAGE_USERID_KEY = "CardSeverAuthUserId"
 
 interface UidContextProps {
 	user?: User
@@ -50,38 +47,24 @@ const UidContext = React.createContext<UidContextProps>({
 // }
 
 export const UidContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-	const { isAuthenticated, user: authUser } = useAuth()
-	const cardApi = useCardApi()
+	let user: User | undefined = undefined
 
-	if (!isAuthenticated || !authUser) {
-		return <>no user</>
+	const raw = localStorage.getItem(LOCAL_STORAGE_USERID_KEY)
+
+	if (raw) {
+		try {
+			user = JSON.parse(raw)
+		} catch (e) {
+			// biome-ignore lint/suspicious/noConsole: <explanation>
+			console.log("", e)
+		}
 	}
 
-	// useEffect(() => {
-	// 	setLoading(true)
-	// 	setUser(undefined)
-	// 	cardApi
-	// 		.whoami()
-	// 		.then(setUser)
-	// 		.catch(() => setUser(undefined))
-	// 		.finally(() => setLoading(false))
-	// }, [cardApi])
-
-	const { data: user, isLoading, error } = useLoadOnce<User>(() => cardApi.whoami())
-
-	if (error !== undefined) {
-		return <Typography>{`Error: ${error}`}</Typography>
+	if (!user || !user.id || user.id.length !== 28) {
+		return <HandleLogin />
 	}
 
-	if (isLoading) {
-		return (
-			<CenterComponents>
-				<Star />
-				<CircularProgress />
-				<p>Loading current User...</p>
-			</CenterComponents>
-		)
-	}
+	// all good
 
 	// const deleteUser = (deleterUid: string): Promise<void> => {
 	// 	return deleteDoc(doc(firestore, "users", deleterUid))
