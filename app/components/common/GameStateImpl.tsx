@@ -79,19 +79,23 @@ class GameStateImpl implements GameState {
 		return (this.turns.length - (this.turns.length % 4)) / 4
 	}
 
-	// isAanslag(): number | undefined {
-	// 	if (this.isCompleted()) {
-	// 		return undefined
-	// 	} else if (this.elder === undefined) {
-	// 		return undefined
-	// 	} else if (this.players.length !== 4) {
-	// 		return undefined
-	// 	} else {
-	// 		return this.tricksPlayed() === 0
-	// 			? (this.turns.length + this.dealer) % 4
-	// 			: (this.determineTrickWinner(this.tricksPlayed() - 1) + this.turns.length) % 4
-	// 	}
-	// }
+	isAanslag(): number | undefined {
+		if (this.isCompleted()) {
+			return undefined
+		}
+
+		if (this.elder === undefined) {
+			return undefined
+		}
+
+		if (this.players.length !== 4) {
+			return undefined
+		}
+
+		return this.tricksPlayed() === 0
+			? (this.turns.length + this.dealer) % 4
+			: (this.determineTrickWinner(this.tricksPlayed() - 1) + this.turns.length) % 4
+	}
 
 	calculateTrickPoints(trickNr: number): number {
 		return (
@@ -203,7 +207,7 @@ class GameStateImpl implements GameState {
 	}
 
 	isCompleted(): boolean {
-		return this.tricksPlayed() === 8
+		return this.tricksPlayed() === 8 || this.ended
 	}
 
 	// call(firestore: Firestore, player: number, go: boolean): Promise<void> {

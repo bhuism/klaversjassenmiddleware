@@ -53,7 +53,7 @@ export interface GameState {
 
 	isCompleted(): boolean
 
-	// isAanslag(): number | undefined;
+	isAanslag(): number | undefined
 
 	calculateTrickPoints(trickNr: number): number
 

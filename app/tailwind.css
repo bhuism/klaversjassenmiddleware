@@ -36,3 +36,34 @@ td img {
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.my-spin {
+	-webkit-animation: my-spin 6s linear infinite;
+	-moz-animation: my-spin 6s linear infinite;
+	-o-animation: my-spin 6s linear infinite;
+	animation: my-spin 6s linear infinite;
+
+	display: inline-block;
+}
+
+@-webkit-keyframes my-spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(1turn);
+		transform: rotate(1turn);
+	}
+}
+
+@keyframes my-spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(1turn);
+		transform: rotate(1turn);
+	}
+}

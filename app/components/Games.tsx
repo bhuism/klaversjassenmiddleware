@@ -1,16 +1,25 @@
-import { DeleteOutlineTwoTone } from "@mui/icons-material"
+import {
+	CheckCircleTwoTone,
+	DeleteOutlineTwoTone,
+	GroupsTwoTone,
+	HelpTwoTone,
+	LoopTwoTone,
+	PersonOutlineTwoTone,
+	ScheduleTwoTone,
+} from "@mui/icons-material"
 import { Box } from "@mui/material"
 import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
+import { useQuery } from "@tanstack/react-query"
 import { useDialogs } from "@toolpad/core/useDialogs"
 import dayjs from "dayjs"
 import { useSnackbar } from "notistack"
 import { useContext } from "react"
 import { useNavigate } from "react-router"
 import { default as useGameApi } from "~/hooks/useGameApi"
-import useLoadOnce from "~/hooks/useLoadOnce"
 import UidContext from "~/provider/UidContextProvider"
+import type { GameState } from "~/types"
+import { convertGame } from "./common/converters"
 import PlayerName from "./game/PlayerName"
-import type { Game } from ".generated-sources/openapi"
 
 const Games: React.FC = () => {
 	const navigate = useNavigate()
@@ -19,24 +28,77 @@ const Games: React.FC = () => {
 	const { enqueueSnackbar } = useSnackbar()
 	const dialogs = useDialogs()
 
-	const { data, isLoading, error, reload } = useLoadOnce(() => cardApi.getGames(), [])
+	const { data, isLoading, error, refetch } = useQuery({
+		queryFn: () => cardApi.getGames().then((g) => g.map((h) => convertGame(h))),
+		queryKey: ["getGames"],
+	})
 
 	if (error) {
 		return <span style={{ color: "red" }}>{error.message}</span>
 	}
 
-	const columns: GridColDef[] = [
-		{ field: "id", flex: 1 },
-		{ field: "creator", renderCell: (r) => <PlayerName playerUid={r.row.creator} />, flex: 1 },
-		{ field: "created", renderCell: (r) => `${dayjs(new Date()).to(r.row.created)}`, flex: 1 },
+	const GameStatus: React.FC<{ game: GameState }> = ({ game }) => {
+		const { user } = useContext(UidContext)
+
+		if (!user) {
+			return <>no user</>
+		}
+
+		const uid = user.id
+
+		if (game.players && game.players.length !== 4) {
+			return (
+				<>
+					<GroupsTwoTone /> {`${game.players.length}/4`}
+				</>
+			)
+		}
+
+		if (game.elder === undefined) {
+			return <HelpTwoTone />
+		}
+
+		if (game.isAanslag() === game.players.indexOf(uid) || game.playerSay() === game.players.indexOf(uid)) {
+			return (
+				<>
+					<ScheduleTwoTone className={"blink"} /> {`${game.tricksPlayed()}/8`}
+				</>
+			)
+		}
+
+		if (game.isCompleted()) {
+			return <CheckCircleTwoTone />
+		}
+
+		return (
+			<>
+				<LoopTwoTone className="my-spin" /> {`${game.tricksPlayed()}/8`}
+			</>
+		)
+	}
+
+	const columns: GridColDef<GameState>[] = [
+		{
+			field: "ended",
+			type: "actions",
+			renderCell: ({ row: g }) => (g.creator === user?.id ? <PersonOutlineTwoTone /> : <GroupsTwoTone />),
+		},
+		{
+			field: "creator",
+			flex: 1,
+			headerName: "Gemaakt door",
+			renderCell: ({ row: g }) => <PlayerName playerUid={g.creator} />,
+		},
+		{ field: "status", type: "actions", renderCell: ({ row: g }) => <GameStatus game={g} /> },
 		{
 			field: "updated",
-			renderCell: (r) => `${dayjs(new Date()).to(r.row.updated)}`,
 			flex: 1,
+			headerName: "Updated",
+			renderCell: (r) => `${dayjs(new Date()).to(r.row.updated)}`,
 		},
 	]
 
-	const actions = (): GridColDef<Game> => {
+	const actions = (): GridColDef<GameState> => {
 		return {
 			field: "actions",
 			type: "actions",
@@ -60,7 +122,7 @@ const Games: React.FC = () => {
 									.deleteGame(row.id)
 									.then(() => {
 										enqueueSnackbar(`Deleted game ${row.id}`, { variant: "success" })
-										reload()
+										refetch()
 									})
 									.catch((e) => {
 										enqueueSnackbar(JSON.stringify(e), { variant: "error" })

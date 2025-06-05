@@ -11,18 +11,8 @@ import { LOCAL_STORAGE_USERID_KEY } from "./UidContextProvider"
 
 const WhoAmI = () => {
 	const whoamiApi = useWhoAmIApi()
-
-	//const { data, isLoading, error } = useLoadOnce<User>(() => whoamiApi.whoami())
-
 	const navigate = useNavigate()
-
 	const { user: authUser } = useAuth()
-	// const [user, setUser] = useState<User>()
-	// whoamiApi.whoami().then(setUser)
-
-	// if (error !== undefined) {
-	// 	return <Typography>{`Error: ${error}`}</Typography>
-	// }
 
 	const {
 		isPending,
