@@ -25,6 +25,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
 	},
 	pwaAssets: {
 		preset,
+		image: "public/logo512.png",
 		htmlPreset: "2023",
 		integration: {
 			outDir: "build/client",
