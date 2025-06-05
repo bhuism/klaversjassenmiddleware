@@ -93,7 +93,7 @@ const Games: React.FC = () => {
 		{
 			field: "updated",
 			flex: 1,
-			headerName: "Updated",
+			headerName: "Bijgewerkt",
 			renderCell: (r) => `${dayjs(new Date()).to(r.row.updated)}`,
 		},
 	]
