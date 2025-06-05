@@ -51,7 +51,7 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 	return (
 		<>
 			<Grid container spacing={0}>
-				<Grid size={{ xs: 12, sm: 12, md: 10, lg: 8, xl: 6 }} offset={{ xs: 0, sm: 0, md: 1, lg: 2, xl: 3 }}>
+				<Grid size={{ xs: 10, sm: 8, md: 6, lg: 4, xl: 4 }} offset={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 4 }}>
 					<Stack alignItems={"center"} justifyItems={"center"} spacing={1}>
 						<Typography>Voeg hieronder spelers toe aan het spel.</Typography>
 						<Typography>
