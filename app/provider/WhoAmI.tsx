@@ -41,7 +41,7 @@ const WhoAmI = () => {
 			<CenterComponents>
 				<Logo192 />
 				<CircularProgress />
-				<p>Loading current User...</p>
+				<p>Loading User...</p>
 			</CenterComponents>
 		)
 	}

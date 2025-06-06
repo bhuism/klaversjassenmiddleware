@@ -90,7 +90,11 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: GameState }>> = 
 							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							<TrickRow key={trickNr} game={game} trickNr={trickNr} points={allPoints[trickNr]} />
 						))}
-						<TableRow style={zeroTwoPoints + oneThreePoints !== 162 ? { background: "red" } : {}}>
+						<TableRow
+							style={
+								zeroTwoPoints + oneThreePoints !== 162 ? { background: game.isCompleted() ? "red" : undefined } : {}
+							}
+						>
 							<TableCell colSpan={5} />
 							<TableCell align="center">{zeroTwoPoints}</TableCell>
 							<TableCell align="center">{oneThreePoints}</TableCell>
