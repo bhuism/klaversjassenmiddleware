@@ -67,10 +67,6 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 						<Grid size={{ xs: 10, sm: 8, md: 6, lg: 6, xl: 6 }} offset={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 3 }}>
 							<Box sx={{ display: "flex", flexDirection: "column" }}>
 								<DataGrid
-									sx={{
-										"& .DataGrid-hasScrollY": 0,
-									}}
-									autoHeight
 									loading={isLoading}
 									columns={columns}
 									rows={friends}
@@ -94,7 +90,6 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 									}
 									showCellVerticalBorder={false}
 									showColumnVerticalBorder={false}
-									scrollbarSize={0}
 									slots={{
 										columnHeaders: () => <></>,
 									}}
