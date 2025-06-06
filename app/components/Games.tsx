@@ -7,7 +7,7 @@ import {
 	PersonOutlineTwoTone,
 	ScheduleTwoTone,
 } from "@mui/icons-material"
-import { Box } from "@mui/material"
+import { Box, CircularProgress } from "@mui/material"
 import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
 import { useQuery } from "@tanstack/react-query"
 import { useDialogs } from "@toolpad/core/useDialogs"
@@ -18,6 +18,7 @@ import { useNavigate } from "react-router"
 import { default as useGameApi } from "~/hooks/useGameApi"
 import UidContext from "~/provider/UidContextProvider"
 import type { GameState } from "~/types"
+import CenterComponents from "~/utils/CenterComponents"
 import { convertGame } from "./common/converters"
 import PlayerName from "./game/PlayerName"
 
@@ -35,6 +36,14 @@ const Games: React.FC = () => {
 
 	if (error) {
 		return <span style={{ color: "red" }}>{error.message}</span>
+	}
+
+	if (isLoading) {
+		return (
+			<CenterComponents>
+				<CircularProgress />
+			</CenterComponents>
+		)
 	}
 
 	const GameStatus: React.FC<{ game: GameState }> = ({ game }) => {
