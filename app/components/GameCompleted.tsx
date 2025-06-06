@@ -1,59 +1,15 @@
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-import {
-	CircularProgress,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Typography,
-} from "@mui/material"
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import { tableCellClasses } from "@mui/material/TableCell"
-import { useQuery } from "@tanstack/react-query"
-import type React from "react"
-import useCardApi from "~/hooks/useGameApi"
-import Logo192 from "~/layout/Logo192"
-import CenterComponents from "~/utils/CenterComponents"
+import type { GameState } from "~/types"
 import UsThem from "./UsThem"
-import { convertGame } from "./common/converters"
 import { trickSummer } from "./common/utils"
 import CompletedPlayerCards from "./game/CompletedPlayerCards"
 import CompletedTricks from "./game/CompletedTricks"
 import PlayerName from "./game/PlayerName"
 import SuitImage from "./game/SuitImage"
 
-const GameStats: React.FC<{ gameId: string }> = ({ gameId }) => {
-	const cardApi = useCardApi()
-
-	const {
-		data: game,
-		isLoading,
-		error,
-	} = useQuery({
-		queryFn: () => cardApi.getGame(gameId).then((g) => convertGame(g)),
-		queryKey: [gameId],
-	})
-
-	if (error) {
-		return <span style={{ color: "red" }}>{error.message}</span>
-	}
-
-	if (isLoading || game === undefined) {
-		return (
-			<CenterComponents>
-				<Logo192 />
-				<CircularProgress />
-				<Typography>{`Game ${gameId} is loading...`}</Typography>
-			</CenterComponents>
-		)
-	}
-
-	if (!game) {
-		return <>no game</>
-	}
-
+const GameCompleted: React.FC<{ game: GameState }> = ({ game }) => {
 	const allPoints = game.calculateAllTrickPoints(game)
 
 	const { zeroTwoPoints, oneThreePoints } = allPoints.reduce(trickSummer, {
@@ -184,4 +140,5 @@ const GameStats: React.FC<{ gameId: string }> = ({ gameId }) => {
 		</TableContainer>
 	)
 }
-export default GameStats
+
+export default GameCompleted
