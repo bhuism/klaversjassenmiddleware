@@ -89,7 +89,6 @@ const Games: React.FC = () => {
 	const columns: GridColDef<GameState>[] = [
 		{
 			field: "ended",
-			type: "actions",
 			renderCell: ({ row: g }) => (g.creator === user?.id ? <PersonOutlineTwoTone /> : <GroupsTwoTone />),
 		},
 		{
@@ -98,7 +97,7 @@ const Games: React.FC = () => {
 			headerName: "Gemaakt door",
 			renderCell: ({ row: g }) => <PlayerName playerUid={g.creator} />,
 		},
-		{ field: "status", type: "actions", renderCell: ({ row: g }) => <GameStatus game={g} /> },
+		{ field: "status", renderCell: ({ row: g }) => <GameStatus game={g} /> },
 		{
 			field: "updated",
 			flex: 1,
