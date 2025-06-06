@@ -1,4 +1,4 @@
-import logo from "../../public/logo192.png"
+import logo from "./logo192.png"
 
 const Logo192 = () => {
 	return <img src={logo} alt={"logo"} fetchPriority="high" rel="preload" />
