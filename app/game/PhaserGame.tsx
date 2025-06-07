@@ -13,7 +13,8 @@ interface IProps {
 }
 
 export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame({ currentActiveScene }, ref) {
-	//	console.log(`currentScene: ${currentActiveScene}`)
+	// biome-ignore lint/suspicious/noConsole: <explanation>
+	console.log(`currentScene: ${currentActiveScene}`)
 
 	const { enqueueSnackbar } = useSnackbar()
 

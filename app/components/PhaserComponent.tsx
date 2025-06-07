@@ -1,4 +1,4 @@
-import { Button } from "@mui/material"
+import { Button, Container, Stack } from "@mui/material"
 import { useRef } from "react"
 import { type IRefPhaserGame, PhaserGame } from "~/game/PhaserGame"
 
@@ -9,14 +9,26 @@ const PhaserComponent: React.FC = () => {
 		phaserRef.current?.game?.scale.toggleFullscreen()
 	}
 
-	return (
-		<>
-			<Button autoFocus variant="outlined" onClick={toggleFullScreen}>
-				fullscreen
-			</Button>
+	// const nextScene = () => {
+	// 	phaserRef.current?.scene.
+	// }
 
+	return (
+		<Stack
+			spacing={2}
+			// divider={<Divider orientation="horizontal" flexItem />}
+			alignItems={"center"}
+		>
+			<Container>
+				<Button autoFocus variant="outlined" onClick={toggleFullScreen}>
+					fullscreen
+				</Button>
+				<Button autoFocus variant="outlined" onClick={toggleFullScreen}>
+					nextScene
+				</Button>
+			</Container>
 			<PhaserGame ref={phaserRef} />
-		</>
+		</Stack>
 	)
 }
 

@@ -1,7 +1,5 @@
 import { AUTO, Game } from "phaser"
-import { Boot } from "./scenes/Boot"
-import { MainMenu } from "./scenes/MainMenu"
-import { Preloader } from "./scenes/Preloader"
+import { Cards } from "./scenes/Cards"
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: AUTO,
@@ -20,13 +18,13 @@ const config: Phaser.Types.Core.GameConfig = {
 	//   height: 600,
 	// },
 	backgroundColor: "#028af8",
-	physics: {
-		default: "arcade",
-		arcade: {
-			gravity: { x: 0, y: 200 },
-		},
-	},
-	scene: [Boot, Preloader, MainMenu],
+	// physics: {
+	// 	default: "arcade",
+	// 	arcade: {
+	// 		gravity: { x: 0, y: 200 },
+	// 	},
+	// },
+	scene: [Cards],
 }
 
 const startGame = (parent: string) => {
