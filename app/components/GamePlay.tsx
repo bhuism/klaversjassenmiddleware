@@ -23,8 +23,7 @@ const LoadingGame: React.FC<{ game: GameState }> = ({ game }) => {
 const GamePlay: React.FC<{ game: GameState }> = ({ game }) => {
 	return (
 		<>
-			<Typography>{`Playing game ${game.id}`}</Typography>
-			<Suspense fallback=<LoadingGame game={game} />>
+			<Suspense fallback={<LoadingGame game={game} />}>
 				<PhaserComponent />
 			</Suspense>
 		</>
