@@ -1,3 +1,5 @@
+import { cards } from "~/components/common/PlayingCard"
+
 export class Cards extends Phaser.Scene {
 	cards: Phaser.GameObjects.Plane[] = []
 
@@ -10,43 +12,56 @@ export class Cards extends Phaser.Scene {
 		this.load.image("bg", "/assets/gradient13.png")
 
 		this.load.atlas("cards", "/assets/cards.png", "/assets/cards.json")
+
+		this.load.image("7c", cards["7c"])
 	}
 
 	create() {
-		this.add.image(400, 300, "bg")
+		//this.add.image(400, 300, "bg")
 
-		const frames = this.textures.get("cards").getFrameNames()
+		const card = this.add.image(200, 200, "7c")
+
+		//const frames = this.textures.get("cards").getFrameNames()
 
 		//  Create random cards, with random rotations
 
-		this.cards = []
+		//this.cards = []
 
-		for (let i = 0; i < 64; i++) {
-			const x = Phaser.Math.Between(0, 800)
-			const y = Phaser.Math.Between(0, 600)
+		// for (let i = 0; i < 64; i++) {
+		// 	const x = Phaser.Math.Between(0, 800)
+		// 	const y = Phaser.Math.Between(0, 600)
 
-			const card = this.add.plane(x, y, "cards", Phaser.Utils.Array.GetRandom(frames))
+		// 	const card = this.add.plane(x, y, "cards", Phaser.Utils.Array.GetRandom(frames))
 
-			//card.setRotation(100)
+		// 	//card.setRotation(100)
 
-			// card.rotateX = Phaser.Math.Between(0, 360)
-			// card.rotateZ = Phaser.Math.Between(0, 360)
-			// card.rotateY = Phaser.Math.Between(0, 360)
+		// 	// card.rotateX = Phaser.Math.Between(0, 360)
+		// 	// card.rotateZ = Phaser.Math.Between(0, 360)
+		// 	// card.rotateY = Phaser.Math.Between(0, 360)
 
-			card.modelRotation.x = Phaser.Math.Between(0, 360)
-			card.modelRotation.y = Phaser.Math.Between(0, 360)
-			card.modelRotation.z = Phaser.Math.Between(0, 360)
+		// 	card.modelRotation.x = Phaser.Math.Between(0, 360)
+		// 	card.modelRotation.y = Phaser.Math.Between(0, 360)
+		// 	card.modelRotation.z = Phaser.Math.Between(0, 360)
 
-			//			card.setInteractive()
+		// 	//			card.setInteractive()
 
-			// card.on("pointerdown", () => {
-			// 	card.setTint(0x00ff00)
-			// })
+		// 	// card.on("pointerdown", () => {
+		// 	// 	card.setTint(0x00ff00)
+		// 	// })
 
-			this.cards.unshift(card)
-		}
+		// 	this.cards.unshift(card)
+		// }
 
 		//this.scale.on("resize", () => console.log("resize"))
+
+		this.tweens.add({
+			targets: card,
+			angle: "+=255",
+			duration: 3000,
+			ease: "Sine.inOut",
+			yoyo: true,
+			repeat: -1,
+		})
 	}
 
 	update() {

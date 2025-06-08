@@ -110,7 +110,7 @@ import fcbfhTd from "./halfcard/TD.svg"
 import fcbfhTh from "./halfcard/TH.svg"
 import fcbfhTs from "./halfcard/TS.svg"
 
-const cards = {
+export const cards = {
 	"1b": fcbf1b,
 	"1p": fcbf1p,
 
@@ -171,7 +171,7 @@ const cards = {
 	As: fcbfAs,
 }
 
-const halfcards = {
+export const halfcards = {
 	"1b": fcbfh1b,
 	"1p": fcbfh1p,
 
