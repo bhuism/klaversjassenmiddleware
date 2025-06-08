@@ -1,14 +1,23 @@
 import { AUTO, Game } from "phaser"
+import { GAMECONTAINERID } from "~/utils/constants"
 import { Cards } from "./scenes/Cards"
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: AUTO,
 	scale: {
-		parent: "phaser-example",
+		parent: GAMECONTAINERID,
 		mode: Phaser.Scale.FIT,
-		autoCenter: Phaser.Scale.CENTER_BOTH,
+		//autoCenter: Phaser.Scale.CENTER_BOTH,
 		width: 800,
 		height: 600,
+		min: {
+			width: 320,
+			height: 200,
+		},
+		max: {
+			width: 1400,
+			height: 1200,
+		},
 	},
 	// scale: {
 	//   mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,

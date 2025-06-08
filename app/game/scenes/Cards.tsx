@@ -45,6 +45,8 @@ export class Cards extends Phaser.Scene {
 
 			this.cards.unshift(card)
 		}
+
+		//this.scale.on("resize", () => console.log("resize"))
 	}
 
 	update() {

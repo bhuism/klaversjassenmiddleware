@@ -1,6 +1,8 @@
+import { Box } from "@mui/material"
 import { useSnackbar } from "notistack"
 import { forwardRef, useLayoutEffect, useRef } from "react"
 import useDidUpdateEffect from "~/hooks/useDidUpdateEffect"
+import { GAMECONTAINERID } from "~/utils/constants"
 import startGame from "./main"
 
 export interface IRefPhaserGame {
@@ -13,12 +15,9 @@ interface IProps {
 }
 
 export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame({ currentActiveScene }, ref) {
-	// biome-ignore lint/suspicious/noConsole: <explanation>
-	console.log(`currentScene: ${currentActiveScene}`)
+	//console.log(`currentScene: ${currentActiveScene}`)
 
 	const { enqueueSnackbar } = useSnackbar()
-
-	const GAMEID = "game-container"
 
 	// biome-ignore lint/style/noNonNullAssertion: <explanation>
 	const game = useRef<Phaser.Game | null>(null!)
@@ -29,7 +28,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
 
 	useLayoutEffect(() => {
 		if (game.current === null) {
-			game.current = startGame(GAMEID)
+			game.current = startGame(GAMECONTAINERID)
 
 			if (typeof ref === "function") {
 				ref({ game: game.current, scene: null })
@@ -48,5 +47,5 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
 		}
 	}, [ref])
 
-	return <div id={GAMEID} />
+	return <Box id={GAMECONTAINERID} sx={{ display: "flex", flexDirection: "column" }} />
 })
