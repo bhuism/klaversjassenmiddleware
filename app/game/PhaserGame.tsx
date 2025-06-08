@@ -1,7 +1,5 @@
 import { Box } from "@mui/material"
-import { useSnackbar } from "notistack"
 import { forwardRef, useLayoutEffect, useRef } from "react"
-import useDidUpdateEffect from "~/hooks/useDidUpdateEffect"
 import { GAMECONTAINERID } from "~/utils/constants"
 import startGame from "./main"
 
@@ -14,17 +12,19 @@ interface IProps {
 	currentActiveScene?: (scene_instance: Phaser.Scene) => void
 }
 
+// biome-ignore lint/correctness/noUnusedVariables: <explanation>
+// biome-ignore lint/correctness/noUnusedFunctionParameters: <explanation>
 export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame({ currentActiveScene }, ref) {
 	//console.log(`currentScene: ${currentActiveScene}`)
 
-	const { enqueueSnackbar } = useSnackbar()
+	//const { enqueueSnackbar } = useSnackbar()
 
 	// biome-ignore lint/style/noNonNullAssertion: <explanation>
 	const game = useRef<Phaser.Game | null>(null!)
 
-	useDidUpdateEffect(() => {
-		enqueueSnackbar(`current scene: ${currentActiveScene}`, { variant: "success" })
-	}, [currentActiveScene])
+	// useDidUpdateEffect(() => {
+	// 	enqueueSnackbar(`current scene: ${currentActiveScene}`, { variant: "success" })
+	// }, [currentActiveScene])
 
 	useLayoutEffect(() => {
 		if (game.current === null) {

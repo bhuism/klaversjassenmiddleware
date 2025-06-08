@@ -27,7 +27,7 @@ export class Cards extends Phaser.Scene {
 
 			const card = this.add.plane(x, y, "cards", Phaser.Utils.Array.GetRandom(frames))
 
-			card.setRotation(100)
+			//card.setRotation(100)
 
 			// card.rotateX = Phaser.Math.Between(0, 360)
 			// card.rotateZ = Phaser.Math.Between(0, 360)
