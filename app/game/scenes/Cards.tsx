@@ -43,8 +43,13 @@ export class Cards extends Phaser.Scene {
 		)
 
 		for (let index = 0; index < 32; index++) {
-			const spreadX = gameWidth / 8
-			const spreadY = gameHeight / 13
+			// tune this, trust me
+			const xspaver = 12
+			// tune this, truste me
+			const yspaver = 13
+
+			const spreadX = gameWidth / xspaver
+			const spreadY = gameHeight / yspaver
 
 			const currentCard = this.gameState.playerCard.filter((pc) => pc.player === Math.floor(index / 8))[index % 8].card
 
@@ -65,16 +70,16 @@ export class Cards extends Phaser.Scene {
 			const target = new Phaser.Math.Vector2()
 
 			if (index < 8) {
-				target.set(gameWidth - spreadX * (index % 8) - spreadX * 0.5, gameHeight - spreadY * 0.5)
+				target.set(gameWidth - spreadX * (index % 8) - spreadX * ((xspaver - 7) / 2), gameHeight - spreadY * 0.5)
 				card.setInteractive(new Phaser.Geom.Rectangle(0, 0, 240, 336), Phaser.Geom.Rectangle.Contains)
 				// this.input.enableDebug(card, 0xff00ff)
 				this.input.setDraggable(card)
 			} else if (index < 16) {
-				target.set(spreadX * 0, gameHeight - spreadY * (index % 8) - spreadY * 3)
+				target.set(spreadX * 0, gameHeight - spreadY * (index % 8) - spreadY * ((yspaver - 7) / 2))
 			} else if (index < 24) {
-				target.set(spreadX * (index % 8) + spreadX * 0.5, spreadY * 0.5)
+				target.set(spreadX * (index % 8) + spreadX * ((xspaver - 7) / 2), spreadY * 0.5)
 			} else if (index < 32) {
-				target.set(gameWidth - spreadX * 0, spreadY * (index % 8) + spreadY * 3)
+				target.set(gameWidth - spreadX * 0, spreadY * (index % 8) + spreadY * ((yspaver - 7) / 2))
 			} else {
 				throw Error()
 			}
