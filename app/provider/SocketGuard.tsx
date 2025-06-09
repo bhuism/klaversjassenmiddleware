@@ -1,6 +1,5 @@
 import { useSnackbar } from "notistack"
 import type { PropsWithChildren } from "react"
-import React from "react"
 import { ReadyState } from "react-use-websocket"
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket"
 import WebSocketContext from "~/context/WebSocketContext"
@@ -18,8 +17,6 @@ export type MessageType = {
 	type: "message"
 	text: string
 }
-
-export const webSocketContext = React.createContext(WebSocketContext)
 
 const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 	const { enqueueSnackbar } = useSnackbar()
