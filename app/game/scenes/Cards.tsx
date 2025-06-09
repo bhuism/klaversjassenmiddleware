@@ -4,6 +4,7 @@ import type { GameState } from "~/types"
 export class Cards extends Phaser.Scene {
 	localCards: Phaser.GameObjects.Image[] = []
 	gameState: GameState | undefined
+	targets: Phaser.Math.Vector2[] = []
 	//const cards: Phaser.GameObjects.Image[] = []
 
 	constructor() {
@@ -42,6 +43,15 @@ export class Cards extends Phaser.Scene {
 			(this.game.config.height as number) / 2
 		)
 
+		const zone = this.add.zone(gameWidth / 2, gameHeight / 2, 0, 0).setCircleDropZone(gameWidth / 9)
+
+		//  Just a visual display of the drop zone
+		const graphics = this.add.graphics()
+
+		graphics.lineStyle(2, 0xffff00)
+
+		graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+
 		for (let index = 0; index < 32; index++) {
 			// tune this, trust me
 			const xspaver = 12
@@ -79,8 +89,8 @@ export class Cards extends Phaser.Scene {
 			if (index < 8) {
 				target.set(gameWidth - spreadX * (index % 8) - spreadX * ((xspaver - 7) / 2), gameHeight - spreadY * 0.5)
 				card.setInteractive(new Phaser.Geom.Rectangle(0, 0, 240, 336), Phaser.Geom.Rectangle.Contains)
-				// this.input.enableDebug(card, 0xff00ff)
 				this.input.setDraggable(card)
+				this.targets[index] = target.clone()
 			} else if (index < 16) {
 				target.set(spreadX * 0, gameHeight - spreadY * (index % 8) - spreadY * ((yspaver - 7) / 2))
 			} else if (index < 24) {
@@ -106,6 +116,50 @@ export class Cards extends Phaser.Scene {
 		this.input.on("drag", (_pointer: unknown, gameObject: Phaser.GameObjects.Image, dragX: number, dragY: number) => {
 			gameObject.x = dragX
 			gameObject.y = dragY
+		})
+
+		this.input.on("dragstart", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
+			gameObject.setTint(0x909090)
+		})
+
+		this.input.on("dragend", () => {
+			graphics.clear()
+			graphics.lineStyle(3, 0xffff00)
+			graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+		})
+
+		this.input.on("dragend", (_pointer: unknown, gameObject: Phaser.GameObjects.Image, dropped: boolean) => {
+			if (!dropped) {
+				gameObject.clearTint()
+				this.tweens.add({
+					targets: gameObject,
+					x: this.targets[0].x,
+					y: this.targets[0].y,
+					duration: 500,
+				})
+			} else {
+				gameObject.destroy()
+			}
+		})
+
+		this.input.on(
+			"dragstart",
+			(_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
+				this.children.bringToTop(gameObject)
+			},
+			this
+		)
+
+		this.input.on("dragenter", () => {
+			graphics.clear()
+			graphics.lineStyle(2, 0xff8040)
+			graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+		})
+
+		this.input.on("dragleave", () => {
+			graphics.clear()
+			graphics.lineStyle(3, 0xffff00)
+			graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
 		})
 	}
 
