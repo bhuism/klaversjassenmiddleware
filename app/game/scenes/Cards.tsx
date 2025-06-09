@@ -63,7 +63,14 @@ export class Cards extends Phaser.Scene {
 					delay: index * 100,
 					targets: card,
 					angle: "+=90",
-					duration: Math.random() * 1000 + 500,
+					duration: Math.random() * 500 + 500,
+				})
+			} else {
+				this.tweens.add({
+					delay: index * 100,
+					targets: card,
+					angle: "+=180",
+					duration: Math.random() * 500 + 500,
 				})
 			}
 
