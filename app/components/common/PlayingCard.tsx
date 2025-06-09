@@ -111,7 +111,9 @@ import fcbfhTd from "./halfcard/TD.svg"
 import fcbfhTh from "./halfcard/TH.svg"
 import fcbfhTs from "./halfcard/TS.svg"
 
-export const cards = {
+export type CardsType = Record<string, string>
+
+export const cards: CardsType = {
 	"1b": fcbf1b,
 	"1p": fcbf1p,
 	"2b": fcbf2b,
@@ -172,7 +174,7 @@ export const cards = {
 	As: fcbfAs,
 }
 
-export const halfcards = {
+export const halfcards: CardsType = {
 	"1b": fcbfh1b,
 	"1p": fcbfh1p,
 

@@ -28,7 +28,8 @@
 				"recommended": true
 			},
 			"complexity": {
-				"recommended": true
+				"recommended": true,
+				"noForEach": "off"
 			},
 			"security": {
 				"recommended": true

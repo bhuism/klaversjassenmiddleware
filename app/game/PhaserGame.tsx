@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import { forwardRef, useLayoutEffect, useRef } from "react"
+import { forwardRef, useEffect, useRef } from "react"
 import type { GameState } from "~/types"
 import { GAMECONTAINERID } from "~/utils/constants"
 import startGame from "./main"
@@ -31,9 +31,9 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
 	// 	enqueueSnackbar(`current scene: ${currentActiveScene}`, { variant: "success" })
 	// }, [currentActiveScene])
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (game.current === null) {
-			game.current = startGame(GAMECONTAINERID)
+			game.current = startGame(GAMECONTAINERID, gameState)
 
 			if (typeof ref === "function") {
 				ref({ game: game.current, scene: null })
@@ -50,7 +50,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
 				}
 			}
 		}
-	}, [ref])
+	})
 
 	return <Box id={GAMECONTAINERID} sx={{ display: "flex", flexDirection: "column" }} />
 })

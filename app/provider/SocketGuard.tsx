@@ -1,7 +1,9 @@
 import { useSnackbar } from "notistack"
 import type { PropsWithChildren } from "react"
+import React from "react"
 import { ReadyState } from "react-use-websocket"
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket"
+import WebSocketContext from "~/context/WebSocketContext"
 import constants from "~/utils/constants"
 
 export const connectionMap = {
@@ -17,10 +19,12 @@ export type MessageType = {
 	text: string
 }
 
+export const webSocketContext = React.createContext(WebSocketContext)
+
 const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 	const { enqueueSnackbar } = useSnackbar()
 
-	const { sendMessage } = useWebSocket<MessageType>(constants.wsUrl, {
+	const { readyState, sendJsonMessage, lastJsonMessage, sendMessage } = useWebSocket<MessageType>(constants.wsUrl, {
 		onOpen: () => sendMessage("syn"),
 		// onClose: () => console.log("disconnected"),
 		onError: (event: WebSocketEventMap["error"]) => console.error(JSON.stringify(event)),
@@ -59,7 +63,11 @@ const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 	// 	enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: readyState === ReadyState.CLOSED ? "error" : "info" })
 	// }, [enqueueSnackbar, readyState])
 
-	return <>{children}</>
+	return (
+		<WebSocketContext.Provider value={{ readyState, sendJsonMessage, lastJsonMessage, sendMessage }}>
+			{children}
+		</WebSocketContext.Provider>
+	)
 }
 
 export default SocketGuard
