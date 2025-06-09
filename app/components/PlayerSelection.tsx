@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material"
+import { Button, Container, Stack, Typography } from "@mui/material"
 import type { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid"
 import { DataGrid } from "@mui/x-data-grid/DataGrid"
 import { useSnackbar } from "notistack"
@@ -29,7 +29,7 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 		cardApi
 			.createGame({ players: new Set([...players.ids].map((r) => r as string)) })
 			.then((game) => {
-				navigate(`/game/${game.id}`)
+				navigate(`/play/${game.id}`)
 			})
 			.catch((e) => {
 				enqueueSnackbar(JSON.stringify(e), { variant: "error" })
@@ -50,7 +50,7 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 
 	return (
 		<>
-			<Container>
+			<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
 				<Stack alignItems={"center"} justifyItems={"center"} spacing={1}>
 					<Typography>Voeg hieronder spelers toe aan het spel.</Typography>
 					<Typography>
@@ -60,44 +60,33 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 					<Button variant="outlined" disabled={!players || players.ids.size !== 3 || creatingGame} onClick={createGame}>
 						Start Spel
 					</Button>
-					{/* <Button variant="outlined" onClick={() => setPlayers([])}>
-									Opnieuw Spelers Kiezen
-								</Button> */}
-					<Grid container spacing={0} width={"100%"}>
-						<Grid size={{ xs: 10, sm: 8, md: 6, lg: 6, xl: 6 }} offset={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 3 }}>
-							<Box sx={{ display: "flex", flexDirection: "column" }}>
-								<DataGrid
-									loading={isLoading}
-									columns={columns}
-									rows={friends}
-									hideFooter
-									disableColumnFilter
-									disableColumnMenu
-									disableAutosize
-									disableColumnResize
-									disableColumnSelector
-									disableColumnSorting
-									disableDensitySelector
-									disableVirtualization
-									density="compact"
-									rowSelection
-									rowSelectionModel={players}
-									onRowSelectionModelChange={setPlayers}
-									checkboxSelection={true}
-									disableMultipleRowSelection={false}
-									isRowSelectable={(r) =>
-										players.ids.size < 3 || [...players.ids].filter((row) => row === r.id).length > 0
-									}
-									showCellVerticalBorder={false}
-									showColumnVerticalBorder={false}
-									slots={{
-										columnHeaders: () => <></>,
-									}}
-								/>
-							</Box>
-						</Grid>
-					</Grid>
 				</Stack>
+				<DataGrid
+					loading={isLoading}
+					columns={columns}
+					rows={friends}
+					hideFooter
+					disableColumnFilter
+					disableColumnMenu
+					disableAutosize
+					disableColumnResize
+					disableColumnSelector
+					disableColumnSorting
+					disableDensitySelector
+					disableVirtualization
+					density="compact"
+					rowSelection
+					rowSelectionModel={players}
+					onRowSelectionModelChange={setPlayers}
+					checkboxSelection={true}
+					disableMultipleRowSelection={false}
+					isRowSelectable={(r) => players.ids.size < 3 || [...players.ids].filter((row) => row === r.id).length > 0}
+					showCellVerticalBorder={false}
+					showColumnVerticalBorder={false}
+					// slots={{
+					// 	columnHeaders: () => <></>,
+					// }}
+				/>
 			</Container>
 		</>
 	)

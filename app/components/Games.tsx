@@ -7,7 +7,7 @@ import {
 	PersonOutlineTwoTone,
 	ScheduleTwoTone,
 } from "@mui/icons-material"
-import { Box, CircularProgress } from "@mui/material"
+import { CircularProgress, Container, Typography } from "@mui/material"
 import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
 import { useQuery } from "@tanstack/react-query"
 import { useDialogs } from "@toolpad/core/useDialogs"
@@ -16,6 +16,7 @@ import { useSnackbar } from "notistack"
 import { useContext } from "react"
 import { useNavigate } from "react-router"
 import { default as useGameApi } from "~/hooks/useGameApi"
+import Logo192 from "~/layout/Logo192"
 import UidContext from "~/provider/UidContextProvider"
 import type { GameState } from "~/types"
 import CenterComponents from "~/utils/CenterComponents"
@@ -41,7 +42,9 @@ const Games: React.FC = () => {
 	if (isLoading) {
 		return (
 			<CenterComponents>
+				<Logo192 />
 				<CircularProgress />
+				<Typography>Games are loading...</Typography>
 			</CenterComponents>
 		)
 	}
@@ -147,33 +150,28 @@ const Games: React.FC = () => {
 	}
 
 	return (
-		<>
-			<Box sx={{ width: "100%" }}>
-				<DataGrid
-					loading={isLoading}
-					columns={[...columns, actions()]}
-					rows={data}
-					hideFooter
-					onRowClick={(r) => navigate(`/game/${r.row.id}`)}
-					disableColumnFilter
-					disableColumnMenu
-					disableAutosize
-					disableColumnResize
-					disableColumnSelector
-					disableColumnSorting
-					disableDensitySelector
-					disableMultipleRowSelection
-					disableVirtualization
-					density="compact"
-					showCellVerticalBorder={false}
-					showColumnVerticalBorder={false}
-					showToolbar={false}
-					slots={{
-						columnHeaders: () => <></>,
-					}}
-				/>
-			</Box>
-		</>
+		<Container style={{ display: "flex", flexDirection: "column" }}>
+			<DataGrid
+				loading={isLoading}
+				columns={[...columns, actions()]}
+				rows={data}
+				hideFooter
+				onRowClick={(r) => navigate(`${`/${r.row.isCompleted() ? "game" : "play"}/`}${r.row.id}`)}
+				disableColumnFilter
+				disableColumnMenu
+				disableAutosize
+				disableColumnResize
+				disableColumnSelector
+				disableColumnSorting
+				disableDensitySelector
+				disableMultipleRowSelection
+				disableVirtualization
+				density="compact"
+				showCellVerticalBorder={false}
+				showColumnVerticalBorder={false}
+				showToolbar={false}
+			/>
+		</Container>
 	)
 }
 

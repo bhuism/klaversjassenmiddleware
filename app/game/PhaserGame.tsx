@@ -1,5 +1,6 @@
 import { Box } from "@mui/material"
 import { forwardRef, useLayoutEffect, useRef } from "react"
+import type { GameState } from "~/types"
 import { GAMECONTAINERID } from "~/utils/constants"
 import startGame from "./main"
 
@@ -9,12 +10,16 @@ export interface IRefPhaserGame {
 }
 
 interface IProps {
+	gameState: GameState
 	currentActiveScene?: (scene_instance: Phaser.Scene) => void
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: <explanation>
-// biome-ignore lint/correctness/noUnusedFunctionParameters: <explanation>
-export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame({ currentActiveScene }, ref) {
+export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame(
+	// biome-ignore lint/correctness/noUnusedVariables: <explanation>
+	// biome-ignore lint/correctness/noUnusedFunctionParameters: <explanation>
+	{ currentActiveScene, gameState },
+	ref
+) {
 	//console.log(`currentScene: ${currentActiveScene}`)
 
 	//const { enqueueSnackbar } = useSnackbar()

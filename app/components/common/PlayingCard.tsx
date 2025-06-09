@@ -3,6 +3,7 @@ import type { CSSProperties } from "react"
 import type { Cardtype } from "~/types"
 import fcbf1b from "./cards/1B.svg"
 import fcbf1p from "./cards/1P.svg"
+import fcbf2b from "./cards/2B.svg"
 import fcbf2c from "./cards/2C.svg"
 import fcbf2d from "./cards/2D.svg"
 import fcbf2h from "./cards/2H.svg"
@@ -113,7 +114,7 @@ import fcbfhTs from "./halfcard/TS.svg"
 export const cards = {
 	"1b": fcbf1b,
 	"1p": fcbf1p,
-
+	"2b": fcbf2b,
 	"2c": fcbf2c,
 	"3c": fcbf3c,
 	"4c": fcbf4c,

@@ -1,4 +1,4 @@
-import { Box, CssBaseline, Grid, InitColorSchemeScript, ThemeProvider } from "@mui/material"
+import { CssBaseline, InitColorSchemeScript, ThemeProvider } from "@mui/material"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { nlNL } from "@mui/x-date-pickers/locales"
@@ -31,24 +31,26 @@ const RootLayout: React.FC = () => {
 					adapterLocale="nl"
 					localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
 				>
-					<Box sx={{ display: "flex" }}>
-						<Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-							<ThemeProvider theme={theme} defaultMode="system">
-								<InitColorSchemeScript defaultMode="system" attribute="class" />
-								<CssBaseline />
-								<AuthSessionProvider>
-									<Grid container rowSpacing={2}>
-										<Grid
-											size={{ xs: 12, sm: 12, md: 10, lg: 8, xl: 6 }}
-											offset={{ xs: 0, sm: 0, md: 1, lg: 2, xl: 3 }}
-										>
-											<Outlet />
-										</Grid>
-									</Grid>
-								</AuthSessionProvider>
-							</ThemeProvider>
-						</Box>
-					</Box>
+					{/* <Box sx={{ display: "flex" }}>
+						<Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}> */}
+					<ThemeProvider theme={theme} defaultMode="system">
+						<InitColorSchemeScript defaultMode="system" attribute="class" />
+						<CssBaseline />
+						<AuthSessionProvider>
+							{/* <Grid container rowSpacing={2}>
+								<Grid
+									size={12}
+									offset={0}
+									// size={{ xs: 12, sm: 12, md: 10, lg: 8, xl: 6 }}
+									// offset={{ xs: 0, sm: 0, md: 1, lg: 2, xl: 3 }}
+								> */}
+							<Outlet />
+							{/* </Grid>
+							</Grid> */}
+						</AuthSessionProvider>
+					</ThemeProvider>
+					{/* </Box>
+					</Box> */}
 				</LocalizationProvider>
 			</SocketGuard>
 		</SnackbarProvider>

@@ -3,7 +3,6 @@ import { DialogsProvider } from "@toolpad/core/useDialogs"
 import type React from "react"
 import { Outlet } from "react-router"
 import useWebSocket from "react-use-websocket"
-import MenuBar from "~/components/menu/MenuBar"
 import WebSocketContext from "~/context/WebSocketContext"
 import type { MessageType } from "~/provider/SocketGuard"
 import { UidContextProvider } from "~/provider/UidContextProvider"
@@ -18,7 +17,6 @@ const PrivateLayout: React.FC = () => {
 			<QueryClientProvider client={queryClient}>
 				<UidContextProvider>
 					<WebSocketContext.Provider value={{ readyState, sendJsonMessage, lastJsonMessage }}>
-						<MenuBar />
 						<Outlet />
 					</WebSocketContext.Provider>
 				</UidContextProvider>
