@@ -17,6 +17,7 @@ export const PhaserGame: React.FC<{ gameState: GameState }> = ({ gameState }) =>
 			audio: {
 				noAudio: true,
 			},
+			parent,
 			scale: {
 				parent: GAMECONTAINERID,
 				mode: Phaser.Scale.FIT,
@@ -30,7 +31,7 @@ export const PhaserGame: React.FC<{ gameState: GameState }> = ({ gameState }) =>
 			},
 		}
 
-		const game = new Game({ ...config, parent })
+		const game = new Game(config)
 
 		const cardsScene = new Cards(cardApi, gameState)
 
