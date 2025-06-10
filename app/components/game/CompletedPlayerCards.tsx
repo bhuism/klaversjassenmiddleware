@@ -1,13 +1,11 @@
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import { Table, TableBody, TableCell, TableContainer, TableRow, tableCellClasses } from "@mui/material"
 import type React from "react"
-import type { Cardtype } from "~/types"
 import PlayingCard from "../common/PlayingCard"
 import PlayerName from "./PlayerName"
 import type { Game, User } from ".generated-sources/openapi"
 
 const CompletedPlayerCards: React.FC<React.PropsWithChildren<{ game: Game }>> = ({ game }) => {
-
 	// const playerPoints = (player: number): number => {
 	// 	return [...Array(game.tricksPlayed())]
 	// 		.map((_x, trickNr) => trickNr)
