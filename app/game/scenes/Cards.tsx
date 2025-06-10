@@ -110,9 +110,7 @@ export class Cards extends Phaser.Scene {
 	create() {
 		this.gameWidth = this.game.config.width as number
 		this.gameHeight = this.game.config.height as number
-
 		this.showPlayerCards()
-		this.showNames()
 	}
 
 	showPlayerCards() {
@@ -121,11 +119,7 @@ export class Cards extends Phaser.Scene {
 			(this.game.config.height as number) / 2
 		)
 
-		this.add.zone(center.x, center.y, 0, 0).setCircleDropZone(this.gameWidth / 12)
-
-		// const graphics = this.add.graphics()
-		// graphics.lineStyle(2, 0xffff00)
-		// graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+		const zone = this.add.zone(center.x, center.y, 0, 0).setCircleDropZone(this.gameWidth / 12)
 
 		for (let index = 0; index < 32; index++) {
 			// tune this, trust me
@@ -181,12 +175,27 @@ export class Cards extends Phaser.Scene {
 			}
 
 			this.tweens.add({
-				delay: index * 100,
-				targets: card,
-				x: target.x,
-				y: target.y,
-				ease: "Bounce.easeOut",
-				duration: 1000 + Math.random() * 1000,
+				...{
+					delay: index * 100,
+					targets: card,
+					x: target.x,
+					y: target.y,
+					ease: "Bounce.easeOut",
+					duration: 1000 + Math.random() * 1000,
+				},
+				...(index === 31
+					? {
+							onComplete: () => {
+								const graphics1 = this.add.graphics()
+								graphics1.fillStyle(3, 0x40ff07)
+								graphics1.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+								const graphics2 = this.add.graphics()
+								graphics2.lineStyle(2, 0xffff00)
+								graphics2.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+								this.showNames()
+							},
+						}
+					: []),
 			})
 
 			this.localCards.push(card)

@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query"
-import { convertGame } from "~/components/common/converters"
 import useCardApi from "~/hooks/useGameApi"
 
 const useGame = (gameId: string | undefined) => {
@@ -15,7 +14,7 @@ const useGame = (gameId: string | undefined) => {
 			if (typeof queryKey[1] !== "string" || (queryKey[1] as unknown as string).length !== 20) {
 				throw new Error("no gameId")
 			}
-			return cardApi.getGame(queryKey[1] as unknown as string).then((g) => convertGame(g))
+			return cardApi.getGame(queryKey[1] as unknown as string) //.then((g) => convertGame(g))
 		},
 		queryKey: ["gameId", gameId],
 	})

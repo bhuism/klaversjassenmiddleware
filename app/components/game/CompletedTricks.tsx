@@ -8,19 +8,42 @@ import {
 	TableRow,
 	tableCellClasses,
 } from "@mui/material"
-import type { GameState } from "~/types"
 import UsThem from "../UsThem"
 import PlayingCard from "../common/PlayingCard"
-import { trickSummer } from "../common/utils"
 import PlayerName from "./PlayerName"
+import type { Game } from ".generated-sources/openapi"
 
 const TrickRow: React.FC<
 	React.PropsWithChildren<{
-		game: GameState
+		game: Game
 		trickNr: number
-		points: { zeroTwoPoints: number; oneThreePoints: number }
+		//points: { zeroTwoPoints: number; oneThreePoints: number }
 	}>
-> = ({ game, trickNr, points }) => {
+> = ({ game, trickNr }) => {
+	const getCardHolderByCard = (card: Cardtype): number => {
+		if (game.playerCard.filter((pc) => pc.player === 0 && pc.card === card).pop()) {
+			return 0
+		}
+
+		if (this.playerCard.filter((pc) => pc.player === 1 && pc.card === card).pop()) {
+			return 1
+		}
+
+		if (this.playerCard.filter((pc) => pc.player === 2 && pc.card === card).pop()) {
+			return 2
+		}
+
+		if (this.playerCard.filter((pc) => pc.player === 3 && pc.card === card).pop()) {
+			return 3
+		}
+
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		// biome-ignore lint/style/useTemplate: <explanation>
+		console.error("card " + card + " not found by any player")
+
+		return -1
+	}
+
 	return (
 		<TableRow>
 			<TableCell align="center">{trickNr + 1}</TableCell>
@@ -29,18 +52,18 @@ const TrickRow: React.FC<
 					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 					key={cardNr}
 					align="center"
-					style={
-						game.determineTrickWinningCard(trickNr) === game.turns[trickNr * 4 + cardNr]
-							? { backgroundColor: "green" }
-							: {}
-					}
+					// style={
+					// 	game.determineTrickWinningCard(trickNr) === game.turns[trickNr * 4 + cardNr]
+					// 		? { backgroundColor: "green" }
+					// 		: {}
+					// }
 				>
 					<PlayingCard
 						style={{ width: "5vw", minWidth: "80px" }}
 						cardType={game.turns[trickNr * 4 + cardNr]}
 						front={true}
 					/>
-					<PlayerName playerUid={game.players[game.getCardHolderByCard(game.turns[trickNr * 4 + cardNr])]} />
+					<PlayerName user={game.players[game.getCardHolderByCard(game.turns[trickNr * 4 + cardNr])]} />
 				</TableCell>
 			))}
 			<TableCell align="center">{points.zeroTwoPoints}</TableCell>
@@ -49,13 +72,17 @@ const TrickRow: React.FC<
 	)
 }
 
-const CompletedTricks: React.FC<React.PropsWithChildren<{ game: GameState }>> = ({ game }) => {
-	const allPoints = game.calculateAllTrickPoints(game)
+const CompletedTricks: React.FC<React.PropsWithChildren<{ game: Game }>> = ({ game }) => {
+	//const allPoints = game.calculateAllTrickPoints(game)
 
-	const { zeroTwoPoints, oneThreePoints } = allPoints.reduce(trickSummer, {
-		zeroTwoPoints: 0,
-		oneThreePoints: 0,
-	})
+	// const { zeroTwoPoints, oneThreePoints } = allPoints.reduce(trickSummer, {
+	// 	zeroTwoPoints: 0,
+	// 	oneThreePoints: 0,
+	// })
+
+	const tricksPlayed = (game: Game): number => {
+		return (game.turns.length - (game.turns.length % 4)) / 4
+	}
 
 	return (
 		<Container>
@@ -86,11 +113,11 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: GameState }>> = 
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{[...Array(game.tricksPlayed())].map((_x, trickNr) => (
+						{[...Array(tricksPlayed(game))].map((_x, trickNr) => (
 							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							<TrickRow key={trickNr} game={game} trickNr={trickNr} points={allPoints[trickNr]} />
 						))}
-						<TableRow
+						{/* <TableRow
 							style={
 								zeroTwoPoints + oneThreePoints !== 162 ? { background: game.isCompleted() ? "red" : undefined } : {}
 							}
@@ -98,7 +125,7 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: GameState }>> = 
 							<TableCell colSpan={5} />
 							<TableCell align="center">{zeroTwoPoints}</TableCell>
 							<TableCell align="center">{oneThreePoints}</TableCell>
-						</TableRow>
+						</TableRow> */}
 					</TableBody>
 				</Table>
 			</TableContainer>

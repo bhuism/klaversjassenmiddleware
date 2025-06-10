@@ -27,7 +27,7 @@ export const PhaserGame: React.FC<{ gameState: GameState }> = ({ gameState }) =>
 			backgroundColor: "#101010",
 			physics: {
 				default: "arcade",
-				arcade: { debug: false, fps: 30 },
+				arcade: { debug: false, fps: 24 },
 			},
 		}
 

@@ -5,7 +5,6 @@ import {
 	HelpTwoTone,
 	LoopTwoTone,
 	PersonOutlineTwoTone,
-	ScheduleTwoTone,
 } from "@mui/icons-material"
 import { CircularProgress, Container, Typography } from "@mui/material"
 import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
@@ -18,10 +17,9 @@ import { useNavigate } from "react-router"
 import { default as useGameApi } from "~/hooks/useGameApi"
 import Logo192 from "~/layout/Logo192"
 import UidContext from "~/provider/UidContextProvider"
-import type { GameState } from "~/types"
 import CenterComponents from "~/utils/CenterComponents"
-import { convertGame } from "./common/converters"
 import PlayerName from "./game/PlayerName"
+import type { Game } from ".generated-sources/openapi"
 
 const Games: React.FC = () => {
 	const navigate = useNavigate()
@@ -31,7 +29,7 @@ const Games: React.FC = () => {
 	const dialogs = useDialogs()
 
 	const { data, isLoading, error, refetch } = useQuery({
-		queryFn: () => cardApi.getGames().then((g) => g.map((h) => convertGame(h))),
+		queryFn: () => cardApi.getGames(),
 		queryKey: ["getGames"],
 	})
 
@@ -49,14 +47,14 @@ const Games: React.FC = () => {
 		)
 	}
 
-	const GameStatus: React.FC<{ game: GameState }> = ({ game }) => {
+	const GameStatus: React.FC<{ game: Game }> = ({ game }) => {
 		const { user } = useContext(UidContext)
 
 		if (!user) {
 			return <>no user</>
 		}
 
-		const uid = user.id
+		//const uid = user.id
 
 		if (game.players && game.players.length !== 4) {
 			return (
@@ -70,26 +68,26 @@ const Games: React.FC = () => {
 			return <HelpTwoTone />
 		}
 
-		if (game.isAanslag() === game.players.indexOf(uid) || game.playerSay() === game.players.indexOf(uid)) {
-			return (
-				<>
-					<ScheduleTwoTone className={"blink"} /> {`${game.tricksPlayed()}/8`}
-				</>
-			)
-		}
+		// if (game.isAanslag() === game.players.indexOf(uid) || game.playerSay() === game.players.indexOf(uid)) {
+		// 	return (
+		// 		<>
+		// 			<ScheduleTwoTone className={"blink"} /> {`${game.tricksPlayed()}/8`}
+		// 		</>
+		// 	)
+		// }
 
-		if (game.isCompleted()) {
+		if (game.turns.length === 32) {
 			return <CheckCircleTwoTone />
 		}
 
 		return (
 			<>
-				<LoopTwoTone className="my-spin" /> {`${game.tricksPlayed()}/8`}
+				<LoopTwoTone className="my-spin" /> {`${game.turns.length}/8`}
 			</>
 		)
 	}
 
-	const columns: GridColDef<GameState>[] = [
+	const columns: GridColDef<Game>[] = [
 		{
 			field: "ended",
 			renderCell: ({ row: g }) => (g.creator === user?.id ? <PersonOutlineTwoTone /> : <GroupsTwoTone />),
@@ -98,7 +96,7 @@ const Games: React.FC = () => {
 			field: "creator",
 			flex: 1,
 			headerName: "Gemaakt door",
-			renderCell: ({ row: g }) => <PlayerName playerUid={g.creator} />,
+			renderCell: ({ row: g }) => <PlayerName user={g.players.filter((p) => p.id === g.creator)[0]} />,
 		},
 		{ field: "status", renderCell: ({ row: g }) => <GameStatus game={g} /> },
 		{
@@ -109,7 +107,7 @@ const Games: React.FC = () => {
 		},
 	]
 
-	const actions = (): GridColDef<GameState> => {
+	const actions = (): GridColDef<Game> => {
 		return {
 			field: "actions",
 			type: "actions",
