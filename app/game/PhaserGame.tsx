@@ -4,10 +4,11 @@ import type React from "react"
 import { useEffect } from "react"
 import useCardApi from "~/hooks/useGameApi"
 import type { GameState } from "~/types"
-import { GAMECONTAINERID } from "~/utils/constants"
 import { Cards } from "./scenes/Cards"
 
 export const PhaserGame: React.FC<{ gameState: GameState }> = ({ gameState }) => {
+	const GAMECONTAINERID = "game-container"
+
 	const cardApi = useCardApi()
 
 	const createGame = (parent: string, gameState: GameState) => {
@@ -27,13 +28,13 @@ export const PhaserGame: React.FC<{ gameState: GameState }> = ({ gameState }) =>
 				default: "arcade",
 				arcade: { debug: false, fps: 30 },
 			},
-			scene: [Cards],
 		}
 
 		const game = new Game({ ...config, parent })
 
-		game.registry.set("gameState", gameState)
-		game.registry.set("cardApi", cardApi)
+		const cardsScene = new Cards(cardApi, gameState)
+
+		game.scene.add("cards", cardsScene, true)
 
 		return game
 	}

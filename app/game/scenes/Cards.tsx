@@ -4,19 +4,21 @@ import type { DefaultApi } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
 	localCards: Phaser.GameObjects.Image[] = []
-	gameState: GameState | undefined
-	cardApi: DefaultApi | undefined
+	cardApi: DefaultApi
+	gameState: GameState
 	targets: Phaser.Math.Vector2[] = []
 	saveCardDragVector: Phaser.Math.Vector2 | undefined
 	//const cards: Phaser.GameObjects.Image[] = []
 
-	constructor() {
+	constructor(cardApi: DefaultApi, gameState: GameState) {
 		super("Cards")
+		this.cardApi = cardApi
+		this.gameState = gameState
 	}
 
 	init() {
-		this.gameState = this.registry.get("gameState")
-		this.cardApi = this.registry.get("cardApi")
+		// this.gameState = this.registry.get("gameState")
+		// this.cardApi = this.registry.get("cardApi")
 	}
 
 	showBar() {
@@ -224,9 +226,7 @@ export class Cards extends Phaser.Scene {
 					duration: 500,
 				})
 			} else {
-				if (this.gameState) {
-					this.cardApi?.playCard(this.gameState.id, { card: "Ace", color: "Hearts" })
-				}
+				this.cardApi.playCard(this.gameState.id, { card: "Ace", color: "Hearts" })
 			}
 
 			this.saveCardDragVector = undefined
