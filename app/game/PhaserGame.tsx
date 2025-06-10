@@ -1,56 +1,46 @@
 import { Box } from "@mui/material"
-import { forwardRef, useEffect, useRef } from "react"
+import { AUTO, Game } from "phaser"
+import type React from "react"
+import { useEffect } from "react"
+import useCardApi from "~/hooks/useGameApi"
 import type { GameState } from "~/types"
 import { GAMECONTAINERID } from "~/utils/constants"
-import startGame from "./main"
+import { Cards } from "./scenes/Cards"
 
-export interface IRefPhaserGame {
-	game: Phaser.Game | null
-	scene: Phaser.Scene | null
-}
+export const PhaserGame: React.FC<{ gameState: GameState }> = ({ gameState }) => {
+	const cardApi = useCardApi()
 
-interface IProps {
-	gameState: GameState
-	currentActiveScene?: (scene_instance: Phaser.Scene) => void
-}
+	const createGame = (parent: string, gameState: GameState) => {
+		const config: Phaser.Types.Core.GameConfig = {
+			type: AUTO,
+			audio: {
+				noAudio: true,
+			},
+			scale: {
+				parent: GAMECONTAINERID,
+				mode: Phaser.Scale.FIT,
+				width: window.innerWidth,
+				height: window.innerHeight,
+			},
+			backgroundColor: "#101010",
+			physics: {
+				default: "arcade",
+				arcade: { debug: false, fps: 30 },
+			},
+			scene: [Cards],
+		}
 
-export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame(
-	// biome-ignore lint/correctness/noUnusedVariables: <explanation>
-	// biome-ignore lint/correctness/noUnusedFunctionParameters: <explanation>
-	{ currentActiveScene, gameState },
-	ref
-) {
-	//console.log(`currentScene: ${currentActiveScene}`)
+		const game = new Game({ ...config, parent })
 
-	//const { enqueueSnackbar } = useSnackbar()
+		game.registry.set("gameState", gameState)
+		game.registry.set("cardApi", cardApi)
 
-	// biome-ignore lint/style/noNonNullAssertion: <explanation>
-	const game = useRef<Phaser.Game | null>(null!)
-
-	// useDidUpdateEffect(() => {
-	// 	enqueueSnackbar(`current scene: ${currentActiveScene}`, { variant: "success" })
-	// }, [currentActiveScene])
+		return game
+	}
 
 	useEffect(() => {
-		if (game.current === null) {
-			game.current = startGame(GAMECONTAINERID, gameState)
-
-			if (typeof ref === "function") {
-				ref({ game: game.current, scene: null })
-			} else if (ref) {
-				ref.current = { game: game.current, scene: null }
-			}
-		}
-
-		return () => {
-			if (game.current) {
-				game.current.destroy(true)
-				if (game.current !== null) {
-					game.current = null
-				}
-			}
-		}
+		createGame(GAMECONTAINERID, gameState)
 	})
 
 	return <Box id={GAMECONTAINERID} sx={{ display: "flex", flexDirection: "column" }} />
-})
+}

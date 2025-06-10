@@ -1,9 +1,11 @@
 import { type CardsType, cards } from "~/components/common/PlayingCard"
 import type { GameState } from "~/types"
+import type { DefaultApi } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
 	localCards: Phaser.GameObjects.Image[] = []
 	gameState: GameState | undefined
+	cardApi: DefaultApi | undefined
 	targets: Phaser.Math.Vector2[] = []
 	saveCardDragVector: Phaser.Math.Vector2 | undefined
 	//const cards: Phaser.GameObjects.Image[] = []
@@ -14,9 +16,76 @@ export class Cards extends Phaser.Scene {
 
 	init() {
 		this.gameState = this.registry.get("gameState")
+		this.cardApi = this.registry.get("cardApi")
+	}
+
+	showBar() {
+		const progressBar = this.add.graphics()
+		const progressBox = this.add.graphics()
+
+		const width = this.game.config.width as number
+		const height = this.game.config.height as number
+
+		progressBox.fillStyle(0x222222, 0.8)
+		progressBox.fillRect(width / 2 - 320 / 2, height / 2 - 25, 320, 50)
+
+		const loadingText = this.make.text({
+			x: width / 2,
+			y: height / 2 - 50,
+			text: "Loading...",
+			style: {
+				font: "20px monospace",
+				color: "#ffffff",
+			},
+		})
+		loadingText.setOrigin(0.5, 0.5)
+
+		const percentText = this.make.text({
+			x: width / 2,
+			y: height / 2,
+			text: "0%",
+			style: {
+				font: "18px monospace",
+				color: "#ffffff",
+			},
+		})
+		percentText.setOrigin(0.5, 0.5)
+
+		const assetText = this.make.text({
+			x: width / 2,
+			y: height / 2 + 70,
+			text: "",
+			style: {
+				font: "18px monospace",
+				color: "#ffffff",
+			},
+		})
+		assetText.setOrigin(0.5, 0.5)
+
+		this.load.on("progress", (value: string) => {
+			const intValue = Number.parseFloat(value)
+			percentText.setText(`${Math.round(intValue * 100)}%`)
+			progressBar.clear()
+			progressBar.fillStyle(0xffffff, 1)
+			progressBar.fillRect(width / 2 - 320 / 2 + 10, height / 2 - 15, 300 * intValue, 30)
+		})
+
+		this.load.on("fileprogress", (file: { key: string }) => {
+			assetText.setText(`Loading asset: ${file.key}`)
+		})
+
+		this.load.on("complete", () => {
+			progressBar.destroy()
+			progressBox.destroy()
+			loadingText.destroy()
+			percentText.destroy()
+			assetText.destroy()
+		})
 	}
 
 	preload() {
+		this.showBar()
+
 		this.load.atlas("cards", "/assets/cards.png", "/assets/cards.json")
 		//		this.load.image("2b", cards["2b"])
 
@@ -24,7 +93,6 @@ export class Cards extends Phaser.Scene {
 			.map((k) => k as string)
 			.forEach((key) => {
 				this.load.image(key, cards[key as keyof CardsType])
-				//			this.load.image("2b", cards["2b"])
 			})
 	}
 
@@ -156,7 +224,9 @@ export class Cards extends Phaser.Scene {
 					duration: 500,
 				})
 			} else {
-				gameObject.destroy()
+				if (this.gameState) {
+					this.cardApi?.playCard(this.gameState.id, { card: "Ace", color: "Hearts" })
+				}
 			}
 
 			this.saveCardDragVector = undefined
