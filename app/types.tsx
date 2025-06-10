@@ -74,22 +74,6 @@ export interface GameState {
 	calculateAllTrickPoints(game: GameState): { zeroTwoPoints: number; oneThreePoints: number }[]
 }
 
-// interface Message {
-// 	created: Timestamp
-// 	creator: string
-// 	messageType: MessageType
-// 	receiver: string
-// 	read: boolean
-// 	body?: string
-// }
-
-// interface Feedback {
-// 	id: string
-// 	created: Timestamp
-// 	creator: string
-// 	comment: string
-// }
-
 export type Cardtype =
 	| "1b"
 	| "1p"

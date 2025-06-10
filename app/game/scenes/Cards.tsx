@@ -10,10 +10,19 @@ export class Cards extends Phaser.Scene {
 	saveCardDragVector: Phaser.Math.Vector2 | undefined
 	//const cards: Phaser.GameObjects.Image[] = []
 
+	gameWidth = 0
+	gameHeight = 0
+
 	constructor(cardApi: DefaultApi, gameState: GameState) {
 		super("Cards")
 		this.cardApi = cardApi
 		this.gameState = gameState
+
+		if (this.gameState.isCompleted()) {
+			// biome-ignore lint/suspicious/noConsole: <explanation>
+			console.error("No game / completed")
+			throw new Error("No game / completed")
+		}
 	}
 
 	init() {
@@ -99,29 +108,24 @@ export class Cards extends Phaser.Scene {
 	}
 
 	create() {
-		if (!this.gameState) {
-			// biome-ignore lint/suspicious/noConsole: <explanation>
-			console.error("No game")
-			return false
-		}
-		//	console.log("create()")
+		this.gameWidth = this.game.config.width as number
+		this.gameHeight = this.game.config.height as number
 
-		const gameWidth = this.game.config.width as number
-		const gameHeight = this.game.config.height as number
+		this.showPlayerCards()
+		this.showNames()
+	}
 
+	showPlayerCards() {
 		const center = new Phaser.Math.Vector2(
 			(this.game.config.width as number) / 2,
 			(this.game.config.height as number) / 2
 		)
 
-		const zone = this.add.zone(gameWidth / 2, gameHeight / 2, 0, 0).setCircleDropZone(gameWidth / 9)
+		this.add.zone(center.x, center.y, 0, 0).setCircleDropZone(this.gameWidth / 12)
 
-		//  Just a visual display of the drop zone
-		const graphics = this.add.graphics()
-
-		graphics.lineStyle(2, 0xffff00)
-
-		graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+		// const graphics = this.add.graphics()
+		// graphics.lineStyle(2, 0xffff00)
+		// graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
 
 		for (let index = 0; index < 32; index++) {
 			// tune this, trust me
@@ -129,15 +133,16 @@ export class Cards extends Phaser.Scene {
 			// tune this, truste me
 			const yspaver = 13
 
-			const spreadX = gameWidth / xspaver
-			const spreadY = gameHeight / yspaver
+			const spreadX = this.gameWidth / xspaver
+			const spreadY = this.gameHeight / yspaver
 
 			const currentCard = this.gameState.playerCard.filter((pc) => pc.player === Math.floor(index / 8))[index % 8].card
 
 			const card = this.add.image(center.x, center.y, currentCard)
 
-			card.setScale(gameWidth / 2100)
+			card.setScale(this.gameWidth / 2100)
 			card.setDepth(-index)
+			card.setTint(0x909090)
 
 			if ((index >= 8 && index < 16) || (index >= 24 && index < 32)) {
 				this.tweens.add({
@@ -158,16 +163,19 @@ export class Cards extends Phaser.Scene {
 			const target = new Phaser.Math.Vector2()
 
 			if (index < 8) {
-				target.set(gameWidth - spreadX * (index % 8) - spreadX * ((xspaver - 7) / 2), gameHeight - spreadY * 0.5)
+				target.set(
+					this.gameWidth - spreadX * (index % 8) - spreadX * ((xspaver - 7) / 2),
+					this.gameHeight - spreadY * 0.5
+				)
 				card.setInteractive(new Phaser.Geom.Rectangle(0, 0, 240, 336), Phaser.Geom.Rectangle.Contains)
 				this.input.setDraggable(card)
 				this.targets[index] = target.clone()
 			} else if (index < 16) {
-				target.set(spreadX * 0, gameHeight - spreadY * (index % 8) - spreadY * ((yspaver - 7) / 2))
+				target.set(spreadX * 0, this.gameHeight - spreadY * (index % 8) - spreadY * ((yspaver - 7) / 2))
 			} else if (index < 24) {
 				target.set(spreadX * (index % 8) + spreadX * ((xspaver - 7) / 2), spreadY * 0.5)
 			} else if (index < 32) {
-				target.set(gameWidth - spreadX * 0, spreadY * (index % 8) + spreadY * ((yspaver - 7) / 2))
+				target.set(this.gameWidth - spreadX * 0, spreadY * (index % 8) + spreadY * ((yspaver - 7) / 2))
 			} else {
 				throw Error()
 			}
@@ -185,7 +193,7 @@ export class Cards extends Phaser.Scene {
 		}
 
 		this.input.on("dragstart", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
-			gameObject.setTint(0x909090)
+			gameObject.setTint(0xd0d0d0)
 		})
 
 		this.input.on(
@@ -209,15 +217,23 @@ export class Cards extends Phaser.Scene {
 			gameObject.y = dragY
 		})
 
-		this.input.on("dragend", () => {
-			graphics.clear()
-			graphics.lineStyle(3, 0xffff00)
-			graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+		this.input.on("dragenter", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
+			gameObject.clearTint()
 		})
+
+		this.input.on("dragleave", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
+			gameObject.setTint(0xd0d0d0)
+		})
+
+		// this.input.on("dragend", () => {
+		// 	graphics.clear()
+		// 	graphics.lineStyle(3, 0xffff00)
+		// 	graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+		// })
 
 		this.input.on("dragend", (_pointer: unknown, gameObject: Phaser.GameObjects.Image, dropped: boolean) => {
 			if (!dropped) {
-				gameObject.clearTint()
+				gameObject.setTint(0xa0a0a0)
 				this.tweens.add({
 					targets: gameObject,
 					ease: "Quint.easeOut",
@@ -232,17 +248,38 @@ export class Cards extends Phaser.Scene {
 			this.saveCardDragVector = undefined
 		})
 
-		this.input.on("dragenter", () => {
-			graphics.clear()
-			graphics.lineStyle(2, 0xff8040)
-			graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
-		})
+		// this.input.on("dragenter", () => {
+		// 	graphics.clear()
+		// 	graphics.lineStyle(2, 0xff8040)
+		// 	graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius + 3)
+		// })
 
-		this.input.on("dragleave", () => {
-			graphics.clear()
-			graphics.lineStyle(3, 0xffff00)
-			graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
-		})
+		// this.input.on("dragleave", () => {
+		// 	graphics.clear()
+		// 	graphics.lineStyle(3, 0xffff00)
+		// 	graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+		// })
+	}
+
+	showNames() {
+		const printName = (x: number, y: number, text: string, rotation: number): Phaser.GameObjects.Text => {
+			return this.make
+				.text({
+					x,
+					y,
+					text,
+					rotation,
+					style: {
+						font: "20px monospace",
+						color: "#ffffff",
+					},
+				})
+				.setOrigin(0.5, 0.5)
+		}
+
+		printName(this.gameWidth / 8, this.gameHeight / 2, "naam1", Math.PI / 2)
+		printName(this.gameWidth / 2, this.gameHeight / 4, "naam2", 0)
+		printName(this.gameWidth - this.gameWidth / 8, this.gameHeight / 2, "naam3", -Math.PI / 2)
 	}
 
 	update(_time: number, _delta: number) {}
