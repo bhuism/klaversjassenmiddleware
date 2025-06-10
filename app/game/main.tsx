@@ -6,6 +6,9 @@ import { Cards } from "./scenes/Cards"
 const startGame = (parent: string, gameState: GameState) => {
 	const config: Phaser.Types.Core.GameConfig = {
 		type: AUTO,
+		audio: {
+			noAudio: true,
+		},
 		scale: {
 			parent: GAMECONTAINERID,
 			mode: Phaser.Scale.FIT,

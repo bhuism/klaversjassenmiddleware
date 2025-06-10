@@ -5,6 +5,7 @@ export class Cards extends Phaser.Scene {
 	localCards: Phaser.GameObjects.Image[] = []
 	gameState: GameState | undefined
 	targets: Phaser.Math.Vector2[] = []
+	saveCardDragVector: Phaser.Math.Vector2 | undefined
 	//const cards: Phaser.GameObjects.Image[] = []
 
 	constructor() {
@@ -113,13 +114,29 @@ export class Cards extends Phaser.Scene {
 			this.localCards.push(card)
 		}
 
+		this.input.on("dragstart", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
+			gameObject.setTint(0x909090)
+		})
+
+		this.input.on(
+			"dragstart",
+			(_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
+				this.saveCardDragVector = new Phaser.Math.Vector2(gameObject.x, gameObject.y)
+			},
+			this
+		)
+
+		this.input.on(
+			"dragstart",
+			(_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
+				this.children.bringToTop(gameObject)
+			},
+			this
+		)
+
 		this.input.on("drag", (_pointer: unknown, gameObject: Phaser.GameObjects.Image, dragX: number, dragY: number) => {
 			gameObject.x = dragX
 			gameObject.y = dragY
-		})
-
-		this.input.on("dragstart", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
-			gameObject.setTint(0x909090)
 		})
 
 		this.input.on("dragend", () => {
@@ -133,22 +150,17 @@ export class Cards extends Phaser.Scene {
 				gameObject.clearTint()
 				this.tweens.add({
 					targets: gameObject,
-					x: this.targets[0].x,
-					y: this.targets[0].y,
+					ease: "Quint.easeOut",
+					x: this.saveCardDragVector?.x,
+					y: this.saveCardDragVector?.y,
 					duration: 500,
 				})
 			} else {
 				gameObject.destroy()
 			}
-		})
 
-		this.input.on(
-			"dragstart",
-			(_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
-				this.children.bringToTop(gameObject)
-			},
-			this
-		)
+			this.saveCardDragVector = undefined
+		})
 
 		this.input.on("dragenter", () => {
 			graphics.clear()
