@@ -1,13 +1,7 @@
 import { CloudOutlined } from "@mui/icons-material"
 import { IconButton, Tooltip } from "@mui/material"
-import { useContext } from "react"
-import { ReadyState } from "react-use-websocket"
-import WebSocketContext from "~/context/WebSocketContext"
-import { connectionMap } from "~/provider/SocketGuard"
 
 const ConnectionStatusIcon = () => {
-	const { readyState, sendMessage } = useContext(WebSocketContext)
-
 	// export declare enum ReadyState {
 	//     UNINSTANTIATED = -1,
 	//     CONNECTING = 0,
@@ -16,24 +10,26 @@ const ConnectionStatusIcon = () => {
 	//     CLOSED = 3
 	// }
 
-	const readyStateColorMap: Record<ReadyState, string> = {
-		"-1": "gray",
-		"0": "blue",
-		"1": "lightgreen",
-		"2": "lightred",
-		"3": "red",
-	}
+	// const readyStateColorMap: Record<ReadyState, string> = {
+	// 	"-1": "gray",
+	// 	"0": "blue",
+	// 	"1": "lightgreen",
+	// 	"2": "lightred",
+	// 	"3": "red",
+	// }
 
 	return (
-		<Tooltip title={readyState ? connectionMap[readyState] : ""}>
+		<Tooltip title={"title"}>
 			<IconButton
 				sx={{ mr: 1 }}
-				aria-label={readyState ? connectionMap[readyState] : ""}
-				onClick={() => (sendMessage ? sendMessage("syn") : {})}
-				style={{
-					color: readyState ? readyStateColorMap[readyState] : "gray",
-				}}
-				className={readyState === ReadyState.CONNECTING || readyState === ReadyState.CLOSING ? "blink" : undefined}
+				// aria-label={readyState ? connectionMap[readyState] : ""}
+				// onClick={() => (sendMessage ? sendMessage("syn") : {})}
+				style={
+					{
+						// color: readyState ? readyStateColorMap[readyState] : "gray",
+					}
+				}
+				// className={readyState === ReadyState.CONNECTING || readyState === ReadyState.CLOSING ? "blink" : undefined}
 			>
 				<CloudOutlined />
 			</IconButton>
