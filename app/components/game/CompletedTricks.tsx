@@ -11,7 +11,7 @@ import {
 import UsThem from "../UsThem"
 import PlayingCard from "../common/PlayingCard"
 import PlayerName from "./PlayerName"
-import type { Game } from ".generated-sources/openapi"
+import type { Card, Game } from ".generated-sources/openapi"
 
 const TrickRow: React.FC<
 	React.PropsWithChildren<{
@@ -20,20 +20,20 @@ const TrickRow: React.FC<
 		//points: { zeroTwoPoints: number; oneThreePoints: number }
 	}>
 > = ({ game, trickNr }) => {
-	const getCardHolderByCard = (card: Cardtype): number => {
+	const getCardHolderByCard = (card: Card): number => {
 		if (game.playerCard.filter((pc) => pc.player === 0 && pc.card === card).pop()) {
 			return 0
 		}
 
-		if (this.playerCard.filter((pc) => pc.player === 1 && pc.card === card).pop()) {
+		if (game.playerCard.filter((pc) => pc.player === 1 && pc.card === card).pop()) {
 			return 1
 		}
 
-		if (this.playerCard.filter((pc) => pc.player === 2 && pc.card === card).pop()) {
+		if (game.playerCard.filter((pc) => pc.player === 2 && pc.card === card).pop()) {
 			return 2
 		}
 
-		if (this.playerCard.filter((pc) => pc.player === 3 && pc.card === card).pop()) {
+		if (game.playerCard.filter((pc) => pc.player === 3 && pc.card === card).pop()) {
 			return 3
 		}
 
@@ -63,11 +63,11 @@ const TrickRow: React.FC<
 						cardType={game.turns[trickNr * 4 + cardNr]}
 						front={true}
 					/>
-					<PlayerName user={game.players[game.getCardHolderByCard(game.turns[trickNr * 4 + cardNr])]} />
+					<PlayerName user={game.players[getCardHolderByCard(game.turns[trickNr * 4 + cardNr])]} />
 				</TableCell>
 			))}
-			<TableCell align="center">{points.zeroTwoPoints}</TableCell>
-			<TableCell align="center">{points.oneThreePoints}</TableCell>
+			{/* <TableCell align="center">{points.zeroTwoPoints}</TableCell> */}
+			{/* <TableCell align="center">{points.oneThreePoints}</TableCell> */}
 		</TableRow>
 	)
 }
@@ -115,7 +115,7 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: Game }>> = ({ ga
 					<TableBody>
 						{[...Array(tricksPlayed(game))].map((_x, trickNr) => (
 							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							<TrickRow key={trickNr} game={game} trickNr={trickNr} points={allPoints[trickNr]} />
+							<TrickRow key={trickNr} game={game} trickNr={trickNr} />
 						))}
 						{/* <TableRow
 							style={

@@ -154,7 +154,7 @@ const Games: React.FC = () => {
 				columns={[...columns, actions()]}
 				rows={data}
 				hideFooter
-				onRowClick={(r) => navigate(`${`/${r.row.isCompleted() ? "game" : "play"}/`}${r.row.id}`)}
+				onRowClick={(r) => navigate(`${`/${r.row.turns.length === 32 ? "game" : "play"}/`}${r.row.id}`)}
 				disableColumnFilter
 				disableColumnMenu
 				disableAutosize

@@ -16,6 +16,9 @@ const GameCompleted: React.FC<{ game: Game }> = ({ game }) => {
 	// 	oneThreePoints: 0,
 	// })
 
+	const zeroTwoPoints = 0
+	const oneThreePoints = 0
+
 	return (
 		<TableContainer component={Paper}>
 			<Table

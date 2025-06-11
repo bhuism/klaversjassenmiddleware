@@ -1,5 +1,4 @@
-import type { Cardtype } from "~/types"
-import Suit from "./Suit"
+import type { CardNr } from ".generated-sources/openapi"
 
 // export function shuffle<U>(array: Array<U>): Array<U> {
 // 	let m = array.length
@@ -69,91 +68,91 @@ export function trickSummer(
 // 	"As",
 // ]
 
-export function suitOf(cardType: Cardtype): Suit {
-	switch (cardType.charAt(1)) {
-		case "c":
-			return Suit.Clubs
-		case "s":
-			return Suit.Spades
-		case "h":
-			return Suit.Hearts
-		case "d":
-			return Suit.Diamonds
-		default:
-			throw new Error("No such card")
-	}
-}
+// export function suitOf(cardType: Cardtype): Suit {
+// 	switch (cardType.charAt(1)) {
+// 		case "c":
+// 			return Suit.Clubs
+// 		case "s":
+// 			return Suit.Spades
+// 		case "h":
+// 			return Suit.Hearts
+// 		case "d":
+// 			return Suit.Diamonds
+// 		default:
+// 			throw new Error("No such card")
+// 	}
+// }
 
-export function rankRegular(cardType: Cardtype): number {
-	switch (cardType.charAt(0)) {
-		case "7":
+export function rankRegular(cardType: CardNr): number {
+	switch (cardType) {
+		case "Seven":
 			return 1
-		case "8":
+		case "Eight":
 			return 2
-		case "9":
+		case "Nine":
 			return 3
-		case "J":
+		case "Jack":
 			return 4
-		case "Q":
+		case "Queen":
 			return 5
-		case "K":
+		case "King":
 			return 6
-		case "T":
+		case "Ten":
 			return 7
-		case "A":
+		case "Ace":
 			return 8
 		default:
 			throw new Error("No such card")
 	}
 }
 
-export function rankTrump(cardType: Cardtype): number {
-	switch (cardType.charAt(0)) {
-		case "7":
+export function rankTrump(cardType: CardNr): number {
+	switch (cardType) {
+		case "Seven":
 			return 1
-		case "8":
+		case "Eight":
 			return 2
-		case "Q":
+		case "Queen":
 			return 3
-		case "K":
+		case "King":
 			return 4
-		case "T":
+		case "Ten":
 			return 5
-		case "A":
+		case "Ace":
 			return 6
-		case "9":
+		case "Nine":
 			return 7
-		case "J":
+		case "Jack":
 			return 8
 		default:
 			throw new Error("No such card")
 	}
 }
 
-export function pointsRegular(cardType: Cardtype): number {
+export function pointsRegular(cardType: CardNr): number {
 	switch (cardType.charAt(0)) {
-		case "7":
+		case "Seven":
 			return 0
-		case "8":
+		case "Eight":
 			return 0
-		case "9":
+		case "Nine":
 			return 0
-		case "J":
+		case "Jack":
 			return 2
-		case "Q":
+		case "Queen":
 			return 3
-		case "K":
+		case "Killer":
 			return 4
-		case "T":
+		case "Ten":
 			return 10
-		case "A":
+		case "Ace":
 			return 11
 		default:
 			throw new Error("No such card")
 	}
 }
 
-export function pointsTrump(cardType: Cardtype): number {
+export function pointsTrump(cardType: CardNr): number {
 	switch (cardType.charAt(0)) {
 		case "7":
 			return 0
