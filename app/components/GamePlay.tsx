@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react"
-import type { GameState } from "~/types"
 import CenterComponents from "~/utils/CenterComponents"
+import type { Game } from ".generated-sources/openapi"
 
 const PhaserComponent = lazy(() =>
 	import("./PhaserComponent").then((module) => ({
@@ -8,7 +8,7 @@ const PhaserComponent = lazy(() =>
 	}))
 )
 
-const GamePlay: React.FC<{ game: GameState }> = ({ game }) => {
+const GamePlay: React.FC<{ game: Game }> = ({ game }) => {
 	return (
 		<Suspense fallback={<CenterComponents>Loading...</CenterComponents>}>
 			<PhaserComponent game={game} />

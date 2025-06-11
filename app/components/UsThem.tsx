@@ -1,9 +1,9 @@
 import type React from "react"
 import { useContext } from "react"
 import UidContext from "~/provider/UidContextProvider"
-import type { GameState } from "~/types"
+import type { Game } from ".generated-sources/openapi"
 
-const UsThem: React.FC<React.PropsWithChildren<{ game: GameState; zeroTwo: boolean }>> = ({ game, zeroTwo }) => {
+const UsThem: React.FC<React.PropsWithChildren<{ game: Game; zeroTwo: boolean }>> = ({ game, zeroTwo }) => {
 	const { user } = useContext(UidContext)
 
 	if (!user) {
@@ -11,8 +11,8 @@ const UsThem: React.FC<React.PropsWithChildren<{ game: GameState; zeroTwo: boole
 	}
 
 	if (
-		(zeroTwo && (game.players[0] === user.id || game.players[2] === user.id)) ||
-		(!zeroTwo && (game.players[1] === user.id || game.players[3] === user.id))
+		(zeroTwo && (game.players[0].id === user.id || game.players[2].id === user.id)) ||
+		(!zeroTwo && (game.players[1].id === user.id || game.players[3].id === user.id))
 	) {
 		return <>Wij 😏</>
 	}

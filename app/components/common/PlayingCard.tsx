@@ -1,6 +1,4 @@
-import type React from "react"
 import type { CSSProperties } from "react"
-import type { Cardtype } from "~/types"
 import fcbf1b from "./cards/1B.svg"
 import fcbf1p from "./cards/1P.svg"
 import fcbf2b from "./cards/2B.svg"
@@ -110,6 +108,7 @@ import fcbfhTc from "./halfcard/TC.svg"
 import fcbfhTd from "./halfcard/TD.svg"
 import fcbfhTh from "./halfcard/TH.svg"
 import fcbfhTs from "./halfcard/TS.svg"
+import type { Card } from ".generated-sources/openapi"
 
 export type CardsType = Record<string, string>
 
@@ -235,8 +234,190 @@ export const halfcards: CardsType = {
 	As: fcbfhAs,
 }
 
+export const wholeCardToImage = (card: Card) => {
+	switch (card.color) {
+		// biome-ignore lint/suspicious/noFallthroughSwitchClause: <explanation>
+		case "Clubs": {
+			switch (card.card) {
+				case "Ace":
+					return fcbfAc
+				case "King":
+					return fcbfKc
+				case "Queen":
+					return fcbfQc
+				case "Jack":
+					return fcbfJc
+				case "Ten":
+					return fcbfTc
+				case "Nine":
+					return fcbf9c
+				case "Eight":
+					return fcbf8c
+				case "Seven":
+					return fcbf7c
+			}
+		}
+
+		// biome-ignore lint/suspicious/noFallthroughSwitchClause: <explanation>
+		case "Diamonds": {
+			switch (card.card) {
+				case "Ace":
+					return fcbfAd
+				case "King":
+					return fcbfKd
+				case "Queen":
+					return fcbfQd
+				case "Jack":
+					return fcbfJd
+				case "Ten":
+					return fcbfTd
+				case "Nine":
+					return fcbf9d
+				case "Eight":
+					return fcbf8d
+				case "Seven":
+					return fcbf7d
+			}
+		}
+
+		// biome-ignore lint/suspicious/noFallthroughSwitchClause: <explanation>
+		case "Spades": {
+			switch (card.card) {
+				case "Ace":
+					return fcbfAs
+				case "King":
+					return fcbfKs
+				case "Queen":
+					return fcbfQs
+				case "Jack":
+					return fcbfJs
+				case "Ten":
+					return fcbfTs
+				case "Nine":
+					return fcbf9s
+				case "Eight":
+					return fcbf8s
+				case "Seven":
+					return fcbf7s
+			}
+		}
+
+		case "Hearts": {
+			switch (card.card) {
+				case "Ace":
+					return fcbfAc
+				case "King":
+					return fcbfKc
+				case "Queen":
+					return fcbfQc
+				case "Jack":
+					return fcbfJc
+				case "Ten":
+					return fcbfTc
+				case "Nine":
+					return fcbf9c
+				case "Eight":
+					return fcbf8c
+				case "Seven":
+					return fcbf7c
+			}
+		}
+	}
+}
+
+export const halfCardToImage = (card: Card) => {
+	switch (card.color) {
+		// biome-ignore lint/suspicious/noFallthroughSwitchClause: <explanation>
+		case "Clubs": {
+			switch (card.card) {
+				case "Ace":
+					return fcbfhAc
+				case "King":
+					return fcbfhKc
+				case "Queen":
+					return fcbfhQc
+				case "Jack":
+					return fcbfhJc
+				case "Ten":
+					return fcbfhTc
+				case "Nine":
+					return fcbfh9c
+				case "Eight":
+					return fcbfh8c
+				case "Seven":
+					return fcbfh7c
+			}
+		}
+
+		// biome-ignore lint/suspicious/noFallthroughSwitchClause: <explanation>
+		case "Diamonds": {
+			switch (card.card) {
+				case "Ace":
+					return fcbfhAd
+				case "King":
+					return fcbfhKd
+				case "Queen":
+					return fcbfhQd
+				case "Jack":
+					return fcbfhJd
+				case "Ten":
+					return fcbfhTd
+				case "Nine":
+					return fcbfh9d
+				case "Eight":
+					return fcbfh8d
+				case "Seven":
+					return fcbfh7d
+			}
+		}
+
+		// biome-ignore lint/suspicious/noFallthroughSwitchClause: <explanation>
+		case "Spades": {
+			switch (card.card) {
+				case "Ace":
+					return fcbfhAs
+				case "King":
+					return fcbfhKs
+				case "Queen":
+					return fcbfhQs
+				case "Jack":
+					return fcbfhJs
+				case "Ten":
+					return fcbfhTs
+				case "Nine":
+					return fcbfh9s
+				case "Eight":
+					return fcbfh8s
+				case "Seven":
+					return fcbfh7s
+			}
+		}
+
+		case "Hearts": {
+			switch (card.card) {
+				case "Ace":
+					return fcbfhAc
+				case "King":
+					return fcbfhKc
+				case "Queen":
+					return fcbfhQc
+				case "Jack":
+					return fcbfhJc
+				case "Ten":
+					return fcbfhTc
+				case "Nine":
+					return fcbfh9c
+				case "Eight":
+					return fcbfh8c
+				case "Seven":
+					return fcbfh7c
+			}
+		}
+	}
+}
+
 type props = {
-	cardType: Cardtype
+	cardType: Card
 	front?: boolean
 	style?: CSSProperties
 	className?: string
@@ -260,8 +441,16 @@ const PlayingCard: React.FC<React.PropsWithChildren<props>> = ({
 		<img
 			className={className}
 			style={style}
-			alt={cardType}
-			src={front ? (showHalf ? halfcards[cardType] : cards[cardType]) : showHalf ? halfcards["1b"] : cards["1b"]}
+			alt={`${cardType}`}
+			src={
+				front
+					? showHalf
+						? halfCardToImage(cardType)
+						: wholeCardToImage(cardType)
+					: showHalf
+						? halfcards["1b"]
+						: cards["1b"]
+			}
 			onClick={() => (onClick ? onClick() : null)}
 			onKeyDown={() => (onClick ? onClick() : null)}
 			draggable="false"

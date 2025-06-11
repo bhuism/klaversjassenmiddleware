@@ -24,10 +24,10 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 		return <>no user</>
 	}
 
-	const createGame = () => {
+	const createGame = (currentUser: string) => {
 		setCreatingGame(true)
 		cardApi
-			.createGame({ players: new Set([...players.ids].map((r) => r as string)) })
+			.createGame({ players: new Set([...players.ids, currentUser].map((r) => r as string)) })
 			.then((game) => {
 				navigate(`/play/${game.id}`)
 			})
@@ -57,7 +57,11 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 						Er {players.ids.size === 2 ? "is" : "zijn"} nog {3 - players.ids.size} speler
 						{players.ids.size === 2 ? "" : "s"} nodig om het spel te starten.
 					</Typography>
-					<Button variant="outlined" disabled={!players || players.ids.size !== 3 || creatingGame} onClick={createGame}>
+					<Button
+						variant="outlined"
+						disabled={!players || players.ids.size !== 3 || creatingGame}
+						onClick={() => createGame(user.id)}
+					>
 						Start Spel
 					</Button>
 				</Stack>

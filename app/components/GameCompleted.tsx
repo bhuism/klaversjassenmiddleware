@@ -1,21 +1,23 @@
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import { tableCellClasses } from "@mui/material/TableCell"
-import type { GameState } from "~/types"
 import UsThem from "./UsThem"
-import { trickSummer } from "./common/utils"
 import CompletedPlayerCards from "./game/CompletedPlayerCards"
 import CompletedTricks from "./game/CompletedTricks"
 import PlayerName from "./game/PlayerName"
 import SuitImage from "./game/SuitImage"
+import type { Game } from ".generated-sources/openapi"
 
-const GameCompleted: React.FC<{ game: GameState }> = ({ game }) => {
-	const allPoints = game.calculateAllTrickPoints(game)
+const GameCompleted: React.FC<{ game: Game }> = ({ game }) => {
+	// const allPoints = game.calculateAllTrickPoints(game)
 
-	const { zeroTwoPoints, oneThreePoints } = allPoints.reduce(trickSummer, {
-		zeroTwoPoints: 0,
-		oneThreePoints: 0,
-	})
+	// const { zeroTwoPoints, oneThreePoints } = allPoints.reduce(trickSummer, {
+	// 	zeroTwoPoints: 0,
+	// 	oneThreePoints: 0,
+	// })
+
+	const zeroTwoPoints = 0
+	const oneThreePoints = 0
 
 	return (
 		<TableContainer component={Paper}>
@@ -61,7 +63,7 @@ const GameCompleted: React.FC<{ game: GameState }> = ({ game }) => {
 									{" "}
 									<UsThem game={game} zeroTwo={true} />
 									<span>, </span>
-									<PlayerName playerUid={[...game.players][0]} /> & <PlayerName playerUid={[...game.players][2]} />,{" "}
+									<PlayerName user={[...game.players][0]} /> & <PlayerName user={[...game.players][2]} />,{" "}
 									{zeroTwoPoints} punten
 								</>
 							) : (
@@ -69,7 +71,7 @@ const GameCompleted: React.FC<{ game: GameState }> = ({ game }) => {
 									{" "}
 									<UsThem game={game} zeroTwo={false} />
 									<span>, </span>
-									<PlayerName playerUid={[...game.players][1]} /> & <PlayerName playerUid={[...game.players][3]} />,{" "}
+									<PlayerName user={[...game.players][1]} /> & <PlayerName user={[...game.players][3]} />,{" "}
 									{oneThreePoints} punten
 								</>
 							)}
@@ -83,7 +85,7 @@ const GameCompleted: React.FC<{ game: GameState }> = ({ game }) => {
 									{" "}
 									<UsThem game={game} zeroTwo={true} />
 									<span>, </span>
-									<PlayerName playerUid={[...game.players][0]} /> & <PlayerName playerUid={[...game.players][2]} />,{" "}
+									<PlayerName user={[...game.players][0]} /> & <PlayerName user={[...game.players][2]} />,{" "}
 									{zeroTwoPoints} punten
 								</>
 							) : (
@@ -91,7 +93,7 @@ const GameCompleted: React.FC<{ game: GameState }> = ({ game }) => {
 									{" "}
 									<UsThem game={game} zeroTwo={false} />
 									<span>, </span>
-									<PlayerName playerUid={[...game.players][1]} /> & <PlayerName playerUid={[...game.players][3]} />,{" "}
+									<PlayerName user={[...game.players][1]} /> & <PlayerName user={[...game.players][3]} />,{" "}
 									{oneThreePoints} punten
 								</>
 							)}
@@ -108,19 +110,19 @@ const GameCompleted: React.FC<{ game: GameState }> = ({ game }) => {
 							gegaan <PlayArrowIcon />
 						</TableCell>
 						<TableCell colSpan={10}>
-							<PlayerName playerUid={[...game.players][game.elder as number]} />
+							<PlayerName user={[...game.players][game.elder as number]} />
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell colSpan={2}>deler</TableCell>
 						<TableCell colSpan={10}>
-							<PlayerName playerUid={[...game.players][game.dealer]} />
+							<PlayerName user={[...game.players][game.dealer]} />
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell colSpan={2}>gemaakt door</TableCell>
 						<TableCell colSpan={10}>
-							<PlayerName playerUid={game.creator} />
+							<PlayerName user={game.players.filter((g) => g.id === game.creator)[0]} />
 						</TableCell>
 					</TableRow>
 					<TableRow>

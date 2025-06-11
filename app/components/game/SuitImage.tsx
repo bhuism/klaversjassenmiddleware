@@ -1,6 +1,6 @@
 import { createSvgIcon } from "@mui/material"
 import type React from "react"
-import Suit from "../common/Suit"
+import { Suit } from ".generated-sources/openapi"
 
 const ClubIcon = createSvgIcon(
 	// biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>

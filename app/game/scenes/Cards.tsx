@@ -1,11 +1,10 @@
-import { type CardsType, cards } from "~/components/common/PlayingCard"
-import type { GameState } from "~/types"
-import type { DefaultApi } from ".generated-sources/openapi"
+import { cards } from "~/components/common/PlayingCard"
+import type { Card, CardNr, DefaultApi, Game, Suit } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
 	localCards: Phaser.GameObjects.Image[] = []
 	cardApi: DefaultApi
-	gameState: GameState
+	gameState: Game
 	targets: Phaser.Math.Vector2[] = []
 	saveCardDragVector: Phaser.Math.Vector2 | undefined
 	//const cards: Phaser.GameObjects.Image[] = []
@@ -13,12 +12,12 @@ export class Cards extends Phaser.Scene {
 	gameWidth = 0
 	gameHeight = 0
 
-	constructor(cardApi: DefaultApi, gameState: GameState) {
+	constructor(cardApi: DefaultApi, gameState: Game) {
 		super("Cards")
 		this.cardApi = cardApi
 		this.gameState = gameState
 
-		if (this.gameState.isCompleted()) {
+		if (this.gameState.trump.length === 32) {
 			// biome-ignore lint/suspicious/noConsole: <explanation>
 			console.error("No game / completed")
 			throw new Error("No game / completed")
@@ -96,23 +95,15 @@ export class Cards extends Phaser.Scene {
 
 	preload() {
 		this.showBar()
-
-		this.load.atlas("cards", "/assets/cards.png", "/assets/cards.json")
-		//		this.load.image("2b", cards["2b"])
-
-		Object.keys(cards)
-			.map((k) => k as string)
-			.forEach((key) => {
-				this.load.image(key, cards[key as keyof CardsType])
-			})
+		Object.keys(cards).forEach((key) => {
+			this.load.image(key, cards[key])
+		})
 	}
 
 	create() {
 		this.gameWidth = this.game.config.width as number
 		this.gameHeight = this.game.config.height as number
-
 		this.showPlayerCards()
-		this.showNames()
 	}
 
 	showPlayerCards() {
@@ -121,11 +112,7 @@ export class Cards extends Phaser.Scene {
 			(this.game.config.height as number) / 2
 		)
 
-		this.add.zone(center.x, center.y, 0, 0).setCircleDropZone(this.gameWidth / 12)
-
-		// const graphics = this.add.graphics()
-		// graphics.lineStyle(2, 0xffff00)
-		// graphics.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+		const zone = this.add.zone(center.x, center.y, 0, 0).setCircleDropZone(this.gameWidth / 12)
 
 		for (let index = 0; index < 32; index++) {
 			// tune this, trust me
@@ -138,7 +125,7 @@ export class Cards extends Phaser.Scene {
 
 			const currentCard = this.gameState.playerCard.filter((pc) => pc.player === Math.floor(index / 8))[index % 8].card
 
-			const card = this.add.image(center.x, center.y, currentCard)
+			const card = this.add.image(center.x, center.y, convertToImageName(currentCard))
 
 			card.setScale(this.gameWidth / 2100)
 			card.setDepth(-index)
@@ -181,12 +168,27 @@ export class Cards extends Phaser.Scene {
 			}
 
 			this.tweens.add({
-				delay: index * 100,
-				targets: card,
-				x: target.x,
-				y: target.y,
-				ease: "Bounce.easeOut",
-				duration: 1000 + Math.random() * 1000,
+				...{
+					delay: index * 100,
+					targets: card,
+					x: target.x,
+					y: target.y,
+					ease: "Bounce.easeOut",
+					duration: 1000 + Math.random() * 1000,
+				},
+				...(index === 31
+					? {
+							onComplete: () => {
+								const graphics1 = this.add.graphics()
+								graphics1.fillStyle(3, 0x40ff07)
+								graphics1.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+								const graphics2 = this.add.graphics()
+								graphics2.lineStyle(2, 0xffff00)
+								graphics2.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+								this.showNames()
+							},
+						}
+					: []),
 			})
 
 			this.localCards.push(card)
@@ -283,4 +285,25 @@ export class Cards extends Phaser.Scene {
 	}
 
 	update(_time: number, _delta: number) {}
+}
+function convertToImageName(card: Card) {
+	const cardNrMap: Record<CardNr, string> = {
+		Ace: "A",
+		King: "K",
+		Queen: "Q",
+		Jack: "J",
+		Ten: "T",
+		Nine: "9",
+		Eight: "8",
+		Seven: "7",
+	}
+
+	const suiteMap: Record<Suit, string> = {
+		Clubs: "c",
+		Hearts: "h",
+		Diamonds: "d",
+		Spades: "s",
+	}
+
+	return cardNrMap[card.card] + suiteMap[card.color]
 }
