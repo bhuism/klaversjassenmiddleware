@@ -14,10 +14,10 @@ import dayjs from "dayjs"
 import { SnackbarProvider } from "notistack"
 import { Outlet } from "react-router"
 import AuthSessionProvider from "~/provider/AuthSessionProvider"
-import SocketGuard from "~/provider/SocketGuard"
 import theme from "./theme"
 
 import relativeTime from "dayjs/plugin/relativeTime"
+import SocketGuard from "~/provider/SocketGuard"
 
 dayjs.extend(relativeTime)
 dayjs.locale("nl")
@@ -25,21 +25,21 @@ dayjs.locale("nl")
 const RootLayout: React.FC = () => {
 	return (
 		<SnackbarProvider maxSnack={10} autoHideDuration={3000}>
-			<SocketGuard>
-				<LocalizationProvider
-					dateAdapter={AdapterDayjs}
-					adapterLocale="nl"
-					localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
-				>
-					<ThemeProvider theme={theme} defaultMode="system">
-						<InitColorSchemeScript defaultMode="system" attribute="class" />
-						<CssBaseline />
-						<AuthSessionProvider>
+			<LocalizationProvider
+				dateAdapter={AdapterDayjs}
+				adapterLocale="nl"
+				localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
+			>
+				<ThemeProvider theme={theme} defaultMode="system">
+					<InitColorSchemeScript defaultMode="system" attribute="class" />
+					<CssBaseline />
+					<AuthSessionProvider>
+						<SocketGuard>
 							<Outlet />
-						</AuthSessionProvider>
-					</ThemeProvider>
-				</LocalizationProvider>
-			</SocketGuard>
+						</SocketGuard>
+					</AuthSessionProvider>
+				</ThemeProvider>
+			</LocalizationProvider>
 		</SnackbarProvider>
 	)
 }
