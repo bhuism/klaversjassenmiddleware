@@ -13,28 +13,43 @@ const SocketGuard: React.FC<PropsWithChildren> = ({ children }) => {
 	const { enqueueSnackbar } = useSnackbar()
 	const { user } = useContext(UidContext)
 
-	const eventSource = new EventSource(constants.wsUrl, {
-		fetch: (input, init) =>
-			fetch(input, {
-				...init,
-				headers: {
-					...init.headers,
-					cardserverauth: `${user?.id}`,
-				},
-			}),
-	})
+	if (user?.id) {
+		const eventSource = new EventSource(constants.wsUrl, {
+			fetch: (input, init) =>
+				fetch(input, {
+					...init,
+					headers: {
+						...init.headers,
+						cardserverauth: `${user?.id}`,
+						Authorization: "Bearer myToken",
+					},
+				}),
+		})
 
-	eventSource.addEventListener("error", (e) => {
-		enqueueSnackbar(JSON.stringify(e), { variant: "error" })
-	})
+		eventSource.addEventListener("error", (e) => {
+			enqueueSnackbar(`error${JSON.stringify(e)}`, { variant: "error" })
+		})
 
-	eventSource.addEventListener("message", (e) => {
-		enqueueSnackbar(JSON.stringify(e), { variant: "info" })
-	})
+		eventSource.addEventListener("notice", (e) => {
+			enqueueSnackbar(`notice${JSON.stringify(e)}`, { variant: "info" })
+		})
 
-	// useEffect(() => {
-	// 	enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: readyState === ReadyState.CLOSED ? "error" : "info" })
-	// }, [enqueueSnackbar, readyState])
+		eventSource.addEventListener("update", (e) => {
+			enqueueSnackbar(`update${JSON.stringify(e)}`, { variant: "info" })
+		})
+
+		eventSource.addEventListener("event", (e) => {
+			enqueueSnackbar(`event${JSON.stringify(e)}`, { variant: "info" })
+		})
+
+		eventSource.addEventListener("message", (e) => {
+			enqueueSnackbar(`message:${JSON.stringify(e)}`, { variant: "info" })
+		})
+
+		// useEffect(() => {
+		// 	enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: readyState === ReadyState.CLOSED ? "error" : "info" })
+		// }, [enqueueSnackbar, readyState])
+	}
 
 	return <>{children}</>
 }

@@ -9,7 +9,7 @@ const useCardApi = () => {
 	return useMemo(() => {
 		return new DefaultApi(
 			new Configuration({
-				basePath: constants.apiUrl,
+				basePath: `${constants.apiUrl}/api/vi`,
 				headers: { cardserverauth: `${user?.id}` },
 			})
 		)

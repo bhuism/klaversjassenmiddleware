@@ -16,31 +16,43 @@ import { Outlet } from "react-router"
 import AuthSessionProvider from "~/provider/AuthSessionProvider"
 import theme from "./theme"
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { DialogsProvider } from "@toolpad/core/useDialogs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import SocketGuard from "~/provider/SocketGuard"
+import { UidContextProvider } from "~/provider/UidContextProvider"
 
 dayjs.extend(relativeTime)
 dayjs.locale("nl")
 
 const RootLayout: React.FC = () => {
+	const queryClient = new QueryClient()
+	//	const { readyState, sendJsonMessage, lastJsonMessage } = useWebSocket<MessageType>(constants.wsUrl, { share: true })
+
 	return (
-		<SnackbarProvider maxSnack={10} autoHideDuration={3000}>
+		<ThemeProvider theme={theme} defaultMode="system">
+			<InitColorSchemeScript defaultMode="system" attribute="class" />
+			<CssBaseline />
 			<LocalizationProvider
 				dateAdapter={AdapterDayjs}
 				adapterLocale="nl"
 				localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
 			>
-				<ThemeProvider theme={theme} defaultMode="system">
-					<InitColorSchemeScript defaultMode="system" attribute="class" />
-					<CssBaseline />
-					<AuthSessionProvider>
-						<SocketGuard>
-							<Outlet />
-						</SocketGuard>
-					</AuthSessionProvider>
-				</ThemeProvider>
+				<SnackbarProvider maxSnack={10} autoHideDuration={3000}>
+					<DialogsProvider>
+						<QueryClientProvider client={queryClient}>
+							<AuthSessionProvider>
+								<UidContextProvider>
+									<SocketGuard>
+										<Outlet />
+									</SocketGuard>
+								</UidContextProvider>
+							</AuthSessionProvider>
+						</QueryClientProvider>
+					</DialogsProvider>
+				</SnackbarProvider>
 			</LocalizationProvider>
-		</SnackbarProvider>
+		</ThemeProvider>
 	)
 }
 export default RootLayout
