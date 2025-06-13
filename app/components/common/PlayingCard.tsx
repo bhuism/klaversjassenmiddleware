@@ -110,7 +110,7 @@ import fcbfhTh from "./halfcard/TH.svg"
 import fcbfhTs from "./halfcard/TS.svg"
 import type { Card } from ".generated-sources/openapi"
 
-export type CardsType = Record<string, string>
+type CardsType = Record<string, string>
 
 export const cards: CardsType = {
 	"1b": fcbf1b,
@@ -173,7 +173,7 @@ export const cards: CardsType = {
 	As: fcbfAs,
 }
 
-export const halfcards: CardsType = {
+const halfcards: CardsType = {
 	"1b": fcbfh1b,
 	"1p": fcbfh1p,
 

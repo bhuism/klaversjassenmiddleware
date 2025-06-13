@@ -1,0 +1,50 @@
+import { EventSource } from "eventsource"
+import { useSnackbar } from "notistack"
+import { type PropsWithChildren, useContext, useEffect } from "react"
+import UidContext from "~/context/UidContext"
+import constants from "~/utils/constants"
+
+const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
+	const { enqueueSnackbar } = useSnackbar()
+	const { user } = useContext(UidContext)
+	//	const { message, setMessage } = useState<string>()
+
+	useEffect(() => {
+		const eventSource = new EventSource(constants.wsUrl, {
+			fetch: (input, init) =>
+				fetch(input, {
+					...init,
+					mode: "cors",
+					credentials: "omit",
+					redirect: "error",
+					headers: {
+						...init.headers,
+						cardserverauth: `${user?.id}`,
+					},
+				}),
+		})
+
+		eventSource.addEventListener("cardservermessage", (e) => {
+			enqueueSnackbar(`update${JSON.stringify(e.data)}`, { variant: "info" })
+		})
+
+		eventSource.addEventListener("message", (e) => {
+			enqueueSnackbar(`message:${JSON.stringify(e.data)}`, { variant: "info" })
+		})
+
+		eventSource.addEventListener("error", (e) => {
+			enqueueSnackbar(`error${JSON.stringify(e.message)}`, { variant: "error" })
+		})
+
+		// terminating the connection on component unmount
+		return () => eventSource.close()
+	}, [user?.id, enqueueSnackbar])
+
+	// useEffect(() => {
+	// 	enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: readyState === ReadyState.CLOSED ? "error" : "info" })
+	// }, [enqueueSnackbar, readyState])
+
+	return <>{children}</>
+}
+
+export default EventSourceProvider

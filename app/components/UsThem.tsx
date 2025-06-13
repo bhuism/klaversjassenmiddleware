@@ -1,6 +1,6 @@
 import type React from "react"
 import { useContext } from "react"
-import UidContext from "~/provider/UidContextProvider"
+import UidContext from "~/context/UidContext"
 import type { Game } from ".generated-sources/openapi"
 
 const UsThem: React.FC<React.PropsWithChildren<{ game: Game; zeroTwo: boolean }>> = ({ game, zeroTwo }) => {

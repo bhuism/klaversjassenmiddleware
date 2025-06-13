@@ -1,20 +1,21 @@
 import { AccountCircle } from "@mui/icons-material"
 import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import type React from "react"
-import { useState } from "react"
-import { useAuth } from "react-oidc-context"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router"
+import UidContext from "~/context/UidContext"
 import AboutDialog from "./AboutDialog"
 import type { MyMenu } from "./MenuBar"
 import UserStatusDialog from "./UserStatusDialog"
 
 const UserMenu: React.FC = () => {
-	const { user, removeUser } = useAuth()
 	const [userStatusDialogVisible, setUserStatusDialogVisible] = useState<boolean>(false)
 	const [aboutDialogVisible, setAboutDialogVisible] = useState<boolean>(false)
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
-
 	const navigate = useNavigate()
+
+	const { user } = useContext(UidContext)
+
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget)
 	}
@@ -48,7 +49,6 @@ const UserMenu: React.FC = () => {
 			id: "logout",
 			title: "Logout",
 			onClick: () => {
-				removeUser()
 				localStorage.clear()
 				navigate("/")
 			},
@@ -61,10 +61,10 @@ const UserMenu: React.FC = () => {
 
 	return (
 		<>
-			<Tooltip title={user.profile.name}>
+			<Tooltip title={user.displayName}>
 				<IconButton onClick={handleOpenUserMenu} sx={{ mr: 1 }} aria-label="User menu">
-					{user.profile.name && user.profile.picture ? (
-						<Avatar alt={user.profile.name} src={user.profile.picture} />
+					{user.displayName && user.photoURL ? (
+						<Avatar alt={user.displayName} src={user.photoURL} />
 					) : (
 						<AccountCircle />
 					)}

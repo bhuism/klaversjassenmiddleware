@@ -1,26 +1,10 @@
-import React from "react"
+import type React from "react"
+import UidContext from "~/context/UidContext"
+import AuthSessionProvider from "./AuthSessionProvider"
 import HandleLogin from "./HandleLogin"
-import type { MessageType } from "./SocketGuard"
 import type { User } from ".generated-sources/openapi"
 
 export const LOCAL_STORAGE_USERID_KEY = "CardSeverAuthUserId"
-
-interface UidContextProps {
-	user?: User
-	deleteUser: (deleterUid: string) => Promise<void>
-	addFeedBack: (comment: string) => Promise<void>
-	addFriend: (adder: string) => Promise<void>
-	delFriend: (remover: string) => Promise<void>
-	sendMessage: (messageType: MessageType, receivers: string[], body?: string) => Promise<void>
-}
-
-const UidContext = React.createContext<UidContextProps>({
-	deleteUser: () => Promise.resolve(),
-	addFeedBack: () => Promise.resolve(),
-	addFriend: () => Promise.resolve(),
-	delFriend: () => Promise.resolve(),
-	sendMessage: () => Promise.resolve(),
-})
 
 // export const sendMessageRaw = (
 // 	uid: string,
@@ -46,7 +30,7 @@ const UidContext = React.createContext<UidContextProps>({
 // 	return batch.commit().catch((err: Error) => toast.error(err.name + " : " + err.message)) as Promise<void>
 // }
 
-export const UidContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+const UidContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 	let user: User | undefined = undefined
 
 	const raw = localStorage.getItem(LOCAL_STORAGE_USERID_KEY)
@@ -61,7 +45,11 @@ export const UidContextProvider: React.FC<React.PropsWithChildren> = ({ children
 	}
 
 	if (!user || !user.id || user.id.length !== 28) {
-		return <HandleLogin />
+		return (
+			<AuthSessionProvider>
+				<HandleLogin />
+			</AuthSessionProvider>
+		)
 	}
 
 	// all good
@@ -111,7 +99,7 @@ export const UidContextProvider: React.FC<React.PropsWithChildren> = ({ children
 				addFeedBack: () => Promise.resolve(),
 				addFriend: () => Promise.resolve(),
 				delFriend: () => Promise.resolve(),
-				sendMessage: () => Promise.resolve(),
+				//				sendMessage: () => Promise.resolve(),
 			}}
 		>
 			{children}
@@ -119,4 +107,4 @@ export const UidContextProvider: React.FC<React.PropsWithChildren> = ({ children
 	)
 }
 
-export default UidContext
+export default UidContextProvider

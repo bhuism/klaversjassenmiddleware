@@ -1,6 +1,7 @@
 import { reactRouter } from "@react-router/dev/vite"
 import tailwindcss from "@tailwindcss/vite"
 import { minimal2023Preset as preset } from "@vite-pwa/assets-generator/config"
+import { reactRouterDevTools } from "react-router-devtools"
 import { defineConfig } from "vite"
 import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa"
 import tsconfigPaths from "vite-tsconfig-paths"
@@ -36,13 +37,13 @@ const pwaOptions: Partial<VitePWAOptions> = {
 		clientsClaim: true,
 	},
 
-	// devOptions: {
-	// 	// biome-ignore lint/nursery/noProcessEnv: <explanation>
-	// 	enabled: process.env.SW_DEV === "true",
-	// 	/* when using generateSW the PWA plugin will switch to classic */
-	// 	type: "module",
-	// 	navigateFallback: "index.html",
-	// },
+	devOptions: {
+		// biome-ignore lint/nursery/noProcessEnv: <explanation>
+		enabled: process.env.SW_DEV === "true",
+		/* when using generateSW the PWA plugin will switch to classic */
+		type: "module",
+		navigateFallback: "index.html",
+	},
 }
 
 export default defineConfig({
@@ -54,8 +55,7 @@ export default defineConfig({
 	define: {
 		__DATE__: `'${new Date().toISOString()}'`,
 	},
-	//reactRouterDevTools()
-	plugins: [tailwindcss(), reactRouter(), tsconfigPaths(), VitePWA(pwaOptions)],
+	plugins: [tailwindcss(), reactRouterDevTools(), reactRouter(), tsconfigPaths(), VitePWA(pwaOptions)],
 	ssr: {
 		noExternal: ["@mui", "@mui/x-data-grid", "ui"],
 	},

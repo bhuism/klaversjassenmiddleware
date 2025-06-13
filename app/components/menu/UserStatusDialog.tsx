@@ -1,6 +1,6 @@
 import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
 import { useContext } from "react"
-import UidContext from "~/provider/UidContextProvider"
+import UidContext from "~/context/UidContext"
 
 const UserStatusDialog: React.FC<{
 	visible: boolean

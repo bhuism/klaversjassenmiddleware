@@ -4,9 +4,9 @@ import { DataGrid } from "@mui/x-data-grid/DataGrid"
 import { useSnackbar } from "notistack"
 import { useContext, useState } from "react"
 import { useNavigate } from "react-router"
+import UidContext from "~/context/UidContext"
 import { useIncomingInvitesAndFriends } from "~/hooks/useFriends"
 import useCardApi from "~/hooks/useGameApi"
-import UidContext from "~/provider/UidContextProvider"
 
 const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 	const { enqueueSnackbar } = useSnackbar()

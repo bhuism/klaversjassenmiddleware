@@ -4,15 +4,24 @@ import { useAuth } from "react-oidc-context"
 import { useNavigate } from "react-router"
 import LoginButton from "~/components/button/LoginButton"
 import ReloadButton from "~/components/button/ReloadButton"
-import useWhoAmIApi from "~/hooks/useWhoAmIApi"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
+import constants from "~/utils/constants"
 import { LOCAL_STORAGE_USERID_KEY } from "./UidContextProvider"
+import { Configuration, WhoamiApi } from ".generated-sources/openapi"
 
 const WhoAmI = () => {
-	const whoamiApi = useWhoAmIApi()
 	const navigate = useNavigate()
 	const { user: authUser } = useAuth()
+
+	const token = authUser?.id_token
+
+	const whoamiApi = new WhoamiApi(
+		new Configuration({
+			basePath: constants.apiUrl,
+			headers: { Authorization: `Bearer ${token}` },
+		})
+	)
 
 	const {
 		isPending,

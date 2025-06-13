@@ -1,18 +1,21 @@
-import { Typography } from "@mui/material"
-import { useState } from "react"
+import { Stack, TextField } from "@mui/material"
+import useCardApi from "~/hooks/useGameApi"
+import CenterComponents from "~/utils/CenterComponents"
 
 const MessageBoard: React.FC = () => {
+	const cardApi = useCardApi()
+
 	// const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(constants.wsUrl, {
 	// 	share: true,
 	// })
 
 	//const { sendJsonMessage, lastJsonMessage, readyState } = useContext(WebSocketContext)
 
-	const generateRandom = () => {
-		return Math.random().toString(36).substring(2, 10)
-	}
+	// const generateRandom = () => {
+	// 	return Math.random().toString(36).substring(2, 10)
+	// }
 
-	const [value] = useState<string>(generateRandom())
+	// const [value] = useState<string>(generateRandom())
 
 	// useEffect(() => {
 	// 	if (sendJsonMessage) {
@@ -22,18 +25,16 @@ const MessageBoard: React.FC = () => {
 
 	return (
 		<div>
-			{
-				/* <Button
-				type="button"
-				variant="outlined"
-				onClick={() => setValue(generateRandom())}
-				disabled={readyState !== ReadyState.OPEN}
-			>
-				Send
-			</Button> */
-				<Typography>{`value: ${value}`}</Typography>
-				/*<Typography>{`lastJsonMessage: ${JSON.stringify(lastJsonMessage)}`}</Typography> */
-			}
+			<CenterComponents>
+				<Stack>
+					<TextField
+						id="outlined-basic"
+						label="Outlined"
+						variant="outlined"
+						onChange={(e) => cardApi.sendAMesage({ message: e.target.value })}
+					/>
+				</Stack>
+			</CenterComponents>
 		</div>
 	)
 }

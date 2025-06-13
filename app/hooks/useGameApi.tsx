@@ -1,5 +1,5 @@
 import { useContext, useMemo } from "react"
-import UidContext from "~/provider/UidContextProvider"
+import UidContext from "~/context/UidContext"
 import constants from "~/utils/constants"
 import { Configuration, DefaultApi } from ".generated-sources/openapi"
 

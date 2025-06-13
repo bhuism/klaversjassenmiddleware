@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import UidContext from "~/provider/UidContextProvider"
+import UidContext from "~/context/UidContext"
 import useCardApi from "./useGameApi"
 import type { User } from ".generated-sources/openapi"
 
