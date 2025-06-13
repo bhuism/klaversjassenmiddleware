@@ -10,7 +10,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	//	const { message, setMessage } = useState<string>()
 
 	useEffect(() => {
-		const eventSource = new EventSource(constants.wsUrl, {
+		const eventSource = new EventSource(`${constants.apiUrl}/subscribe`, {
 			fetch: (input, init) =>
 				fetch(input, {
 					...init,

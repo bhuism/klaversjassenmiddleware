@@ -1,27 +1,21 @@
 import { Stack, TextField } from "@mui/material"
+import { useState } from "react"
 import useCardApi from "~/hooks/useGameApi"
 import CenterComponents from "~/utils/CenterComponents"
 
 const MessageBoard: React.FC = () => {
 	const cardApi = useCardApi()
+	const [message, setMessage] = useState<string>("")
 
-	// const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(constants.wsUrl, {
-	// 	share: true,
-	// })
-
-	//const { sendJsonMessage, lastJsonMessage, readyState } = useContext(WebSocketContext)
-
-	// const generateRandom = () => {
-	// 	return Math.random().toString(36).substring(2, 10)
-	// }
-
-	// const [value] = useState<string>(generateRandom())
-
-	// useEffect(() => {
-	// 	if (sendJsonMessage) {
-	// 		sendJsonMessage({ type: "message", message: value })
-	// 	}
-	// }, [sendJsonMessage, value])
+	const onKeyPress = (e: unknown) => {
+		if (e.key === "Enter") {
+			e.preventDefault()
+			if (message && message.length > 0) {
+				cardApi.sendAMesage({ message })
+			}
+			setMessage("")
+		}
+	}
 
 	return (
 		<div>
@@ -30,8 +24,11 @@ const MessageBoard: React.FC = () => {
 					<TextField
 						id="outlined-basic"
 						label="Outlined"
+						value={message}
 						variant="outlined"
-						onChange={(e) => cardApi.sendAMesage({ message: e.target.value })}
+						onKeyDown={onKeyPress}
+						onChange={(e) => setMessage(e.target.value)}
+						autoFocus
 					/>
 				</Stack>
 			</CenterComponents>

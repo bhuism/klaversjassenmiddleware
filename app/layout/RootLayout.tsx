@@ -26,7 +26,6 @@ dayjs.locale("nl")
 
 const RootLayout: React.FC = () => {
 	const queryClient = new QueryClient()
-	//	const { readyState, sendJsonMessage, lastJsonMessage } = useWebSocket<MessageType>(constants.wsUrl, { share: true })
 
 	return (
 		<>

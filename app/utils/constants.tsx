@@ -10,7 +10,6 @@ const constants = {
 	audience: import.meta.env.VITE_OAUTH_AUDIENCE as string,
 	scopes: import.meta.env.VITE_OAUTH_SCOPES as string,
 
-	wsUrl: import.meta.env.VITE_WS_URL as string,
 	apiUrl: import.meta.env.VITE_API_URL as string,
 }
 
