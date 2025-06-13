@@ -7,7 +7,6 @@ import constants from "~/utils/constants"
 const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { enqueueSnackbar } = useSnackbar()
 	const { user } = useContext(UidContext)
-	//	const { message, setMessage } = useState<string>()
 
 	useEffect(() => {
 		const eventSource = new EventSource(`${constants.apiUrl}/subscribe`, {
