@@ -171,7 +171,7 @@ export const cards: Record<string, string> = {
 	As: fcbfAs,
 }
 
-const halfcard: Record<string, string> = {
+const halfcards: Record<string, string> = {
 	"1b": fcbfh1b,
 	"1p": fcbfh1p,
 
@@ -250,12 +250,8 @@ const cardNrConverter: Record<CardNr, string> = {
 	Seven: "7",
 }
 
-export const wholeCardToImage = (card: Card): string => {
-	return cards[cardNrConverter[card.card] + suitConverter[card.color]]
-}
-
-const halfCardToImage = (card: Card): string => {
-	return halfcard[cardNrConverter[card.card] + suitConverter[card.color]]
+export const cardToKey = (card: Card): string => {
+	return cardNrConverter[card.card] + suitConverter[card.color]
 }
 
 type props = {
@@ -288,10 +284,10 @@ const PlayingCard: React.FC<React.PropsWithChildren<props>> = ({
 				src={
 					front
 						? showHalf === true
-							? halfCardToImage(cardType)
-							: wholeCardToImage(cardType)
+							? halfcards[cardToKey(cardType)]
+							: cards[cardToKey(cardType)]
 						: showHalf === true
-							? halfcard["1b"]
+							? halfcards["1b"]
 							: cards["1b"]
 				}
 				onClick={() => (onClick ? onClick() : null)}

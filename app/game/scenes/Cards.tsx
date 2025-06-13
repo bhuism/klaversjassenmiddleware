@@ -1,4 +1,4 @@
-import { cards, wholeCardToImage } from "~/components/common/PlayingCard"
+import { cardToKey, cards } from "~/components/common/PlayingCard"
 import type { DefaultApi, Game } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
@@ -127,7 +127,7 @@ export class Cards extends Phaser.Scene {
 
 			const currentCard = this.gameState.playerCard.filter((pc) => pc.player === Math.floor(index / 8))[index % 8].card
 
-			const card = this.add.image(center.x, center.y, wholeCardToImage(currentCard))
+			const card = this.add.image(center.x, center.y, cardToKey(currentCard))
 
 			card.setScale(this.gameWidth / 2100)
 			card.setDepth(-index)
