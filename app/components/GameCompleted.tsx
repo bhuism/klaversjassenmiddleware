@@ -9,6 +9,10 @@ import SuitImage from "./game/SuitImage"
 import type { Game } from ".generated-sources/openapi"
 
 const GameCompleted: React.FC<{ game: Game }> = ({ game }) => {
+	if (game.turns.length !== 32) {
+		throw new Error("game should be finished")
+	}
+
 	// const allPoints = game.calculateAllTrickPoints(game)
 
 	// const { zeroTwoPoints, oneThreePoints } = allPoints.reduce(trickSummer, {

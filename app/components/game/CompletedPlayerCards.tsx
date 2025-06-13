@@ -5,6 +5,10 @@ import PlayerName from "./PlayerName"
 import type { Card, Game, Suit } from ".generated-sources/openapi"
 
 const CompletedPlayerCards: React.FC<React.PropsWithChildren<{ game: Game }>> = ({ game }) => {
+	if (game.turns.length !== 32) {
+		throw new Error("game should be finished")
+	}
+
 	// const playerPoints = (player: number): number => {
 	// 	return [...Array(game.tricksPlayed())]
 	// 		.map((x, trickNr) => trickNr)
@@ -66,9 +70,10 @@ const CompletedPlayerCards: React.FC<React.PropsWithChildren<{ game: Game }>> = 
 							</p>
 							<p className={"fs-5"}>{playerPoints(index)}</p>
 						</td>
-						{getAllPlayerCards(index).map((c) => (
-							<TableCell key={c.color + c.card}>
-								<PlayingCard cardType={c} front={true} style={{ width: "5vw", minWidth: "80px" }} />
+						{getAllPlayerCards(index).map((c, i) => (
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+							<TableCell key={i}>
+								<PlayingCard cardType={c} front style={{ width: "5vw", minWidth: "80px" }} />
 							</TableCell>
 						))}
 					</TableRow>

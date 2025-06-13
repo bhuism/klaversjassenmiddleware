@@ -8,7 +8,6 @@ import {
 	TableRow,
 	tableCellClasses,
 } from "@mui/material"
-import UsThem from "../UsThem"
 import PlayingCard from "../common/PlayingCard"
 import PlayerName from "./PlayerName"
 import type { Card, Game } from ".generated-sources/openapi"
@@ -41,7 +40,7 @@ const TrickRow: React.FC<
 		// biome-ignore lint/style/useTemplate: <explanation>
 		console.error("card " + card + " not found by any player")
 
-		return -1
+		return 0
 	}
 
 	return (
@@ -73,6 +72,10 @@ const TrickRow: React.FC<
 }
 
 const CompletedTricks: React.FC<React.PropsWithChildren<{ game: Game }>> = ({ game }) => {
+	if (game.turns.length !== 32) {
+		throw new Error("game should be finished")
+	}
+
 	//const allPoints = game.calculateAllTrickPoints(game)
 
 	// const { zeroTwoPoints, oneThreePoints } = allPoints.reduce(trickSummer, {
@@ -104,12 +107,8 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: Game }>> = ({ ga
 							<TableCell align="center">2</TableCell>
 							<TableCell align="center">3</TableCell>
 							<TableCell align="center">4</TableCell>
-							<TableCell align="center">
-								<UsThem game={game} zeroTwo={true} />
-							</TableCell>
-							<TableCell align="center">
-								<UsThem game={game} zeroTwo={false} />
-							</TableCell>
+							<TableCell align="center">{/* <UsThem game={game} zeroTwo={true} /> */}</TableCell>
+							<TableCell align="center">{/* <UsThem game={game} zeroTwo={false} /> */}</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>

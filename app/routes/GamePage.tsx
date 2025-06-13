@@ -10,8 +10,6 @@ import type { Route } from "./+types/GamePage"
 const GamePage: React.FC<Route.ComponentProps> = ({ params: { gameId } }) => {
 	const { game, isLoading, error } = useGame(gameId)
 
-	//	return <Typography>{gameId}</Typography>
-
 	if (error) {
 		return <span style={{ color: "red" }}>{error.message}</span>
 	}

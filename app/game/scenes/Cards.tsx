@@ -1,5 +1,5 @@
-import { cards } from "~/components/common/PlayingCard"
-import type { Card, CardNr, DefaultApi, Game, Suit } from ".generated-sources/openapi"
+import { cards, wholeCardToImage } from "~/components/common/PlayingCard"
+import type { DefaultApi, Game } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
 	localCards: Phaser.GameObjects.Image[] = []
@@ -95,6 +95,8 @@ export class Cards extends Phaser.Scene {
 
 	preload() {
 		this.showBar()
+
+		// load all cards
 		Object.keys(cards).forEach((key) => {
 			this.load.image(key, cards[key])
 		})
@@ -125,7 +127,7 @@ export class Cards extends Phaser.Scene {
 
 			const currentCard = this.gameState.playerCard.filter((pc) => pc.player === Math.floor(index / 8))[index % 8].card
 
-			const card = this.add.image(center.x, center.y, convertToImageName(currentCard))
+			const card = this.add.image(center.x, center.y, wholeCardToImage(currentCard))
 
 			card.setScale(this.gameWidth / 2100)
 			card.setDepth(-index)
@@ -285,25 +287,4 @@ export class Cards extends Phaser.Scene {
 	}
 
 	update(_time: number, _delta: number) {}
-}
-function convertToImageName(card: Card) {
-	const cardNrMap: Record<CardNr, string> = {
-		Ace: "A",
-		King: "K",
-		Queen: "Q",
-		Jack: "J",
-		Ten: "T",
-		Nine: "9",
-		Eight: "8",
-		Seven: "7",
-	}
-
-	const suiteMap: Record<Suit, string> = {
-		Clubs: "c",
-		Hearts: "h",
-		Diamonds: "d",
-		Spades: "s",
-	}
-
-	return cardNrMap[card.card] + suiteMap[card.color]
 }
