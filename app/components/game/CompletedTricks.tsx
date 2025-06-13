@@ -9,6 +9,7 @@ import {
 	tableCellClasses,
 } from "@mui/material"
 import PlayingCard from "../common/PlayingCard"
+import { cardEquals } from "../common/utils"
 import PlayerName from "./PlayerName"
 import type { Card, Game } from ".generated-sources/openapi"
 
@@ -20,25 +21,21 @@ const TrickRow: React.FC<
 	}>
 > = ({ game, trickNr }) => {
 	const getCardHolderByCard = (card: Card): number => {
-		if (game.playerCard.filter((pc) => pc.player === 0 && pc.card === card).pop()) {
+		if (game.playerCard.filter((pc) => pc.player === 0 && cardEquals(pc.card, card)).pop()) {
 			return 0
 		}
 
-		if (game.playerCard.filter((pc) => pc.player === 1 && pc.card === card).pop()) {
+		if (game.playerCard.filter((pc) => pc.player === 1 && cardEquals(pc.card, card)).pop()) {
 			return 1
 		}
 
-		if (game.playerCard.filter((pc) => pc.player === 2 && pc.card === card).pop()) {
+		if (game.playerCard.filter((pc) => pc.player === 2 && cardEquals(pc.card, card)).pop()) {
 			return 2
 		}
 
-		if (game.playerCard.filter((pc) => pc.player === 3 && pc.card === card).pop()) {
+		if (game.playerCard.filter((pc) => pc.player === 3 && cardEquals(pc.card, card)).pop()) {
 			return 3
 		}
-
-		// biome-ignore lint/suspicious/noConsole: <explanation>
-		// biome-ignore lint/style/useTemplate: <explanation>
-		console.error("card " + card + " not found by any player")
 
 		return 0
 	}

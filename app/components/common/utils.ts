@@ -1,4 +1,4 @@
-import type { CardNr } from ".generated-sources/openapi"
+import type { Card, CardNr } from ".generated-sources/openapi"
 
 // export function shuffle<U>(array: Array<U>): Array<U> {
 // 	let m = array.length
@@ -173,4 +173,8 @@ export function pointsTrump(cardType: CardNr): number {
 		default:
 			throw new Error("No such card")
 	}
+}
+
+export const cardEquals = (left: Card, right: Card): boolean => {
+	return left.color === right.color && left.card === right.card
 }
