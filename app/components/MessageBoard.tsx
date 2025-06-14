@@ -1,7 +1,6 @@
 import { Stack, TextField } from "@mui/material"
 import { useState } from "react"
 import useCardApi from "~/hooks/useGameApi"
-import CenterComponents from "~/utils/CenterComponents"
 
 const MessageBoard: React.FC = () => {
 	const cardApi = useCardApi()
@@ -19,7 +18,6 @@ const MessageBoard: React.FC = () => {
 
 	return (
 		<div>
-			<CenterComponents>
 				<Stack>
 					<TextField
 						id="outlined-basic"
@@ -31,7 +29,6 @@ const MessageBoard: React.FC = () => {
 						autoFocus
 					/>
 				</Stack>
-			</CenterComponents>
 		</div>
 	)
 }
