@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCell, TableRow } from "@mui/material"
 import PlayingCard from "../common/PlayingCard"
-import { rankRegular, rankTrump } from "../common/utils"
+import { rankRegular, rankTrump, suitOf } from "../common/utils"
 import PlayerName from "./PlayerName"
 import type { Card, Game, Suit } from ".generated-sources/openapi"
 
@@ -38,10 +38,8 @@ const CompletedPlayerCards: React.FC<React.PropsWithChildren<{ game: Game }>> = 
 
 	const cardSort = (left: Card, right: Card, trump: Suit): number => {
 		return (
-			sortValue(left.color) - sortValue(left.color) ||
-			(left.color === trump
-				? rankTrump(right.card) - rankTrump(left.card)
-				: rankRegular(right.card) - rankRegular(left.card))
+			sortValue(suitOf(left)) - sortValue(suitOf(right)) ||
+			(suitOf(left) === trump ? rankTrump(right) - rankTrump(left) : rankRegular(right) - rankRegular(left))
 		)
 	}
 

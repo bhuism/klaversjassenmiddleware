@@ -1,4 +1,4 @@
-import type { Card } from ".generated-sources/openapi"
+import { type Card, Suit } from ".generated-sources/openapi"
 
 // export function shuffle<U>(array: Array<U>): Array<U> {
 // 	let m = array.length
@@ -68,20 +68,20 @@ export function trickSummer(
 // 	"As",
 // ]
 
-// export function suitOf(cardType: Cardtype): Suit {
-// 	switch (cardType.charAt(1)) {
-// 		case "c":
-// 			return Suit.Clubs
-// 		case "s":
-// 			return Suit.Spades
-// 		case "h":
-// 			return Suit.Hearts
-// 		case "d":
-// 			return Suit.Diamonds
-// 		default:
-// 			throw new Error("No such card")
-// 	}
-// }
+export function suitOf(cardType: Card): Suit {
+	switch (cardType.charAt(1)) {
+		case "c":
+			return Suit.Clubs
+		case "s":
+			return Suit.Spades
+		case "h":
+			return Suit.Hearts
+		case "d":
+			return Suit.Diamonds
+		default:
+			throw new Error("No such card")
+	}
+}
 
 export function rankRegular(cardType: Card): number {
 	switch (cardType.charAt(0)) {

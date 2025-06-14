@@ -1,5 +1,5 @@
-import { cardToKey, cards } from "~/components/common/PlayingCard"
-import type { DefaultApi, Game } from ".generated-sources/openapi"
+import { cards } from "~/components/common/PlayingCard"
+import type { Card, DefaultApi, Game } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
 	localCards: Phaser.GameObjects.Image[] = []
@@ -98,7 +98,7 @@ export class Cards extends Phaser.Scene {
 
 		// load all cards
 		Object.keys(cards).forEach((key) => {
-			this.load.image(key, cards[key])
+			this.load.image(key, cards[key as Card])
 		})
 	}
 
@@ -127,7 +127,7 @@ export class Cards extends Phaser.Scene {
 
 			const currentCard = this.gameState.playerCard.filter((pc) => pc.player === Math.floor(index / 8))[index % 8].card
 
-			const card = this.add.image(center.x, center.y, cardToKey(currentCard))
+			const card = this.add.image(center.x, center.y, currentCard)
 
 			card.setScale(this.gameWidth / 2100)
 			card.setDepth(-index)

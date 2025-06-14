@@ -1,27 +1,5 @@
 import type { CSSProperties } from "react"
 import fcbf1b from "./cards/1B.svg"
-import fcbf1p from "./cards/1P.svg"
-import fcbf2b from "./cards/2B.svg"
-import fcbf2c from "./cards/2C.svg"
-import fcbf2d from "./cards/2D.svg"
-import fcbf2h from "./cards/2H.svg"
-import fcbf2s from "./cards/2S.svg"
-import fcbf3c from "./cards/3C.svg"
-import fcbf3d from "./cards/3D.svg"
-import fcbf3h from "./cards/3H.svg"
-import fcbf3s from "./cards/3S.svg"
-import fcbf4c from "./cards/4C.svg"
-import fcbf4d from "./cards/4D.svg"
-import fcbf4h from "./cards/4H.svg"
-import fcbf4s from "./cards/4S.svg"
-import fcbf5c from "./cards/5C.svg"
-import fcbf5d from "./cards/5D.svg"
-import fcbf5h from "./cards/5H.svg"
-import fcbf5s from "./cards/5S.svg"
-import fcbf6c from "./cards/6C.svg"
-import fcbf6d from "./cards/6D.svg"
-import fcbf6h from "./cards/6H.svg"
-import fcbf6s from "./cards/6S.svg"
 import fcbf7c from "./cards/7C.svg"
 import fcbf7d from "./cards/7D.svg"
 import fcbf7h from "./cards/7H.svg"
@@ -109,61 +87,61 @@ import fcbfhTd from "./halfcard/TD.svg"
 import fcbfhTh from "./halfcard/TH.svg"
 import fcbfhTs from "./halfcard/TS.svg"
 
-import type { Card, CardNr, Suit } from ".generated-sources/openapi"
-export const cards: Record<string, string> = {
-	"1b": fcbf1b,
-	"1p": fcbf1p,
-	"2b": fcbf2b,
-	"2c": fcbf2c,
-	"3c": fcbf3c,
-	"4c": fcbf4c,
-	"5c": fcbf5c,
-	"6c": fcbf6c,
-	"7c": fcbf7c,
-	"8c": fcbf8c,
-	"9c": fcbf9c,
+import type { Card } from ".generated-sources/openapi"
+export const cards: Record<Card, string> = {
+	// "1b": fcbf1b,
+	// "1p": fcbf1p,
+	// "2b": fcbf2b,
+	// "2c": fcbf2c,
+	// "3c": fcbf3c,
+	// "4c": fcbf4c,
+	// "5c": fcbf5c,
+	// "6c": fcbf6c,
+	Sc: fcbf7c,
+	Ec: fcbf8c,
+	Nc: fcbf9c,
 	Tc: fcbfTc,
 	Jc: fcbfJc,
 	Qc: fcbfQc,
 	Kc: fcbfKc,
 	Ac: fcbfAc,
 
-	"2d": fcbf2d,
-	"3d": fcbf3d,
-	"4d": fcbf4d,
-	"5d": fcbf5d,
-	"6d": fcbf6d,
-	"7d": fcbf7d,
-	"8d": fcbf8d,
-	"9d": fcbf9d,
+	// "2d": fcbf2d,
+	// "3d": fcbf3d,
+	// "4d": fcbf4d,
+	// "5d": fcbf5d,
+	// "6d": fcbf6d,
+	Sd: fcbf7d,
+	Ed: fcbf8d,
+	Nd: fcbf9d,
 	Td: fcbfTd,
 	Jd: fcbfJd,
 	Qd: fcbfQd,
 	Kd: fcbfKd,
 	Ad: fcbfAd,
 
-	"2h": fcbf2h,
-	"3h": fcbf3h,
-	"4h": fcbf4h,
-	"5h": fcbf5h,
-	"6h": fcbf6h,
-	"7h": fcbf7h,
-	"8h": fcbf8h,
-	"9h": fcbf9h,
+	// "2h": fcbf2h,
+	// "3h": fcbf3h,
+	// "4h": fcbf4h,
+	// "5h": fcbf5h,
+	// "6h": fcbf6h,
+	Sh: fcbf7h,
+	Eh: fcbf8h,
+	Nh: fcbf9h,
 	Th: fcbfTh,
 	Jh: fcbfJh,
 	Qh: fcbfQh,
 	Kh: fcbfKh,
 	Ah: fcbfAh,
 
-	"2s": fcbf2s,
-	"3s": fcbf3s,
-	"4s": fcbf4s,
-	"5s": fcbf5s,
-	"6s": fcbf6s,
-	"7s": fcbf7s,
-	"8s": fcbf8s,
-	"9s": fcbf9s,
+	// "2s": fcbf2s,
+	// "3s": fcbf3s,
+	// "4s": fcbf4s,
+	// "5s": fcbf5s,
+	// "6s": fcbf6s,
+	Ss: fcbf7s,
+	Es: fcbf8s,
+	Ns: fcbf9s,
 	Ts: fcbfTs,
 	Js: fcbfJs,
 	Qs: fcbfQs,
@@ -232,28 +210,6 @@ const halfcards: Record<string, string> = {
 	As: fcbfhAs,
 }
 
-const suitConverter: Record<Suit, string> = {
-	Clubs: "c",
-	Diamonds: "d",
-	Spades: "s",
-	Hearts: "h",
-}
-
-const cardNrConverter: Record<CardNr, string> = {
-	Ace: "A",
-	King: "K",
-	Queen: "Q",
-	Jack: "J",
-	Ten: "T",
-	Nine: "9",
-	Eight: "8",
-	Seven: "7",
-}
-
-export const cardToKey = (card: Card): string => {
-	return cardNrConverter[card.card] + suitConverter[card.color]
-}
-
 type props = {
 	cardType: Card
 	front?: boolean
@@ -281,15 +237,7 @@ const PlayingCard: React.FC<React.PropsWithChildren<props>> = ({
 				className={className}
 				style={style}
 				alt={`${cardType}`}
-				src={
-					front
-						? showHalf === true
-							? halfcards[cardToKey(cardType)]
-							: cards[cardToKey(cardType)]
-						: showHalf === true
-							? halfcards["1b"]
-							: cards["1b"]
-				}
+				src={front ? (showHalf === true ? halfcards[cardType] : cards[cardType]) : showHalf === true ? fcbfh1b : fcbf1b}
 				onClick={() => (onClick ? onClick() : null)}
 				onKeyDown={() => (onClick ? onClick() : null)}
 				draggable="false"
