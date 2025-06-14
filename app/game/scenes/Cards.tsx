@@ -246,7 +246,7 @@ export class Cards extends Phaser.Scene {
 					duration: 500,
 				})
 			} else {
-				this.cardApi.playCard(this.gameState.id, { card: "Ace", color: "Hearts" })
+				this.cardApi.playCard(this.gameState.id, { card: "Ah" })
 			}
 
 			this.saveCardDragVector = undefined

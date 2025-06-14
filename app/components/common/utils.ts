@@ -1,4 +1,4 @@
-import type { Card, CardNr } from ".generated-sources/openapi"
+import type { Card } from ".generated-sources/openapi"
 
 // export function shuffle<U>(array: Array<U>): Array<U> {
 // 	let m = array.length
@@ -83,80 +83,80 @@ export function trickSummer(
 // 	}
 // }
 
-export function rankRegular(cardType: CardNr): number {
-	switch (cardType) {
-		case "Seven":
-			return 1
-		case "Eight":
-			return 2
-		case "Nine":
-			return 3
-		case "Jack":
-			return 4
-		case "Queen":
-			return 5
-		case "King":
-			return 6
-		case "Ten":
-			return 7
-		case "Ace":
-			return 8
-		default:
-			throw new Error("No such card")
-	}
-}
-
-export function rankTrump(cardType: CardNr): number {
-	switch (cardType) {
-		case "Seven":
-			return 1
-		case "Eight":
-			return 2
-		case "Queen":
-			return 3
-		case "King":
-			return 4
-		case "Ten":
-			return 5
-		case "Ace":
-			return 6
-		case "Nine":
-			return 7
-		case "Jack":
-			return 8
-		default:
-			throw new Error("No such card")
-	}
-}
-
-export function pointsRegular(cardType: CardNr): number {
+export function rankRegular(cardType: Card): number {
 	switch (cardType.charAt(0)) {
-		case "Seven":
-			return 0
-		case "Eight":
-			return 0
-		case "Nine":
-			return 0
-		case "Jack":
+		case "S":
+			return 1
+		case "E":
 			return 2
-		case "Queen":
+		case "N":
 			return 3
-		case "Killer":
+		case "J":
 			return 4
-		case "Ten":
+		case "Q":
+			return 5
+		case "K":
+			return 6
+		case "T":
+			return 7
+		case "A":
+			return 8
+		default:
+			throw new Error("No such card")
+	}
+}
+
+export function rankTrump(cardType: Card): number {
+	switch (cardType.charAt(0)) {
+		case "S":
+			return 1
+		case "E":
+			return 2
+		case "Q":
+			return 3
+		case "K":
+			return 4
+		case "T":
+			return 5
+		case "A":
+			return 6
+		case "N":
+			return 7
+		case "J":
+			return 8
+		default:
+			throw new Error("No such card")
+	}
+}
+
+export function pointsRegular(cardType: Card): number {
+	switch (cardType.charAt(0)) {
+		case "S":
+			return 0
+		case "E":
+			return 0
+		case "N":
+			return 0
+		case "J":
+			return 2
+		case "Q":
+			return 3
+		case "K":
+			return 4
+		case "T":
 			return 10
-		case "Ace":
+		case "A":
 			return 11
 		default:
 			throw new Error("No such card")
 	}
 }
 
-export function pointsTrump(cardType: CardNr): number {
+export function pointsTrump(cardType: Card): number {
 	switch (cardType.charAt(0)) {
-		case "7":
+		case "S":
 			return 0
-		case "8":
+		case "E":
 			return 0
 		case "Q":
 			return 3
@@ -166,15 +166,11 @@ export function pointsTrump(cardType: CardNr): number {
 			return 10
 		case "A":
 			return 11
-		case "9":
+		case "N":
 			return 14
 		case "J":
 			return 20
 		default:
 			throw new Error("No such card")
 	}
-}
-
-export const cardEquals = (left: Card, right: Card): boolean => {
-	return left.color === right.color && left.card === right.card
 }
