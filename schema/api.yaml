@@ -1,0 +1,191 @@
+openapi: "3.0.4"
+info:
+  title: Klavers Jassen
+  description: Klavers Jassen
+  version: 1.0.0
+servers:
+  - url: 'https://www.klaversjassen.nl/api/v1'
+    description: Klavers Jassen
+
+paths:
+  /whoami:
+    post:
+      tags:
+        - whoami
+      operationId: whoami
+      responses:
+        "200":
+          $ref: "#/components/responses/LoginResponse"
+  /games/{gameId}/playCard:
+    post:
+      operationId: playCard
+      parameters:
+        - $ref: "#/components/parameters/gameId"
+      requestBody:
+        $ref: "#/components/requestBodies/playCard"
+      responses:
+        "200":
+          $ref: "#/components/responses/GameResponse"
+        "404":
+          description: not found
+  /games:
+    get:
+      operationId: getGames
+      responses:
+        "200":
+          $ref: "#/components/responses/GamesResponse"
+    post:
+      operationId: createGame
+      requestBody:
+        description: A new game
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createGame"
+      responses:
+        "200":
+          $ref: "#/components/responses/GameResponse"
+        "404":
+          description: not found
+  /message:
+    post:
+      operationId: send a mesage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postMessage"
+      responses:
+        "200":
+          description: ok
+  /games/{gameId}:
+    get:
+      operationId: getGame
+      parameters:
+        - $ref: "#/components/parameters/gameId"
+      responses:
+        "200":
+          $ref: "#/components/responses/GameResponse"
+        "404":
+          description: not found
+    delete:
+      operationId: deleteGame
+      parameters:
+        - $ref: "#/components/parameters/gameId"
+      responses:
+        "200":
+          description: ok
+  /users/{userId}:
+    get:
+      operationId: getUser
+      parameters:
+        - $ref: "#/components/parameters/userId"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserResponse"
+        "404":
+          description: not found
+  /users/incomingFriends:
+    get:
+      operationId: getIncomingFriends
+      responses:
+        "200":
+          $ref: "#/components/responses/IncomingFriendsResponse"
+components:
+  requestBodies:
+    playCard:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/playCard"
+  schemas:
+    playCard:
+      type: object
+      properties:
+        card:
+          $ref: "./game.yaml#/components/schemas/Card"
+      required:
+        - card
+    loginResponse:
+      $ref: "./user.yaml#/components/schemas/User"
+    postMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    createGame:
+      type: object
+      properties:
+        players:
+          type: array
+          uniqueItems: true
+          minItems: 4
+          maxItems: 4
+          items:
+            type: string
+      required:
+        - players
+  parameters:
+    gameId:
+      name: gameId
+      in: path
+      schema:
+        type: string
+      required: true
+    userId:
+      name: userId
+      in: path
+      schema:
+        type: string
+      required: true
+  securitySchemes:
+    openId:
+      type: openIdConnect
+      scheme: bearer
+      bearerFormat: JWT
+      openIdConnectUrl: https://accounts.google.com/.well-known/openid-configuration
+  responses:
+    GameResponse:
+      description: a game
+      content:
+        application/json:
+          schema:
+            $ref: "./game.yaml#/components/schemas/Game"
+    UserResponse:
+      description: a user
+      content:
+        application/json:
+          schema:
+            $ref: "./user.yaml#/components/schemas/User"
+    GamesResponse:
+      description: all games
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "./game.yaml#/components/schemas/Game"
+    LoginResponse:
+      description: login response
+      content:
+        application/json:
+          schema:
+            $ref: "./user.yaml#/components/schemas/User"
+    IncomingFriendsResponse:
+      description: incoming friends response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "./user.yaml#/components/schemas/User"
+security:
+  - bearerAuth:
+      - openid
+      - profile
+      - email
