@@ -18,17 +18,17 @@ const MessageBoard: React.FC = () => {
 
 	return (
 		<div>
-				<Stack>
-					<TextField
-						id="outlined-basic"
-						label="Outlined"
-						value={message}
-						variant="outlined"
-						onKeyDown={onKeyPress}
-						onChange={(e) => setMessage(e.target.value)}
-						autoFocus
-					/>
-				</Stack>
+			<Stack>
+				<TextField
+					id="outlined-basic"
+					label="Outlined"
+					value={message}
+					variant="outlined"
+					onKeyDown={onKeyPress}
+					onChange={(e) => setMessage(e.target.value)}
+					autoFocus
+				/>
+			</Stack>
 		</div>
 	)
 }
