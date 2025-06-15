@@ -5,6 +5,7 @@ import { useAuth } from "react-oidc-context"
 import { useNavigate } from "react-router"
 import LoginButton from "~/components/button/LoginButton"
 import ReloadButton from "~/components/button/ReloadButton"
+import { SESSION_STORAGE_JWT } from "~/hooks/useUser"
 import useWhoAmIApi from "~/hooks/useWhoAmIApi"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
@@ -59,8 +60,7 @@ const WhoAmI = () => {
 	}
 
 	localStorage.setItem(LOCAL_STORAGE_JWT, jwt)
-	sessionStorage.clear()
-	sessionStorage.setItem("user", JSON.stringify(user))
+	sessionStorage.setItem(SESSION_STORAGE_JWT, JSON.stringify(user))
 
 	navigate("/")
 }

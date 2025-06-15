@@ -1,18 +1,14 @@
 import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
-import { useNavigate } from "react-router"
+import ReloadButton from "~/components/button/ReloadButton"
 import useCardApi from "~/hooks/useGameApi"
-import useUser from "~/hooks/useUser"
+import useUser, { SESSION_STORAGE_JWT } from "~/hooks/useUser"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
+import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
 const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userId, children }) => {
-	// biome-ignore lint/suspicious/noConsole: <explanation>
-	console.log("load user...")
-
 	const cardApi = useCardApi()
-	const navigate = useNavigate()
-	sessionStorage.clear()
 
 	const {
 		data: user,
@@ -24,8 +20,15 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 	})
 
 	if (error) {
-		localStorage.clear()
-		navigate("/")
+		localStorage.setItem(LOCAL_STORAGE_JWT, "")
+		return (
+			<CenterComponents>
+				<Logo192 />
+				<CircularProgress />
+				<Typography style={{ color: "red" }}>{`${error}`}</Typography>
+				<ReloadButton />
+			</CenterComponents>
+		)
 	}
 
 	if (isPending) {
@@ -39,12 +42,18 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 	}
 
 	if (!user) {
-		localStorage.clear()
-		navigate("/")
+		localStorage.setItem(LOCAL_STORAGE_JWT, "")
+		return (
+			<CenterComponents>
+				<Logo192 />
+				<CircularProgress />
+				<Typography>No user</Typography>
+				<ReloadButton />
+			</CenterComponents>
+		)
 	}
 
-	sessionStorage.clear()
-	sessionStorage.setItem("user", JSON.stringify(user))
+	sessionStorage.setItem(SESSION_STORAGE_JWT, JSON.stringify(user))
 
 	return <>{children}</>
 }
@@ -52,11 +61,11 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 const UserGuard: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userId, children }) => {
 	const { user } = useUser()
 
-	if (user && user.id === userId) {
-		return <>{children}</>
+	if (!user || user.id !== userId) {
+		return <LoadUser userId={userId}>{children}</LoadUser>
 	}
 
-	return <LoadUser userId={userId}>{children}</LoadUser>
+	return <>{children}</>
 }
 
 export default UserGuard

@@ -1,7 +1,9 @@
 import { useMemo } from "react"
 
+export const SESSION_STORAGE_JWT = "CardSeverUser"
+
 const useUser = () => {
-	const stringUser = sessionStorage.getItem("user")
+	const stringUser = sessionStorage.getItem(SESSION_STORAGE_JWT)
 
 	const user = useMemo(() => {
 		try {
