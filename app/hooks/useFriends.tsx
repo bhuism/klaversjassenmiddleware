@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react"
-import UidContext from "~/context/UidContext"
+import { useEffect, useState } from "react"
 import useCardApi from "./useGameApi"
+import useUser from "./useUser"
 import type { User } from ".generated-sources/openapi"
 
 // export function useInvites(): Array<string> | undefined {
@@ -32,7 +32,7 @@ export function useIncomingInvitesAndFriends(): {
 	friends: Array<User>
 	isLoading: boolean
 } {
-	const { user } = useContext(UidContext)
+	const { user } = useUser()
 	const cardApi = useCardApi()
 	const [inComingInvites, setInComingInvites] = useState<Array<User>>([])
 	const [friends, setFriends] = useState<Array<User>>([])

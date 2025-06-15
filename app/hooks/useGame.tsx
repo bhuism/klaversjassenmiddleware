@@ -10,12 +10,7 @@ const useGame = (gameId: string | undefined) => {
 		error,
 		refetch,
 	} = useQuery({
-		queryFn: ({ queryKey }) => {
-			if (typeof queryKey[1] !== "string" || (queryKey[1] as unknown as string).length !== 20) {
-				throw new Error("no gameId")
-			}
-			return cardApi.getGame(queryKey[1] as unknown as string) //.then((g) => convertGame(g))
-		},
+		queryFn: ({ queryKey }) => cardApi.getGame(queryKey[1] as unknown as string),
 		queryKey: ["gameId", gameId],
 	})
 

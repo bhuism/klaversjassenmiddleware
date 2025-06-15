@@ -12,10 +12,9 @@ import { useQuery } from "@tanstack/react-query"
 import { useDialogs } from "@toolpad/core/useDialogs"
 import dayjs from "dayjs"
 import { useSnackbar } from "notistack"
-import { useContext } from "react"
 import { useNavigate } from "react-router"
-import UidContext from "~/context/UidContext"
 import { default as useGameApi } from "~/hooks/useGameApi"
+import useUser from "~/hooks/useUser"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
 import PlayerName from "./game/PlayerName"
@@ -24,7 +23,7 @@ import type { Game } from ".generated-sources/openapi"
 const Games: React.FC = () => {
 	const navigate = useNavigate()
 	const cardApi = useGameApi()
-	const { user } = useContext(UidContext)
+	const { user } = useUser()
 	const { enqueueSnackbar } = useSnackbar()
 	const dialogs = useDialogs()
 
@@ -48,7 +47,7 @@ const Games: React.FC = () => {
 	}
 
 	const GameStatus: React.FC<{ game: Game }> = ({ game }) => {
-		const { user } = useContext(UidContext)
+		const { user } = useUser()
 
 		if (!user) {
 			return <>no user</>

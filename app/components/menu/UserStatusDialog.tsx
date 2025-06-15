@@ -1,12 +1,11 @@
 import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
-import { useContext } from "react"
-import UidContext from "~/context/UidContext"
+import useUser from "~/hooks/useUser"
 
 const UserStatusDialog: React.FC<{
 	visible: boolean
 	onClose: () => void
 }> = ({ visible, onClose }) => {
-	const { user } = useContext(UidContext)
+	const { user } = useUser()
 
 	if (!user) {
 		return <></>

@@ -1,12 +1,12 @@
 import { EventSource } from "eventsource"
 import { useSnackbar } from "notistack"
-import { type PropsWithChildren, useContext, useEffect } from "react"
-import UidContext from "~/context/UidContext"
+import { type PropsWithChildren, useEffect } from "react"
 import constants from "~/utils/constants"
+import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
 const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { enqueueSnackbar } = useSnackbar()
-	const { user } = useContext(UidContext)
+	const jwt = localStorage.getItem(LOCAL_STORAGE_JWT)
 
 	useEffect(() => {
 		const eventSource = new EventSource(`${constants.apiUrl}/subscribe`, {
@@ -20,7 +20,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 					cache: "no-store",
 					headers: {
 						...init.headers,
-						Authorization: `Bearer ${user?.id}`,
+						Authorization: `Bearer ${jwt}`,
 					},
 				}),
 		})
@@ -39,7 +39,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 		// terminating the connection on component unmount
 		return () => eventSource.close()
-	}, [user?.id, enqueueSnackbar])
+	}, [jwt, enqueueSnackbar])
 
 	// useEffect(() => {
 	// 	enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: readyState === ReadyState.CLOSED ? "error" : "info" })

@@ -19,7 +19,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { DialogsProvider } from "@toolpad/core/useDialogs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import EventSourceProvider from "~/provider/EventSourceProvider"
-import UidContextProvider from "~/provider/UidContextProvider"
+import JwtGuard from "~/provider/JwtGuard"
 
 dayjs.extend(relativeTime)
 dayjs.locale("nl")
@@ -31,7 +31,7 @@ const RootLayout: React.FC = () => {
 		<>
 			<SnackbarProvider maxSnack={10} autoHideDuration={3000}>
 				<QueryClientProvider client={queryClient}>
-					<UidContextProvider>
+					<JwtGuard>
 						<EventSourceProvider>
 							<ThemeProvider theme={theme} defaultMode="system">
 								<InitColorSchemeScript defaultMode="system" attribute="class" />
@@ -47,7 +47,7 @@ const RootLayout: React.FC = () => {
 								</LocalizationProvider>
 							</ThemeProvider>
 						</EventSourceProvider>
-					</UidContextProvider>
+					</JwtGuard>
 				</QueryClientProvider>
 			</SnackbarProvider>
 		</>

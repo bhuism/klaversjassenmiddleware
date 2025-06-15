@@ -13,6 +13,7 @@ const LoginButton: React.FC = () => {
 				size="large"
 				onClick={() => {
 					localStorage.clear()
+					sessionStorage.clear()
 					removeUser()
 					signinRedirect()
 				}}

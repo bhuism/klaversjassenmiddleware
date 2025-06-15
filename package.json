@@ -22,7 +22,7 @@
 		"check:unused:fix": "knip --fix",
 		"typegen": "react-router typegen",
 		"deploy": "rm -Rf .wrangler ; GITHUB_SHA=$(git rev-parse HEAD) GITHUB_DATE=$(git show --no-patch --format=%cI) npm run build && wrangler pages deploy build/client --project-name=klaversjassen --commit-dirty=true",
-		"codegen": "rm -Rf .generated-sources/openapi ; openapi-generator-cli generate -i ./schema/api.yaml -g typescript-fetch -o .generated-sources/openapi --additional-properties=supportsES6=true,typescriptThreePlus=true,useSingleRequestParameter=false",
+		"codegen": "rm -Rf .generated-sources/openapi ; openapi-generator-cli generate -i https://api.klaversjassen.nl/schema/api.yaml -g typescript-fetch -o .generated-sources/openapi --additional-properties=supportsES6=true,typescriptThreePlus=true,useSingleRequestParameter=false",
 		"codegen-help": "openapi-generator-cli config-help -g typescript-fetch"
 	},
 	"dependencies": {
@@ -41,6 +41,7 @@
 		"dayjs": "1.11.13",
 		"eventsource": "4.0.0",
 		"isbot": "^5",
+		"jwt-decode": "4.0.0",
 		"notistack": "3.0.2",
 		"oidc-client-ts": "3.2.1",
 		"phaser": "3.90.0",

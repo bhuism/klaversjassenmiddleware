@@ -1,35 +1,24 @@
 import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
+import { jwtDecode } from "jwt-decode"
 import { useAuth } from "react-oidc-context"
 import { useNavigate } from "react-router"
 import LoginButton from "~/components/button/LoginButton"
 import ReloadButton from "~/components/button/ReloadButton"
+import useWhoAmIApi from "~/hooks/useWhoAmIApi"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
-import constants from "~/utils/constants"
-import { LOCAL_STORAGE_USERID_KEY } from "./UidContextProvider"
-import { Configuration, WhoamiApi } from ".generated-sources/openapi"
+import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
 const WhoAmI = () => {
 	const navigate = useNavigate()
 	const { user: authUser } = useAuth()
 
-	const token = authUser?.id_token
+	const whoamiApi = useWhoAmIApi(authUser?.id_token)
 
-	const whoamiApi = new WhoamiApi(
-		new Configuration({
-			basePath: constants.apiUrl,
-			headers: { Authorization: `Bearer ${token}` },
-		})
-	)
-
-	const {
-		isPending,
-		error,
-		data: user,
-	} = useQuery({
-		queryKey: [authUser],
-		queryFn: () => whoamiApi.whoami(),
+	const { isPending, error, data } = useQuery({
+		queryKey: ["authUser", authUser],
+		queryFn: () => whoamiApi?.whoami(),
 	})
 
 	if (error) {
@@ -50,12 +39,15 @@ const WhoAmI = () => {
 			<CenterComponents>
 				<Logo192 />
 				<CircularProgress />
-				<p>Loading User...</p>
+				<Typography>Auth is loading...</Typography>
 			</CenterComponents>
 		)
 	}
 
-	if (!user || !user.id || user.id.length !== 28) {
+	const jwt = data?.jwt
+	const user = data?.user
+
+	if (!user || !jwt || jwtDecode(jwt).sub?.length !== 28) {
 		return (
 			<CenterComponents>
 				<Logo192 />
@@ -66,7 +58,9 @@ const WhoAmI = () => {
 		)
 	}
 
-	localStorage.setItem(LOCAL_STORAGE_USERID_KEY, JSON.stringify(user))
+	localStorage.setItem(LOCAL_STORAGE_JWT, jwt)
+	sessionStorage.clear()
+	sessionStorage.setItem("user", JSON.stringify(user))
 
 	navigate("/")
 }

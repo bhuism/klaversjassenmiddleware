@@ -1,10 +1,9 @@
 import type React from "react"
-import { useContext } from "react"
-import UidContext from "~/context/UidContext"
+import useUser from "~/hooks/useUser"
 import type { Game } from ".generated-sources/openapi"
 
 const UsThem: React.FC<React.PropsWithChildren<{ game: Game; zeroTwo: boolean }>> = ({ game, zeroTwo }) => {
-	const { user } = useContext(UidContext)
+	const { user } = useUser()
 
 	if (!user) {
 		return <>no user</>
