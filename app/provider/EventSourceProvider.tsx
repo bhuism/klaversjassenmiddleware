@@ -14,11 +14,13 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				fetch(input, {
 					...init,
 					mode: "cors",
-					credentials: "omit",
+					credentials: "include",
 					redirect: "error",
+					keepalive: true,
+					cache: "no-store",
 					headers: {
 						...init.headers,
-						cardserverauth: `${user?.id}`,
+						Authorization: `Bearer ${user?.id}`,
 					},
 				}),
 		})
