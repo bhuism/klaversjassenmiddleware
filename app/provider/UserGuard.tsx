@@ -24,8 +24,9 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 		return (
 			<CenterComponents>
 				<Logo192 />
-				<CircularProgress />
-				<Typography style={{ color: "red" }}>{`${error}`}</Typography>
+				<Typography style={{ color: "red" }}>
+					{error.name}:{error.message}
+				</Typography>
 				<ReloadButton />
 			</CenterComponents>
 		)
@@ -46,7 +47,6 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 		return (
 			<CenterComponents>
 				<Logo192 />
-				<CircularProgress />
 				<Typography>No user</Typography>
 				<ReloadButton />
 			</CenterComponents>

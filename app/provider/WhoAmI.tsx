@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query"
 import { jwtDecode } from "jwt-decode"
 import { useAuth } from "react-oidc-context"
 import { useNavigate } from "react-router"
-import LoginButton from "~/components/button/LoginButton"
 import ReloadButton from "~/components/button/ReloadButton"
 import { SESSION_STORAGE_JWT } from "~/hooks/useUser"
 import useWhoAmIApi from "~/hooks/useWhoAmIApi"
@@ -29,7 +28,6 @@ const WhoAmI = () => {
 				<Typography style={{ color: "red" }}>
 					{error.name}:{error.message}
 				</Typography>
-				<LoginButton />
 				<ReloadButton />
 			</CenterComponents>
 		)
@@ -52,8 +50,7 @@ const WhoAmI = () => {
 		return (
 			<CenterComponents>
 				<Logo192 />
-				<p>No User..</p>
-				<LoginButton />
+				<Typography>No User..</Typography>
 				<ReloadButton />
 			</CenterComponents>
 		)

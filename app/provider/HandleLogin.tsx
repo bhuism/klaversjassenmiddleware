@@ -42,7 +42,6 @@ const HandleLogin: React.FC = () => {
 				<Typography style={{ color: "red" }}>
 					{error.name}:{error.message}
 				</Typography>
-				<LoginButton />
 				<ReloadButton />
 			</CenterComponents>
 		)
