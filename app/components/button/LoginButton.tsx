@@ -11,7 +11,7 @@ const LoginButton: React.FC = () => {
 				endIcon={isLoading ? <CircularProgress /> : <></>}
 				disabled={isLoading}
 				size="large"
-				onClick={() => signinRedirect}
+				onClick={() => signinRedirect()}
 			>
 				Sign In
 			</Button>
