@@ -29,10 +29,11 @@ const MessageBoard: React.FC = () => {
 
 	return (
 		<div>
-			<Grid container spacing={2}>
+			<Grid container spacing={2} padding={2}>
 				<Grid size={11}>
 					<TextField
 						inputRef={ref}
+						size="small"
 						fullWidth
 						disabled={isLoading}
 						value={message}
@@ -42,9 +43,9 @@ const MessageBoard: React.FC = () => {
 						autoFocus
 					/>
 				</Grid>
-				<Grid size={1}>
+				<Grid size={1} display="flex" justifyContent="center" alignItems="center">
 					<Button
-						variant="outlined"
+						variant="contained"
 						onClick={() => refetch().then(() => setMessage(""))}
 						disabled={isLoading || message === undefined || message.length === 0}
 					>
