@@ -1,19 +1,13 @@
 import { useMemo } from "react"
-import { LOCAL_STORAGE_JWT } from "~/provider/JwtGuard"
-import constants from "~/utils/constants"
-import { Configuration, DefaultApi } from ".generated-sources/openapi"
+import useConfiguration from "./useConfiguration"
+import { DefaultApi } from ".generated-sources/openapi"
 
 const useCardApi = () => {
-	const jwt = localStorage.getItem(LOCAL_STORAGE_JWT)
+	const configuration = useConfiguration()
 
 	return useMemo(() => {
-		return new DefaultApi(
-			new Configuration({
-				basePath: `${constants.apiUrl}/api/v1`,
-				headers: { Authorization: `Bearer ${jwt}` },
-			})
-		)
-	}, [jwt])
+		return new DefaultApi(configuration)
+	}, [configuration])
 }
 
 export default useCardApi
