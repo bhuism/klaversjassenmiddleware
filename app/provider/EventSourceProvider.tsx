@@ -41,10 +41,6 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		return () => eventSource.close()
 	}, [jwt, enqueueSnackbar])
 
-	// useEffect(() => {
-	// 	enqueueSnackbar(`${connectionMap[readyState]}...`, { variant: readyState === ReadyState.CLOSED ? "error" : "info" })
-	// }, [enqueueSnackbar, readyState])
-
 	return <>{children}</>
 }
 
