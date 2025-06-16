@@ -26,7 +26,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		})
 
 		eventSource.addEventListener("cardservermessage", (e) => {
-			enqueueSnackbar(`update${JSON.stringify(e.data)}`, { variant: "info" })
+			enqueueSnackbar(`${e.data}`, { variant: "info" })
 		})
 
 		eventSource.addEventListener("message", (e) => {
