@@ -1,4 +1,5 @@
 import { Button, Grid, TextField } from "@mui/material"
+import { useQuery } from "@tanstack/react-query"
 import React, { useState } from "react"
 import useCardApi from "~/hooks/useGameApi"
 
@@ -7,19 +8,27 @@ const MessageBoard: React.FC = () => {
 	const [message, setMessage] = useState<string>("")
 	const ref = React.createRef<HTMLDivElement>()
 
-	const send = () => {
-		if (message && message.length > 0) {
-			cardApi.sendAMesage({ message }).finally(() => {
+	const { refetch, isPending } = useQuery({
+		queryFn: ({ queryKey }) => {
+			if (message && message.length > 0) {
+				cardApi.sendAMessage({ message: queryKey[1] as unknown as string }).finally(() => {
+					setMessage("")
+					ref.current?.focus()
+				})
+			} else {
 				setMessage("")
 				ref.current?.focus()
-			})
-		}
-	}
+			}
+		},
+		queryKey: ["message", message],
+		refetchOnMount: false,
+		enabled: false,
+	})
 
 	const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === "Enter") {
 			e.preventDefault()
-			send()
+			refetch()
 		}
 	}
 
@@ -30,6 +39,7 @@ const MessageBoard: React.FC = () => {
 					<TextField
 						inputRef={ref}
 						fullWidth
+						disabled={isPending}
 						value={message}
 						variant="outlined"
 						onKeyDown={onKeyPress}
@@ -38,7 +48,7 @@ const MessageBoard: React.FC = () => {
 					/>
 				</Grid>
 				<Grid size={1}>
-					<Button variant="outlined" onClick={send}>
+					<Button variant="outlined" onClick={() => refetch()} disabled={isPending}>
 						Send
 					</Button>
 				</Grid>
