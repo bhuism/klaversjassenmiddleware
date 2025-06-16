@@ -8,17 +8,12 @@ const MessageBoard: React.FC = () => {
 	const [message, setMessage] = useState<string>("")
 	const ref = React.createRef<HTMLDivElement>()
 
-	const { refetch, isPending } = useQuery({
+	const { refetch, isLoading } = useQuery<boolean>({
 		queryFn: ({ queryKey }) => {
 			if (message && message.length > 0) {
-				cardApi.sendAMessage({ message: queryKey[1] as unknown as string }).finally(() => {
-					setMessage("")
-					ref.current?.focus()
-				})
-			} else {
-				setMessage("")
-				ref.current?.focus()
+				return cardApi.sendAMessage({ message: queryKey[1] as unknown as string }).then(() => true)
 			}
+			return Promise.resolve(true)
 		},
 		queryKey: ["message", message],
 		refetchOnMount: false,
@@ -28,7 +23,7 @@ const MessageBoard: React.FC = () => {
 	const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === "Enter") {
 			e.preventDefault()
-			refetch()
+			refetch().then(() => setMessage(""))
 		}
 	}
 
@@ -39,7 +34,7 @@ const MessageBoard: React.FC = () => {
 					<TextField
 						inputRef={ref}
 						fullWidth
-						disabled={isPending}
+						disabled={isLoading}
 						value={message}
 						variant="outlined"
 						onKeyDown={onKeyPress}
@@ -48,7 +43,11 @@ const MessageBoard: React.FC = () => {
 					/>
 				</Grid>
 				<Grid size={1}>
-					<Button variant="outlined" onClick={() => refetch()} disabled={isPending}>
+					<Button
+						variant="outlined"
+						onClick={() => refetch().then(() => setMessage(""))}
+						disabled={isLoading || message === undefined || message.length === 0}
+					>
 						Send
 					</Button>
 				</Grid>
