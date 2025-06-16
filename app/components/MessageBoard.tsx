@@ -1,4 +1,4 @@
-import { Button, Grid, TextField } from "@mui/material"
+import { Button, Container, Grid, TextField } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
 import React, { useState } from "react"
 import useCardApi from "~/hooks/useGameApi"
@@ -28,7 +28,7 @@ const MessageBoard: React.FC = () => {
 	}
 
 	return (
-		<div>
+		<Container style={{ display: "flex", flexDirection: "column" }}>
 			<Grid container spacing={2} padding={2}>
 				<Grid size={11}>
 					<TextField
@@ -53,7 +53,7 @@ const MessageBoard: React.FC = () => {
 					</Button>
 				</Grid>
 			</Grid>
-		</div>
+		</Container>
 	)
 }
 
