@@ -33,6 +33,8 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			enqueueSnackbar(`message:${JSON.stringify(e.data)}`, { variant: "info" })
 		})
 
+		eventSource.addEventListener("ping", () => console.log("ping"))
+
 		eventSource.addEventListener("error", (e) => {
 			enqueueSnackbar(`error${JSON.stringify(e.message)}`, { variant: "error" })
 		})
