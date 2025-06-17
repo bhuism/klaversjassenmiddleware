@@ -47,17 +47,14 @@ const TrickRow: React.FC<
 					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 					key={cardNr}
 					align="center"
+					style={{ padding: 1 }}
 					// style={
 					// 	game.determineTrickWinningCard(trickNr) === game.turns[trickNr * 4 + cardNr]
 					// 		? { backgroundColor: "green" }
 					// 		: {}
 					// }
 				>
-					<PlayingCard
-						style={{ width: "5vw", minWidth: "80px" }}
-						cardType={game.turns[trickNr * 4 + cardNr]}
-						front={true}
-					/>
+					<PlayingCard style={{ maxWidth: "12vw" }} cardType={game.turns[trickNr * 4 + cardNr]} showHalf />
 					<PlayerName user={game.players[getCardHolderByCard(game.turns[trickNr * 4 + cardNr])]} />
 				</TableCell>
 			))}

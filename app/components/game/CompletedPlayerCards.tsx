@@ -68,10 +68,9 @@ const CompletedPlayerCards: React.FC<React.PropsWithChildren<{ game: Game }>> = 
 							</p>
 							<p className={"fs-5"}>{playerPoints(index)}</p>
 						</td>
-						{getAllPlayerCards(index).map((c, i) => (
-							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							<TableCell key={i} style={{ padding: 0 }}>
-								<PlayingCard cardType={c} front style={{ width: "5vw", minWidth: "80px" }} />
+						{getAllPlayerCards(index).map((c) => (
+							<TableCell key={c} style={{ padding: 1 }}>
+								<PlayingCard cardType={c} style={{ maxWidth: "12vw" }} front showHalf />
 							</TableCell>
 						))}
 					</TableRow>
