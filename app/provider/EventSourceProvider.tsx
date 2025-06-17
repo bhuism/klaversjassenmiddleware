@@ -1,6 +1,6 @@
 import { EventSource } from "eventsource"
 import { useSnackbar } from "notistack"
-import { type PropsWithChildren, useEffect } from "react"
+import { type PropsWithChildren, useEffect, useState } from "react"
 import useCardApi from "~/hooks/useGameApi"
 import constants from "~/utils/constants"
 import { LOCAL_STORAGE_JWT } from "./JwtGuard"
@@ -10,6 +10,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { enqueueSnackbar } = useSnackbar()
 	const jwt = localStorage.getItem(LOCAL_STORAGE_JWT)
 	const cardApi = useCardApi()
+	const [uuid, setUuid] = useState<string>()
 
 	useEffect(() => {
 		const eventSource = new EventSource(`${constants.apiUrl}/api/v1/subscribe`, {
@@ -29,6 +30,8 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		})
 
 		eventSource.addEventListener("cardservermessage", (e) => {
+			// biome-ignore lint/suspicious/noConsole: <explanation>
+			console.log({ e: e })
 			enqueueSnackbar(`${e.data}`, { variant: "info" })
 		})
 
@@ -36,9 +39,12 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			enqueueSnackbar(`:${JSON.stringify(e.data)}`, { variant: "warning" })
 		})
 
-		eventSource.addEventListener("ping", () => cardApi.pong())
+		eventSource.addEventListener("ping", ({ data }) => {
+			setUuid(data)
+			cardApi.pong(data)
+		})
 
-		eventSource.addEventListener("pong", () => console.log("pong"))
+		eventSource.addEventListener("pong", ({ data }) => console.log(`pong ${data}`))
 
 		eventSource.addEventListener("error", (e) => {
 			enqueueSnackbar(`${JSON.stringify(e.message)}`, { variant: "error" })
@@ -47,6 +53,24 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		// terminating the connection on component unmount
 		return () => eventSource.close()
 	}, [jwt, enqueueSnackbar, cardApi])
+
+	const MINUTE_MS = 15 * 1000
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (uuid) {
+				cardApi.ping(uuid)
+			}
+		}, MINUTE_MS)
+
+		return () => clearInterval(interval)
+	}, [cardApi, uuid])
+
+	useEffect(() => {
+		if (uuid) {
+			cardApi.ping(uuid)
+		}
+	}, [cardApi, uuid])
 
 	return <>{children}</>
 }
