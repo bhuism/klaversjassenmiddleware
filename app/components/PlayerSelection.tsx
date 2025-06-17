@@ -87,9 +87,6 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 					isRowSelectable={(r) => players.ids.size < 3 || [...players.ids].filter((row) => row === r.id).length > 0}
 					showCellVerticalBorder={false}
 					showColumnVerticalBorder={false}
-					// slots={{
-					// 	columnHeaders: () => <></>,
-					// }}
 				/>
 			</Container>
 		</>

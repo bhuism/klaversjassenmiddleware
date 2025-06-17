@@ -1,62 +1,39 @@
-import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { useState } from "react"
 import useCardApi from "./useGameApi"
 import useUser from "./useUser"
 import type { User } from ".generated-sources/openapi"
 
-// export function useInvites(): Array<string> | undefined {
-// 	const { user } = useContext(UidContext)
-
-// 	const [invites, setInvites] = useState<Array<string>>()
-
-// 	useEffect(() => {
-// 		const userRef = doc(firestore, "users", uid).withConverter(userConverter)
-
-// 		return onSnapshot(
-// 			userRef,
-// 			(snapshot) => {
-// 				const data = snapshot.data()
-
-// 				if (data) {
-// 					setInvites(data.invites)
-// 				}
-// 			},
-// 			() => setInvites(undefined)
-// 		)
-// 	}, [firestore, uid])
-
-// 	return invites
-// }
-
 export function useIncomingInvitesAndFriends(): {
-	inComingInvites: Array<User>
-	friends: Array<User>
+	allInvites: Array<User> | undefined
+	inComingInvites: Array<User> | undefined
+	friends: Array<User> | undefined
 	isLoading: boolean
 } {
 	const { user } = useUser()
 	const cardApi = useCardApi()
-	const [inComingInvites, setInComingInvites] = useState<Array<User>>([])
-	const [friends, setFriends] = useState<Array<User>>([])
-	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [inComingInvites, setInComingInvites] = useState<Array<User>>()
+	const [friends, setFriends] = useState<Array<User>>()
 
-	useEffect(() => {
-		setIsLoading(true)
-		cardApi
-			.getIncomingFriends()
-			.then((allInvites) => {
-				if (user?.invites) {
+	const { data: allInvites, isLoading } = useQuery({
+		queryFn: () =>
+			cardApi
+				.getIncomingFriends()
+				.then((allInvites) => {
 					const invites = user?.invites
 					setInComingInvites([...allInvites].filter((u) => ![...invites].includes(u.id)))
 					setFriends([...allInvites].filter((u) => [...invites].includes(u.id)))
-				}
-			})
-			.catch(() => {
-				setInComingInvites([])
-				setFriends([])
-			})
-			.finally(() => setIsLoading(false))
-	}, [user?.invites, cardApi])
+					return allInvites
+				})
+				.catch(() => {
+					setInComingInvites(undefined)
+					setFriends(undefined)
+					return undefined
+				}),
+		queryKey: ["incomingFriends"],
+	})
 
-	return { inComingInvites, friends, isLoading }
+	return { allInvites, inComingInvites, friends, isLoading }
 }
 
 // export function useOutGoingInvites(): Array<User> | undefined {
