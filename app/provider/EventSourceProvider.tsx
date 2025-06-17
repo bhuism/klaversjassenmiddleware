@@ -42,7 +42,18 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		eventSource.addEventListener("ping", ({ data }) => {
 			// biome-ignore lint/suspicious/noConsole: <explanation>
 			console.log(`got ping ${data}`)
-			setUuid(data)
+			if (uuid === undefined) {
+				// biome-ignore lint/suspicious/noConsole: <explanation>
+				console.log("setting uuid")
+			} else {
+				if (uuid !== data) {
+					// biome-ignore lint/suspicious/noConsole: <explanation>
+					console.log("new uuid uuid {} --> {}", uuid, data)
+				}
+
+				setUuid(data)
+			}
+
 			cardApi.pong(data)
 		})
 
@@ -57,7 +68,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 		// terminating the connection on component unmount
 		return () => eventSource.close()
-	}, [jwt, enqueueSnackbar, cardApi])
+	}, [jwt, enqueueSnackbar, cardApi, uuid])
 
 	const MINUTE_MS = 15 * 1000
 
