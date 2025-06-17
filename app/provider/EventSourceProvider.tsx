@@ -33,13 +33,13 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		})
 
 		eventSource.addEventListener("message", (e) => {
-			enqueueSnackbar(`message:${JSON.stringify(e.data)}`, { variant: "info" })
+			enqueueSnackbar(`:${JSON.stringify(e.data)}`, { variant: "warning" })
 		})
 
 		eventSource.addEventListener("ping", () => cardApi.pong())
 
 		eventSource.addEventListener("error", (e) => {
-			enqueueSnackbar(`error${JSON.stringify(e.message)}`, { variant: "error" })
+			enqueueSnackbar(`${JSON.stringify(e.message)}`, { variant: "error" })
 		})
 
 		// terminating the connection on component unmount
