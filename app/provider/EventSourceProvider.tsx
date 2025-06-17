@@ -40,11 +40,14 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		})
 
 		eventSource.addEventListener("ping", ({ data }) => {
+			// biome-ignore lint/suspicious/noConsole: <explanation>
+			console.log(`got ping ${data}`)
 			setUuid(data)
 			cardApi.pong(data)
 		})
 
-		eventSource.addEventListener("pong", ({ data }) => console.log(`pong ${data}`))
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		eventSource.addEventListener("pong", ({ data }) => console.log(`got pong ${data}`))
 
 		eventSource.addEventListener("error", (e) => {
 			enqueueSnackbar(`${JSON.stringify(e.message)}`, { variant: "error" })
