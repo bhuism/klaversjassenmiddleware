@@ -11,7 +11,7 @@ import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 const Pinger: React.FC<PropsWithChildren> = ({ children }) => {
 	const cardApi = useCardApi()
 
-	const MINUTE_MS = 60 * 1000
+	const MINUTE_MS = 15 * 1000
 
 	useEffect(() => {
 		const interval = setInterval(() => {
