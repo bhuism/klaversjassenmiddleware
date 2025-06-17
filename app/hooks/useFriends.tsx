@@ -4,18 +4,17 @@ import useCardApi from "./useGameApi"
 import useUser from "./useUser"
 import type { User } from ".generated-sources/openapi"
 
-export function useIncomingInvitesAndFriends(): {
-	allInvites: Array<User> | undefined
-	inComingInvites: Array<User> | undefined
-	friends: Array<User> | undefined
-	isLoading: boolean
-} {
+const useIncomingInvitesAndFriends = () => {
 	const { user } = useUser()
 	const cardApi = useCardApi()
 	const [inComingInvites, setInComingInvites] = useState<Array<User>>()
 	const [friends, setFriends] = useState<Array<User>>()
 
-	const { data: allInvites, isLoading } = useQuery({
+	const {
+		data: allInvites,
+		isLoading,
+		refetch,
+	} = useQuery({
 		queryFn: () =>
 			cardApi
 				.getIncomingFriends()
@@ -33,8 +32,10 @@ export function useIncomingInvitesAndFriends(): {
 		queryKey: ["incomingFriends"],
 	})
 
-	return { allInvites, inComingInvites, friends, isLoading }
+	return { allInvites, inComingInvites, friends, isLoading, refetch }
 }
+
+export default useIncomingInvitesAndFriends
 
 // export function useOutGoingInvites(): Array<User> | undefined {
 // 	const firestore = useFirestore()

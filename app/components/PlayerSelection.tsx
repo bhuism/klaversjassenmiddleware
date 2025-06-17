@@ -4,14 +4,14 @@ import { DataGrid } from "@mui/x-data-grid/DataGrid"
 import { useSnackbar } from "notistack"
 import { useState } from "react"
 import { useNavigate } from "react-router"
-import { useIncomingInvitesAndFriends } from "~/hooks/useFriends"
+import useIncomingInvitesAndFriends from "~/hooks/useFriends"
 import useCardApi from "~/hooks/useGameApi"
 import useUser from "~/hooks/useUser"
 
 const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 	const { enqueueSnackbar } = useSnackbar()
 	const { user } = useUser()
-	const { friends, isLoading } = useIncomingInvitesAndFriends()
+	const { friends, isLoading, refetch } = useIncomingInvitesAndFriends()
 	const navigate = useNavigate()
 	const cardApi = useCardApi()
 	const [players, setPlayers] = useState<GridRowSelectionModel>({
@@ -56,13 +56,18 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 					Er {players.ids.size === 2 ? "is" : "zijn"} nog {3 - players.ids.size} speler
 					{players.ids.size === 2 ? "" : "s"} nodig om het spel te starten.
 				</Typography>
-				<Button
-					variant="outlined"
-					disabled={!players || players.ids.size !== 3 || creatingGame}
-					onClick={() => createGame(user.id)}
-				>
-					Start Spel
-				</Button>
+				<Stack direction={"row"} spacing={2}>
+					<Button
+						variant="outlined"
+						disabled={!players || players.ids.size !== 3 || creatingGame}
+						onClick={() => createGame(user.id)}
+					>
+						Start Spel
+					</Button>
+					<Button variant="outlined" disabled={isLoading} onClick={() => refetch()}>
+						Reload
+					</Button>
+				</Stack>
 			</Stack>
 			<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
 				<DataGrid
@@ -87,6 +92,12 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 					isRowSelectable={(r) => players.ids.size < 3 || [...players.ids].filter((row) => row === r.id).length > 0}
 					showCellVerticalBorder={false}
 					showColumnVerticalBorder={false}
+					slotProps={{
+						loadingOverlay: {
+							variant: "circular-progress",
+							noRowsVariant: "circular-progress",
+						},
+					}}
 				/>
 			</Container>
 		</>
