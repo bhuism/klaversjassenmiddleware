@@ -100,6 +100,8 @@ export class Cards extends Phaser.Scene {
 		Object.keys(cards).forEach((key) => {
 			this.load.image(key, cards[key as Card])
 		})
+
+		this.load.image("button", "assets/pics/lance-overdose-loader-eye.png")
 	}
 
 	create() {

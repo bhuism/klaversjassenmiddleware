@@ -44,8 +44,9 @@ const MenuBar: React.FC = () => {
 						to="/"
 						sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
 						aria-label="Home"
+						style={{ color: "red" }}
 					>
-						<FavoriteBorderTwoTone />
+						♠
 					</IconButton>
 
 					<MainMenu />

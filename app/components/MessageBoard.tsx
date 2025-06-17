@@ -1,15 +1,24 @@
 import { Button, Container, Grid, TextField } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import useCardApi from "~/hooks/useGameApi"
 
 const MessageBoard: React.FC = () => {
 	const cardApi = useCardApi()
 	const [message, setMessage] = useState<string>("")
-	const ref = React.createRef<HTMLDivElement>()
+	const inputRef = React.createRef<HTMLDivElement>()
 
 	const { refetch, isLoading } = useQuery<boolean>({
-		queryFn: ({ queryKey }) => cardApi.sendMessage({ message: queryKey[1] as unknown as string }).then(() => true),
+		queryFn: ({ queryKey }) =>
+			cardApi
+				.sendMessage({ message: queryKey[1] as unknown as string })
+				.then(() => setMessage(""))
+				.finally(() =>
+					setTimeout(() => {
+						inputRef.current?.focus()
+					}, 100)
+				)
+				.then(() => true),
 		queryKey: ["message", message],
 		refetchOnMount: false,
 		enabled: false,
@@ -18,16 +27,26 @@ const MessageBoard: React.FC = () => {
 	const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === "Enter") {
 			e.preventDefault()
-			refetch().then(() => setMessage(""))
+			refetch()
 		}
 	}
+
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			inputRef.current?.focus()
+		}, 100)
+
+		return () => {
+			clearTimeout(timeout)
+		}
+	}, [inputRef])
 
 	return (
 		<Container style={{ display: "flex", flexDirection: "column" }}>
 			<Grid container spacing={2} padding={2}>
 				<Grid size={11}>
 					<TextField
-						inputRef={ref}
+						inputRef={inputRef}
 						size="small"
 						fullWidth
 						disabled={isLoading}
@@ -41,7 +60,7 @@ const MessageBoard: React.FC = () => {
 				<Grid size={1} display="flex" justifyContent="center" alignItems="center">
 					<Button
 						variant="contained"
-						onClick={() => refetch().then(() => setMessage(""))}
+						onClick={() => refetch()}
 						disabled={isLoading || message === undefined || message.length === 0}
 					>
 						Send
