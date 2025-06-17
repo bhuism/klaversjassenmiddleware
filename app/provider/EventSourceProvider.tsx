@@ -6,6 +6,7 @@ import constants from "~/utils/constants"
 import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
 const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
+	//const notifications = useNotifications()
 	const { enqueueSnackbar } = useSnackbar()
 	const jwt = localStorage.getItem(LOCAL_STORAGE_JWT)
 	const pongApi = usePongApi()

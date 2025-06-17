@@ -1,4 +1,5 @@
 import { CssBaseline, InitColorSchemeScript, ThemeProvider } from "@mui/material"
+import Fade from "@mui/material/Fade"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { nlNL } from "@mui/x-date-pickers/locales"
@@ -11,13 +12,14 @@ import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 import dayjs from "dayjs"
-import { SnackbarProvider } from "notistack"
 import { Outlet } from "react-router"
 import theme from "./theme"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { DialogsProvider } from "@toolpad/core/useDialogs"
+import { NotificationsProvider } from "@toolpad/core/useNotifications"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { SnackbarProvider } from "notistack"
 import EventSourceProvider from "~/provider/EventSourceProvider"
 import JwtGuard from "~/provider/JwtGuard"
 
@@ -29,26 +31,28 @@ const RootLayout: React.FC = () => {
 
 	return (
 		<>
-			<SnackbarProvider maxSnack={10} autoHideDuration={3000}>
-				<QueryClientProvider client={queryClient}>
-					<JwtGuard>
-						<EventSourceProvider>
-							<ThemeProvider theme={theme} defaultMode="system">
-								<InitColorSchemeScript defaultMode="system" attribute="class" />
-								<CssBaseline />
-								<LocalizationProvider
-									dateAdapter={AdapterDayjs}
-									adapterLocale="nl"
-									localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
-								>
-									<DialogsProvider>
-										<Outlet />
-									</DialogsProvider>
-								</LocalizationProvider>
-							</ThemeProvider>
-						</EventSourceProvider>
-					</JwtGuard>
-				</QueryClientProvider>
+			<SnackbarProvider maxSnack={10} TransitionComponent={Fade} autoHideDuration={4000}>
+				<NotificationsProvider>
+					<QueryClientProvider client={queryClient}>
+						<JwtGuard>
+							<EventSourceProvider>
+								<ThemeProvider theme={theme} defaultMode="system">
+									<InitColorSchemeScript defaultMode="system" attribute="class" />
+									<CssBaseline />
+									<LocalizationProvider
+										dateAdapter={AdapterDayjs}
+										adapterLocale="nl"
+										localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
+									>
+										<DialogsProvider>
+											<Outlet />
+										</DialogsProvider>
+									</LocalizationProvider>
+								</ThemeProvider>
+							</EventSourceProvider>
+						</JwtGuard>
+					</QueryClientProvider>
+				</NotificationsProvider>
 			</SnackbarProvider>
 		</>
 	)
