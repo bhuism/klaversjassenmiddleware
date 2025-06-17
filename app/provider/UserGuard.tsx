@@ -1,11 +1,32 @@
 import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
+import { type PropsWithChildren, useEffect } from "react"
 import ReloadButton from "~/components/button/ReloadButton"
 import useCardApi from "~/hooks/useGameApi"
 import useUser, { SESSION_STORAGE_JWT } from "~/hooks/useUser"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
 import { LOCAL_STORAGE_JWT } from "./JwtGuard"
+
+const Pinger: React.FC<PropsWithChildren> = ({ children }) => {
+	const cardApi = useCardApi()
+
+	const MINUTE_MS = 60 * 1000
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			cardApi.ping()
+		}, MINUTE_MS)
+
+		return () => clearInterval(interval)
+	}, [cardApi])
+
+	useEffect(() => {
+		cardApi.ping()
+	}, [cardApi])
+
+	return <>{children}</>
+}
 
 const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userId, children }) => {
 	const cardApi = useCardApi()
@@ -55,7 +76,7 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 
 	sessionStorage.setItem(SESSION_STORAGE_JWT, JSON.stringify(user))
 
-	return <>{children}</>
+	return <Pinger>{children}</Pinger>
 }
 
 const UserGuard: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userId, children }) => {
@@ -65,7 +86,7 @@ const UserGuard: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ user
 		return <LoadUser userId={userId}>{children}</LoadUser>
 	}
 
-	return <>{children}</>
+	return <Pinger>{children}</Pinger>
 }
 
 export default UserGuard
