@@ -30,8 +30,6 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		})
 
 		eventSource.addEventListener("cardservermessage", (e) => {
-			// biome-ignore lint/suspicious/noConsole: <explanation>
-			console.log({ e: e })
 			enqueueSnackbar(`${e.data}`, { variant: "info" })
 		})
 
