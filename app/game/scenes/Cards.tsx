@@ -1,9 +1,7 @@
 import { cards } from "~/components/common/PlayingCard"
-import home from "./home.svg"
-import type { Card, DefaultApi, Game } from ".generated-sources/openapi"
+import type { DefaultApi, Game } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
-	localCards: Phaser.GameObjects.Image[] = []
 	cardApi: DefaultApi
 	gameState: Game
 	targets: Phaser.Math.Vector2[] = []
@@ -96,14 +94,17 @@ export class Cards extends Phaser.Scene {
 	}
 
 	preload() {
+		this.gameWidth = this.game.config.width as number
+		this.gameHeight = this.game.config.height as number
+
 		this.showBar()
 
-		// load all cards
+		// // load all cards
 		Object.keys(cards).forEach((key) => {
-			this.load.image(key, cards[key as Card])
+			this.load.svg(key, `/assets/cards/${key.toUpperCase()}.svg`, { scale: this.gameWidth / 30 })
 		})
 
-		this.load.image("home", home)
+		this.load.svg("home", "/assets/home.svg", { scale: this.gameHeight / 400 })
 	}
 
 	create() {
@@ -111,13 +112,12 @@ export class Cards extends Phaser.Scene {
 		this.gameHeight = this.game.config.height as number
 		this.showPlayerCards()
 		this.showHomeButton()
+		this.showNames()
 	}
 
 	showHomeButton() {
-		const sprite = this.add
-			.sprite(this.gameWidth / 10, this.gameHeight / 10, "home")
-			.setInteractive()
-			.setScale(5)
+		const xy = Math.min(this.gameWidth, this.gameHeight) / 15
+		const sprite = this.add.image(xy, xy, "home").setInteractive()
 
 		const test = this.goHome
 
@@ -133,6 +133,12 @@ export class Cards extends Phaser.Scene {
 		)
 
 		const zone = this.add.zone(center.x, center.y, 0, 0).setCircleDropZone(this.gameWidth / 12)
+		const graphics1 = this.add.graphics()
+		graphics1.fillStyle(3, 0x40ff07)
+		graphics1.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius).setDepth(-10)
+		const graphics2 = this.add.graphics()
+		graphics2.lineStyle(2, 0xffff00)
+		graphics2.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius).setDepth(-20)
 
 		for (let index = 0; index < 32; index++) {
 			// tune this, trust me
@@ -144,12 +150,14 @@ export class Cards extends Phaser.Scene {
 			const spreadY = this.gameHeight / yspaver
 
 			const currentCard = this.gameState.playerCard.filter((pc) => pc.player === Math.floor(index / 8))[index % 8].card
-
 			const card = this.add.image(center.x, center.y, currentCard)
 
-			card.setScale(this.gameWidth / 2100)
+			card.setInteractive()
+			this.input.setDraggable(card)
 			card.setDepth(-index)
-			card.setTint(0x909090)
+			card.setTint(0xb0b0b0)
+			//			card.setOrigin(0)
+			//			card.setScale(this.gameWidth / 2)
 
 			if ((index >= 8 && index < 16) || (index >= 24 && index < 32)) {
 				this.tweens.add({
@@ -174,8 +182,7 @@ export class Cards extends Phaser.Scene {
 					this.gameWidth - spreadX * (index % 8) - spreadX * ((xspaver - 7) / 2),
 					this.gameHeight - spreadY * 0.5
 				)
-				card.setInteractive(new Phaser.Geom.Rectangle(0, 0, 240, 336), Phaser.Geom.Rectangle.Contains)
-				this.input.setDraggable(card)
+				//				card.setInteractive(new Phaser.Geom.Rectangle(0, 0, 240, 336), Phaser.Geom.Rectangle.Contains)
 				this.targets[index] = target.clone()
 			} else if (index < 16) {
 				target.set(spreadX * 0, this.gameHeight - spreadY * (index % 8) - spreadY * ((yspaver - 7) / 2))
@@ -198,20 +205,10 @@ export class Cards extends Phaser.Scene {
 				},
 				...(index === 31
 					? {
-							onComplete: () => {
-								const graphics1 = this.add.graphics()
-								graphics1.fillStyle(3, 0x40ff07)
-								graphics1.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius)
-								const graphics2 = this.add.graphics()
-								graphics2.lineStyle(2, 0xffff00)
-								graphics2.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
-								this.showNames()
-							},
+							onComplete: () => {},
 						}
 					: []),
 			})
-
-			this.localCards.push(card)
 		}
 
 		this.input.on("dragstart", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
@@ -255,7 +252,7 @@ export class Cards extends Phaser.Scene {
 
 		this.input.on("dragend", (_pointer: unknown, gameObject: Phaser.GameObjects.Image, dropped: boolean) => {
 			if (!dropped) {
-				gameObject.setTint(0xa0a0a0)
+				gameObject.setTint(0xb0b0b0)
 				this.tweens.add({
 					targets: gameObject,
 					ease: "Quint.easeOut",
@@ -299,9 +296,9 @@ export class Cards extends Phaser.Scene {
 				.setOrigin(0.5, 0.5)
 		}
 
-		printName(this.gameWidth / 8, this.gameHeight / 2, "naam1", Math.PI / 2)
+		printName(this.gameWidth / 10, this.gameHeight / 2, "naam1", Math.PI / 2)
 		printName(this.gameWidth / 2, this.gameHeight / 4, "naam2", 0)
-		printName(this.gameWidth - this.gameWidth / 8, this.gameHeight / 2, "naam3", -Math.PI / 2)
+		printName(this.gameWidth - this.gameWidth / 10, this.gameHeight / 2, "naam3", -Math.PI / 2)
 	}
 
 	update(_time: number, _delta: number) {}

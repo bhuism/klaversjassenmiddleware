@@ -27,10 +27,6 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 				height: window.innerHeight,
 			},
 			backgroundColor: "#101010",
-			physics: {
-				default: "arcade",
-				arcade: { debug: false, fps: 24 },
-			},
 		}
 
 		const game = new Phaser.Game(config)
