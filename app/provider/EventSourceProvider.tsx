@@ -42,7 +42,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			console.log(`got ping ${data}`)
 			if (uuid === undefined) {
 				// biome-ignore lint/suspicious/noConsole: <explanation>
-				console.log("setting uuid")
+				console.log("setting initial uuid")
 			} else {
 				if (uuid !== data) {
 					// biome-ignore lint/suspicious/noConsole: <explanation>
