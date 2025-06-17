@@ -38,6 +38,8 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 		eventSource.addEventListener("ping", () => cardApi.pong())
 
+		eventSource.addEventListener("pong", () => console.log("pong"))
+
 		eventSource.addEventListener("error", (e) => {
 			enqueueSnackbar(`${JSON.stringify(e.message)}`, { variant: "error" })
 		})
