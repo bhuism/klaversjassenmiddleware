@@ -1,13 +1,4 @@
-import {
-	Container,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	tableCellClasses,
-} from "@mui/material"
+import { Table, TableBody, TableCell, TableHead, TableRow, tableCellClasses } from "@mui/material"
 import PlayingCard from "../common/PlayingCard"
 import PlayerName from "./PlayerName"
 import type { Card, Game } from ".generated-sources/openapi"
@@ -81,35 +72,32 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: Game }>> = ({ ga
 	}
 
 	return (
-		<Container>
-			<TableContainer>
-				<Table
-					size="small"
-					sx={{
-						[`& .${tableCellClasses.root}`]: {
-							borderBottom: "none",
-							padding: 0,
-							margin: 0,
-						},
-					}}
-				>
-					<TableHead>
-						<TableRow>
-							<TableCell align="center">slag</TableCell>
-							<TableCell align="center">1</TableCell>
-							<TableCell align="center">2</TableCell>
-							<TableCell align="center">3</TableCell>
-							<TableCell align="center">4</TableCell>
-							<TableCell align="center">{/* <UsThem game={game} zeroTwo={true} /> */}</TableCell>
-							<TableCell align="center">{/* <UsThem game={game} zeroTwo={false} /> */}</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{[...Array(tricksPlayed(game))].map((_x, trickNr) => (
-							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							<TrickRow key={trickNr} game={game} trickNr={trickNr} />
-						))}
-						{/* <TableRow
+		<Table
+			sx={{
+				[`& .${tableCellClasses.root}`]: {
+					borderBottom: "none",
+					padding: 0,
+					margin: 0,
+				},
+			}}
+		>
+			<TableHead>
+				<TableRow>
+					<TableCell align="center">slag</TableCell>
+					<TableCell align="center">1</TableCell>
+					<TableCell align="center">2</TableCell>
+					<TableCell align="center">3</TableCell>
+					<TableCell align="center">4</TableCell>
+					<TableCell align="center">{/* <UsThem game={game} zeroTwo={true} /> */}</TableCell>
+					<TableCell align="center">{/* <UsThem game={game} zeroTwo={false} /> */}</TableCell>
+				</TableRow>
+			</TableHead>
+			<TableBody>
+				{[...Array(tricksPlayed(game))].map((_x, trickNr) => (
+					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+					<TrickRow key={trickNr} game={game} trickNr={trickNr} />
+				))}
+				{/* <TableRow
 							style={
 								zeroTwoPoints + oneThreePoints !== 162 ? { background: game.isCompleted() ? "red" : undefined } : {}
 							}
@@ -118,10 +106,8 @@ const CompletedTricks: React.FC<React.PropsWithChildren<{ game: Game }>> = ({ ga
 							<TableCell align="center">{zeroTwoPoints}</TableCell>
 							<TableCell align="center">{oneThreePoints}</TableCell>
 						</TableRow> */}
-					</TableBody>
-				</Table>
-			</TableContainer>
-		</Container>
+			</TableBody>
+		</Table>
 	)
 }
 export default CompletedTricks

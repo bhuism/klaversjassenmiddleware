@@ -1,6 +1,5 @@
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
-import { tableCellClasses } from "@mui/material/TableCell"
+import { Table, TableBody, TableCell, TableHead, TableRow, tableCellClasses } from "@mui/material"
 import UsThem from "./UsThem"
 import CompletedPlayerCards from "./game/CompletedPlayerCards"
 import CompletedTricks from "./game/CompletedTricks"
@@ -24,7 +23,7 @@ const GameCompleted: React.FC<{ game: Game }> = ({ game }) => {
 	const oneThreePoints = 0
 
 	return (
-		<TableContainer component={Paper}>
+		<>
 			<Table
 				size="small"
 				sx={{
@@ -129,21 +128,11 @@ const GameCompleted: React.FC<{ game: Game }> = ({ game }) => {
 							<PlayerName user={game.players.filter((g) => g.id === game.creator)[0]} />
 						</TableCell>
 					</TableRow>
-					<TableRow>
-						<TableCell colSpan={2}>verloop</TableCell>
-						<TableCell colSpan={10}>
-							<CompletedTricks game={game} />
-						</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell colSpan={2}>kaarten</TableCell>
-						<TableCell colSpan={10}>
-							<CompletedPlayerCards game={game} />
-						</TableCell>
-					</TableRow>
 				</TableBody>
 			</Table>
-		</TableContainer>
+			<CompletedTricks game={game} />
+			<CompletedPlayerCards game={game} />
+		</>
 	)
 }
 

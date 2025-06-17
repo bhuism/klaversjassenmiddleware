@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableRow } from "@mui/material"
+import { Table, TableBody, TableCell, TableRow, tableCellClasses } from "@mui/material"
 import PlayingCard from "../common/PlayingCard"
 import { rankRegular, rankTrump, suitOf } from "../common/utils"
 import PlayerName from "./PlayerName"
@@ -17,7 +17,7 @@ const CompletedPlayerCards: React.FC<React.PropsWithChildren<{ game: Game }>> = 
 	// 		.reduce((sum, current) => sum + current, 0)
 	// }
 
-	const playerPoints = (_player: number) => 0
+	//	const playerPoints = (_player: number) => 0
 
 	// const winningCards: Cardtype[] = [...Array(game.tricksPlayed())].map((x, trickNr) => {
 	// 	return game.determineTrickWinningCard(trickNr)
@@ -51,25 +51,23 @@ const CompletedPlayerCards: React.FC<React.PropsWithChildren<{ game: Game }>> = 
 	}
 
 	return (
-		<Table>
+		<Table
+			sx={{
+				[`& .${tableCellClasses.root}`]: {
+					borderBottom: "none",
+					padding: 0,
+					margin: 0,
+				},
+			}}
+		>
 			<TableBody>
 				{game.players.map((user, index) => (
 					<TableRow key={user.id}>
-						<td key={user.id} style={{ width: "20%" }} className={"text-center align-middle"}>
-							<p>
-								{game.elder === game.players.map((u) => u.id).indexOf(user.id) ? (
-									<>
-										<i className={"bi bi-arrow-right-circle"} />{" "}
-									</>
-								) : (
-									<></>
-								)}
-								<PlayerName user={user} />
-							</p>
-							<p className={"fs-5"}>{playerPoints(index)}</p>
-						</td>
+						<TableCell key={user.id} className={"text-center align-middle"}>
+							<PlayerName user={user} />
+						</TableCell>
 						{getAllPlayerCards(index).map((c) => (
-							<TableCell key={c} style={{ padding: 1 }}>
+							<TableCell key={c}>
 								<PlayingCard cardType={c} style={{ maxWidth: "12vw" }} front showHalf />
 							</TableCell>
 						))}
