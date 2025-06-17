@@ -13,6 +13,9 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const [uuid, setUuid] = useState<string>()
 
 	useEffect(() => {
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		console.log("<EventSourceProvider /> useEffect triggered")
+
 		const eventSource = new EventSource(`${constants.apiUrl}/api/v1/subscribe`, {
 			fetch: (input, init) =>
 				fetch(input, {
@@ -40,18 +43,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		eventSource.addEventListener("ping", ({ data }) => {
 			// biome-ignore lint/suspicious/noConsole: <explanation>
 			console.log(`got ping ${data}`)
-			if (uuid === undefined) {
-				// biome-ignore lint/suspicious/noConsole: <explanation>
-				console.log("setting initial uuid")
-			} else {
-				if (uuid !== data) {
-					// biome-ignore lint/suspicious/noConsole: <explanation>
-					console.log("new uuid uuid {} --> {}", uuid, data)
-				}
-			}
-
 			setUuid(data)
-
 			cardApi.pong(data)
 		})
 
@@ -66,7 +58,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 		// terminating the connection on component unmount
 		return () => eventSource.close()
-	}, [jwt, enqueueSnackbar, cardApi, uuid])
+	}, [jwt, enqueueSnackbar, cardApi])
 
 	const MINUTE_MS = 15 * 1000
 
