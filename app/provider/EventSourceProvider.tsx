@@ -48,9 +48,9 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 					// biome-ignore lint/suspicious/noConsole: <explanation>
 					console.log("new uuid uuid {} --> {}", uuid, data)
 				}
-
-				setUuid(data)
 			}
+
+			setUuid(data)
 
 			cardApi.pong(data)
 		})
