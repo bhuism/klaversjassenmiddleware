@@ -30,8 +30,8 @@ const CompletedInfo: React.FC<{ game: Game }> = ({ game }) => {
 			{zeroTwoPoints === 0 || oneThreePoints === 0 ? (
 				<TableHead>
 					<TableRow>
-						<TableCell colSpan={2} />
-						<TableCell colSpan={10}>
+						<TableCell />
+						<TableCell>
 							<h4>Pit</h4>
 						</TableCell>
 					</TableRow>
@@ -43,8 +43,8 @@ const CompletedInfo: React.FC<{ game: Game }> = ({ game }) => {
 			(oneThreePoints > zeroTwoPoints && (game.elder === 0 || game.elder === 2)) ? (
 				<TableHead>
 					<TableRow>
-						<TableCell colSpan={2} />
-						<TableCell colSpan={10}>
+						<TableCell />
+						<TableCell>
 							<h4>Nat</h4>
 						</TableCell>
 					</TableRow>
@@ -54,8 +54,8 @@ const CompletedInfo: React.FC<{ game: Game }> = ({ game }) => {
 			)}
 			<TableBody>
 				<TableRow>
-					<TableCell colSpan={2}>winnaar</TableCell>
-					<TableCell colSpan={10}>
+					<TableCell>winnaar</TableCell>
+					<TableCell>
 						{zeroTwoPoints > oneThreePoints ? (
 							<>
 								{" "}
@@ -76,8 +76,8 @@ const CompletedInfo: React.FC<{ game: Game }> = ({ game }) => {
 					</TableCell>
 				</TableRow>
 				<TableRow>
-					<TableCell colSpan={2}>verliezer</TableCell>
-					<TableCell colSpan={10}>
+					<TableCell>verliezer</TableCell>
+					<TableCell>
 						{zeroTwoPoints < oneThreePoints ? (
 							<>
 								{" "}
@@ -98,28 +98,28 @@ const CompletedInfo: React.FC<{ game: Game }> = ({ game }) => {
 					</TableCell>
 				</TableRow>
 				<TableRow>
-					<TableCell colSpan={2}>troef</TableCell>
-					<TableCell colSpan={10}>
+					<TableCell>troef</TableCell>
+					<TableCell>
 						<SuitImage suit={game.trump} />
 					</TableCell>
 				</TableRow>
 				<TableRow>
-					<TableCell colSpan={2}>
+					<TableCell>
 						gegaan <PlayArrowIcon />
 					</TableCell>
-					<TableCell colSpan={10}>
+					<TableCell>
 						<PlayerName user={[...game.players][game.elder as number]} />
 					</TableCell>
 				</TableRow>
 				<TableRow>
-					<TableCell colSpan={2}>deler</TableCell>
-					<TableCell colSpan={10}>
+					<TableCell>deler</TableCell>
+					<TableCell>
 						<PlayerName user={[...game.players][game.dealer]} />
 					</TableCell>
 				</TableRow>
 				<TableRow>
-					<TableCell colSpan={2}>gemaakt door</TableCell>
-					<TableCell colSpan={10}>
+					<TableCell>gemaakt door</TableCell>
+					<TableCell>
 						<PlayerName user={game.players.filter((g) => g.id === game.creator)[0]} />
 					</TableCell>
 				</TableRow>
