@@ -46,8 +46,10 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			cardApi.pong(data)
 		})
 
-		// biome-ignore lint/suspicious/noConsole: <explanation>
-		eventSource.addEventListener("pong", ({ data }) => console.log(`got pong ${data}`))
+		eventSource.addEventListener("pong", ({ data }) => {
+			// biome-ignore lint/suspicious/noConsole: <explanation>
+			console.log(`got pong ${data}`)
+		})
 
 		eventSource.addEventListener("error", (e) => {
 			enqueueSnackbar(`${JSON.stringify(e.message)}`, { variant: "error" })
