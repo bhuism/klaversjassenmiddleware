@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode"
 import { useAuth } from "react-oidc-context"
 import { Navigate } from "react-router"
 import ReloadButton from "~/components/button/ReloadButton"
-import { SESSION_STORAGE_JWT } from "~/hooks/useUser"
+import { setUser } from "~/hooks/useUser"
 import useWhoAmIApi from "~/hooks/useWhoAmIApi"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
@@ -56,7 +56,7 @@ const WhoAmI = () => {
 	}
 
 	localStorage.setItem(LOCAL_STORAGE_JWT, jwt)
-	sessionStorage.setItem(SESSION_STORAGE_JWT, JSON.stringify(user))
+	setUser(user)
 
 	return <Navigate to="/" />
 }

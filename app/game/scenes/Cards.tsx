@@ -1,5 +1,5 @@
 import { cards } from "~/components/common/PlayingCard"
-import type { DefaultApi, Game } from ".generated-sources/openapi"
+import type { DefaultApi, Game, User } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
 	cardApi: DefaultApi
@@ -7,15 +7,17 @@ export class Cards extends Phaser.Scene {
 	targets: Phaser.Math.Vector2[] = []
 	saveCardDragVector: Phaser.Math.Vector2 | undefined
 	goHome: () => void
+	user: User
 
 	gameWidth = 0
 	gameHeight = 0
 
-	constructor(cardApi: DefaultApi, gameState: Game, goHome: () => void) {
+	constructor(cardApi: DefaultApi, gameState: Game, goHome: () => void, user: User) {
 		super("Cards")
 		this.cardApi = cardApi
 		this.gameState = gameState
 		this.goHome = goHome
+		this.user = user
 
 		if (this.gameState.trump.length === 32) {
 			// biome-ignore lint/suspicious/noConsole: <explanation>
@@ -101,7 +103,7 @@ export class Cards extends Phaser.Scene {
 
 		// // load all cards
 		Object.keys(cards).forEach((key) => {
-			this.load.svg(key, `/assets/cards/${key.toUpperCase()}.svg`, { scale: this.gameWidth / 30 })
+			this.load.svg(key, `/assets/cards/${key.toUpperCase()}.svg`, { scale: this.gameWidth / 20 })
 		})
 
 		this.load.svg("home", "/assets/home.svg", { scale: this.gameHeight / 400 })
@@ -123,6 +125,29 @@ export class Cards extends Phaser.Scene {
 
 		sprite.on("pointerdown", () => {
 			test()
+		})
+
+		// sprite.on("pointerover", () => {
+		// 	this.tweens.add({
+		// 		targets: sprite,
+		// 		angle: 180,
+		// 		duration: 600,
+		// 		ease: "Bounce.easeOut",
+		// 		yoyo: true,
+		// 	})
+		// })
+		sprite.on("pointerover", () => {
+			this.tweens.add({
+				targets: sprite,
+				scale: 1.6,
+				duration: 500,
+				ease: "Bounce.easeOut",
+			})
+		})
+
+		sprite.on("pointerout", () => {
+			sprite.setScale(1)
+			this.tweens.killTweensOf(sprite)
 		})
 	}
 
@@ -296,9 +321,18 @@ export class Cards extends Phaser.Scene {
 				.setOrigin(0.5, 0.5)
 		}
 
-		printName(this.gameWidth / 10, this.gameHeight / 2, "naam1", Math.PI / 2)
-		printName(this.gameWidth / 2, this.gameHeight / 4, "naam2", 0)
-		printName(this.gameWidth - this.gameWidth / 10, this.gameHeight / 2, "naam3", -Math.PI / 2)
+		const start = this.gameState.players.map((p) => p.id).indexOf(this.user.id)
+		let index = start + 1
+		printName(this.gameWidth / 10, this.gameHeight / 2, this.gameState.players[index % 4].displayName, Math.PI / 2)
+		index++
+		printName(this.gameWidth / 2, this.gameHeight / 4, this.gameState.players[index % 4].displayName, 0)
+		index++
+		printName(
+			this.gameWidth - this.gameWidth / 10,
+			this.gameHeight / 2,
+			this.gameState.players[index % 4].displayName,
+			-Math.PI / 2
+		)
 	}
 
 	update(_time: number, _delta: number) {}

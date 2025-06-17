@@ -2,7 +2,7 @@ import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
 import ReloadButton from "~/components/button/ReloadButton"
 import useCardApi from "~/hooks/useGameApi"
-import useUser, { SESSION_STORAGE_JWT } from "~/hooks/useUser"
+import useUser, { setUser } from "~/hooks/useUser"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
 import { LOCAL_STORAGE_JWT } from "./JwtGuard"
@@ -53,7 +53,7 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 		)
 	}
 
-	sessionStorage.setItem(SESSION_STORAGE_JWT, JSON.stringify(user))
+	setUser(user)
 
 	return <>{children}</>
 }

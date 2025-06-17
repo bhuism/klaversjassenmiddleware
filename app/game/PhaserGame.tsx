@@ -4,6 +4,7 @@ import type React from "react"
 import { useEffect } from "react"
 import { useNavigate } from "react-router"
 import useCardApi from "~/hooks/useGameApi"
+import useUser from "~/hooks/useUser"
 import { Cards } from "./scenes/Cards"
 import type { Game } from ".generated-sources/openapi"
 
@@ -12,6 +13,7 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 
 	const cardApi = useCardApi()
 	const navigate = useNavigate()
+	const { user } = useUser()
 
 	const createGame = (parent: string, gameState: Game) => {
 		const config: Phaser.Types.Core.GameConfig = {
@@ -31,7 +33,7 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 
 		const game = new Phaser.Game(config)
 
-		const cardsScene = new Cards(cardApi, gameState, () => navigate("/"))
+		const cardsScene = new Cards(cardApi, gameState, () => navigate("/"), user)
 
 		game.scene.add("cards", cardsScene, true)
 
