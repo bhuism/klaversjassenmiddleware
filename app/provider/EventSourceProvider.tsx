@@ -1,7 +1,7 @@
 import { EventSource } from "eventsource"
 import { useSnackbar } from "notistack"
 import { type PropsWithChildren, useEffect } from "react"
-import usePongApi from "~/hooks/usePongApi"
+import useCardApi from "~/hooks/useGameApi"
 import constants from "~/utils/constants"
 import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
@@ -9,7 +9,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	//const notifications = useNotifications()
 	const { enqueueSnackbar } = useSnackbar()
 	const jwt = localStorage.getItem(LOCAL_STORAGE_JWT)
-	const pongApi = usePongApi()
+	const cardApi = useCardApi()
 
 	useEffect(() => {
 		const eventSource = new EventSource(`${constants.apiUrl}/api/v1/subscribe`, {
@@ -36,7 +36,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			enqueueSnackbar(`message:${JSON.stringify(e.data)}`, { variant: "info" })
 		})
 
-		eventSource.addEventListener("ping", () => pongApi.pong())
+		eventSource.addEventListener("ping", () => cardApi.pong())
 
 		eventSource.addEventListener("error", (e) => {
 			enqueueSnackbar(`error${JSON.stringify(e.message)}`, { variant: "error" })
@@ -44,7 +44,7 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 		// terminating the connection on component unmount
 		return () => eventSource.close()
-	}, [jwt, enqueueSnackbar, pongApi])
+	}, [jwt, enqueueSnackbar, cardApi])
 
 	return <>{children}</>
 }
