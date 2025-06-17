@@ -50,21 +50,21 @@ const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 
 	return (
 		<>
+			<Stack alignItems={"center"} justifyItems={"center"} padding={2} spacing={2}>
+				<Typography>Voeg hieronder spelers toe aan het nieuwe spel.</Typography>
+				<Typography>
+					Er {players.ids.size === 2 ? "is" : "zijn"} nog {3 - players.ids.size} speler
+					{players.ids.size === 2 ? "" : "s"} nodig om het spel te starten.
+				</Typography>
+				<Button
+					variant="outlined"
+					disabled={!players || players.ids.size !== 3 || creatingGame}
+					onClick={() => createGame(user.id)}
+				>
+					Start Spel
+				</Button>
+			</Stack>
 			<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
-				<Stack alignItems={"center"} justifyItems={"center"} spacing={1}>
-					<Typography>Voeg hieronder spelers toe aan het spel.</Typography>
-					<Typography>
-						Er {players.ids.size === 2 ? "is" : "zijn"} nog {3 - players.ids.size} speler
-						{players.ids.size === 2 ? "" : "s"} nodig om het spel te starten.
-					</Typography>
-					<Button
-						variant="outlined"
-						disabled={!players || players.ids.size !== 3 || creatingGame}
-						onClick={() => createGame(user.id)}
-					>
-						Start Spel
-					</Button>
-				</Stack>
 				<DataGrid
 					loading={isLoading}
 					columns={columns}
