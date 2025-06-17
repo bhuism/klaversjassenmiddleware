@@ -2,6 +2,7 @@ import { Box } from "@mui/material"
 import { AUTO } from "phaser"
 import type React from "react"
 import { useEffect } from "react"
+import { useNavigate } from "react-router"
 import useCardApi from "~/hooks/useGameApi"
 import { Cards } from "./scenes/Cards"
 import type { Game } from ".generated-sources/openapi"
@@ -10,6 +11,7 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 	const GAMECONTAINERID = "game-container"
 
 	const cardApi = useCardApi()
+	const navigate = useNavigate()
 
 	const createGame = (parent: string, gameState: Game) => {
 		const config: Phaser.Types.Core.GameConfig = {
@@ -33,7 +35,7 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 
 		const game = new Phaser.Game(config)
 
-		const cardsScene = new Cards(cardApi, gameState)
+		const cardsScene = new Cards(cardApi, gameState, () => navigate("/"))
 
 		game.scene.add("cards", cardsScene, true)
 

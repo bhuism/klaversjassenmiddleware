@@ -1,4 +1,5 @@
 import { cards } from "~/components/common/PlayingCard"
+import home from "./home.svg"
 import type { Card, DefaultApi, Game } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
@@ -7,15 +8,16 @@ export class Cards extends Phaser.Scene {
 	gameState: Game
 	targets: Phaser.Math.Vector2[] = []
 	saveCardDragVector: Phaser.Math.Vector2 | undefined
-	//const cards: Phaser.GameObjects.Image[] = []
+	goHome: () => void
 
 	gameWidth = 0
 	gameHeight = 0
 
-	constructor(cardApi: DefaultApi, gameState: Game) {
+	constructor(cardApi: DefaultApi, gameState: Game, goHome: () => void) {
 		super("Cards")
 		this.cardApi = cardApi
 		this.gameState = gameState
+		this.goHome = goHome
 
 		if (this.gameState.trump.length === 32) {
 			// biome-ignore lint/suspicious/noConsole: <explanation>
@@ -101,13 +103,27 @@ export class Cards extends Phaser.Scene {
 			this.load.image(key, cards[key as Card])
 		})
 
-		this.load.image("button", "assets/pics/lance-overdose-loader-eye.png")
+		this.load.image("home", home)
 	}
 
 	create() {
 		this.gameWidth = this.game.config.width as number
 		this.gameHeight = this.game.config.height as number
 		this.showPlayerCards()
+		this.showHomeButton()
+	}
+
+	showHomeButton() {
+		const sprite = this.add
+			.sprite(this.gameWidth / 10, this.gameHeight / 10, "home")
+			.setInteractive()
+			.setScale(5)
+
+		const test = this.goHome
+
+		sprite.on("pointerdown", () => {
+			test()
+		})
 	}
 
 	showPlayerCards() {
