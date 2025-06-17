@@ -9,12 +9,7 @@ const MessageBoard: React.FC = () => {
 	const ref = React.createRef<HTMLDivElement>()
 
 	const { refetch, isLoading } = useQuery<boolean>({
-		queryFn: ({ queryKey }) => {
-			if (message && message.length > 0) {
-				return cardApi.sendAMessage({ message: queryKey[1] as unknown as string }).then(() => true)
-			}
-			return Promise.resolve(true)
-		},
+		queryFn: ({ queryKey }) => cardApi.sendAMessage({ message: queryKey[1] as unknown as string }).then(() => true),
 		queryKey: ["message", message],
 		refetchOnMount: false,
 		enabled: false,
