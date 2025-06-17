@@ -2,7 +2,7 @@ import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
 import { jwtDecode } from "jwt-decode"
 import { useAuth } from "react-oidc-context"
-import { useNavigate } from "react-router"
+import { Navigate } from "react-router"
 import ReloadButton from "~/components/button/ReloadButton"
 import { SESSION_STORAGE_JWT } from "~/hooks/useUser"
 import useWhoAmIApi from "~/hooks/useWhoAmIApi"
@@ -11,7 +11,6 @@ import CenterComponents from "~/utils/CenterComponents"
 import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
 const WhoAmI = () => {
-	const navigate = useNavigate()
 	const { user: authUser } = useAuth()
 
 	const whoamiApi = useWhoAmIApi(authUser?.id_token)
@@ -59,7 +58,7 @@ const WhoAmI = () => {
 	localStorage.setItem(LOCAL_STORAGE_JWT, jwt)
 	sessionStorage.setItem(SESSION_STORAGE_JWT, JSON.stringify(user))
 
-	navigate("/")
+	return <Navigate to="/" />
 }
 
 export default WhoAmI
