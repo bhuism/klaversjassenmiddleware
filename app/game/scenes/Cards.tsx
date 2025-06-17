@@ -135,10 +135,10 @@ export class Cards extends Phaser.Scene {
 		const zone = this.add.zone(center.x, center.y, 0, 0).setCircleDropZone(this.gameWidth / 12)
 		const graphics1 = this.add.graphics()
 		graphics1.fillStyle(3, 0x40ff07)
-		graphics1.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius).setDepth(-10)
+		graphics1.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius).setDepth(-100)
 		const graphics2 = this.add.graphics()
 		graphics2.lineStyle(2, 0xffff00)
-		graphics2.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius).setDepth(-20)
+		graphics2.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius).setDepth(-200)
 
 		for (let index = 0; index < 32; index++) {
 			// tune this, trust me
