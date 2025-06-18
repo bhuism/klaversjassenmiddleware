@@ -1,5 +1,5 @@
 import { cards } from "~/components/common/PlayingCard"
-import type { DefaultApi, Game, User } from ".generated-sources/openapi"
+import type { Card, DefaultApi, Game, User } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
 	cardApi: DefaultApi
@@ -25,6 +25,8 @@ export class Cards extends Phaser.Scene {
 			throw new Error("No game / completed")
 		}
 	}
+
+	playCard() {}
 
 	init() {
 		// this.gameState = this.registry.get("gameState")
@@ -181,12 +183,19 @@ export class Cards extends Phaser.Scene {
 			const spreadY = this.gameHeight / yspaver
 
 			const currentCard = this.gameState.playerCard.filter((pc) => pc.player === Math.floor(index / 8))[index % 8].card
+
+			if (this.gameState.turns.indexOf(currentCard) !== -1) {
+				continue
+			}
+
 			const card = this.add.image(center.x, center.y, currentCard)
 
 			card.setInteractive()
 			this.input.setDraggable(card)
 			card.setDepth(-index)
 			card.setTint(0xb0b0b0)
+			card.setName(currentCard)
+
 			//			card.setOrigin(0)
 			//			card.setScale(this.gameWidth / 2)
 
@@ -271,11 +280,12 @@ export class Cards extends Phaser.Scene {
 			gameObject.clearTint()
 			circleGameObject
 			this.tweens.add({
-				duration: 500,
-				ease: "Back.easeInOut",
+				duration: 50,
+				ease: "Back.sineInOut",
 				targets: circleGameObject,
 				radius: Math.floor(circleRadius * 1.1),
-				yoyo: false,
+				yoyo: true,
+				repeat: 3,
 				onComplete: () => {
 					circleGameObject.setRadius(circleRadius * 1.05)
 				},
@@ -304,7 +314,11 @@ export class Cards extends Phaser.Scene {
 					duration: 500,
 				})
 			} else {
-				this.cardApi.playCard(this.gameState.id, { card: "Ah" })
+				this.cardApi.playCard(this.gameState.id, { card: gameObject.name as Card }).then(() => {
+					gameObject.setActive(false)
+					gameObject.setVisible(false)
+					gameObject.destroy()
+				})
 			}
 
 			this.saveCardDragVector = undefined
