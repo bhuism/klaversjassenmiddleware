@@ -1,6 +1,6 @@
 import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
-import ReloadButton from "~/components/button/ReloadButton"
+import { Navigate } from "react-router"
 import useCardApi from "~/hooks/useGameApi"
 import useUser, { setUser } from "~/hooks/useUser"
 import Logo192 from "~/layout/Logo192"
@@ -21,15 +21,16 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 
 	if (error) {
 		localStorage.setItem(LOCAL_STORAGE_JWT, "")
-		return (
-			<CenterComponents>
-				<Logo192 />
-				<Typography style={{ color: "red" }}>
-					{error.name}:{error.message}
-				</Typography>
-				<ReloadButton />
-			</CenterComponents>
-		)
+		return <Navigate to={"/"} />
+		// return (
+		// 	<CenterComponents>
+		// 		<Logo192 />
+		// 		<Typography style={{ color: "red" }}>
+		// 			{error.name}:{error.message}
+		// 		</Typography>
+		// 		<ReloadButton />
+		// 	</CenterComponents>
+		// )
 	}
 
 	if (isPending) {
@@ -44,13 +45,14 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 
 	if (!user) {
 		localStorage.setItem(LOCAL_STORAGE_JWT, "")
-		return (
-			<CenterComponents>
-				<Logo192 />
-				<Typography>No user</Typography>
-				<ReloadButton />
-			</CenterComponents>
-		)
+		return <Navigate to={"/"} />
+		// return (
+		// 	<CenterComponents>
+		// 		<Logo192 />
+		// 		<Typography>No user</Typography>
+		// 		<ReloadButton />
+		// 	</CenterComponents>
+		// )
 	}
 
 	setUser(user)
