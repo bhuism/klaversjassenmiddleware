@@ -157,13 +157,19 @@ export class Cards extends Phaser.Scene {
 			(this.game.config.height as number) / 2
 		)
 
-		const zone = this.add.zone(center.x, center.y, 0, 0).setCircleDropZone(this.gameWidth / 12)
+		const circleRadius = this.gameWidth / 12
+
+		const zone = this.add.zone(center.x, center.y, 0, 0).setCircleDropZone(circleRadius)
 		const graphics1 = this.add.graphics()
 		graphics1.fillStyle(3, 0x40ff07)
 		graphics1.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius).setDepth(-100)
 		const graphics2 = this.add.graphics()
 		graphics2.lineStyle(2, 0xffff00)
 		graphics2.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius).setDepth(-200)
+
+		const circleGameObject = this.add.circle(zone.x, zone.y, zone.input?.hitArea.radius, 0xff0000).setDepth(-200)
+
+		//	const test = Phaser.Geom.Circle(zone.x, zone.y, zone.input?.hitArea.radius)
 
 		for (let index = 0; index < 32; index++) {
 			// tune this, trust me
@@ -263,10 +269,22 @@ export class Cards extends Phaser.Scene {
 
 		this.input.on("dragenter", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
 			gameObject.clearTint()
+			circleGameObject
+			this.tweens.add({
+				duration: 500,
+				ease: "Back.easeInOut",
+				targets: circleGameObject,
+				radius: Math.floor(circleRadius * 1.1),
+				yoyo: false,
+				onComplete: () => {
+					circleGameObject.setRadius(circleRadius * 1.05)
+				},
+			})
 		})
 
 		this.input.on("dragleave", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
 			gameObject.setTint(0xd0d0d0)
+			circleGameObject.setRadius(circleRadius)
 		})
 
 		// this.input.on("dragend", () => {
