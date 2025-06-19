@@ -18,7 +18,14 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 	const { enqueueSnackbar } = useSnackbar()
 
 	useEffect(() => {
-		const cardsScene = new Cards(cardApi, gameState, () => navigate("/"), user, enqueueSnackbar)
+		const cardsScene = new Cards(
+			cardApi,
+			gameState,
+			() => navigate("/"),
+			user,
+			enqueueSnackbar,
+			() => navigate(`/game/${gameState.id}`)
+		)
 
 		const config: Phaser.Types.Core.GameConfig = {
 			type: AUTO,

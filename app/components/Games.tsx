@@ -81,7 +81,7 @@ const Games: React.FC = () => {
 
 		return (
 			<>
-				<LoopTwoTone className="my-spin" /> {`${game.turns.length}/8`}
+				<LoopTwoTone className="my-spin" /> {`${Math.floor(game.turns.length / 4)}`}
 			</>
 		)
 	}

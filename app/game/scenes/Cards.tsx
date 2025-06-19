@@ -10,17 +10,26 @@ export class Cards extends Phaser.Scene {
 	goHome: () => void
 	user: User
 	enqueueSnackbar: EnqueueSnackbar
+	gameCompleted: () => void
 
 	gameWidth = 0
 	gameHeight = 0
 
-	constructor(cardApi: DefaultApi, gameState: Game, goHome: () => void, user: User, enqueueSnackbar: EnqueueSnackbar) {
+	constructor(
+		cardApi: DefaultApi,
+		gameState: Game,
+		goHome: () => void,
+		user: User,
+		enqueueSnackbar: EnqueueSnackbar,
+		gameCompleted: () => void
+	) {
 		super("Cards")
 		this.cardApi = cardApi
 		this.gameState = gameState
 		this.goHome = goHome
 		this.user = user
 		this.enqueueSnackbar = enqueueSnackbar
+		this.gameCompleted = gameCompleted
 
 		if (this.gameState.trump.length === 32) {
 			// biome-ignore lint/suspicious/noConsole: <explanation>
@@ -128,25 +137,25 @@ export class Cards extends Phaser.Scene {
 		const xy = Math.min(this.gameWidth, this.gameHeight) / 14
 		const sprite = this.add.image(xy, xy, "home").setInteractive()
 
+		sprite.setAlpha(0)
+
 		const test = this.goHome
 
 		sprite.on("pointerdown", () => {
 			test()
 		})
 
-		// sprite.on("pointerover", () => {
-		// 	this.tweens.add({
-		// 		targets: sprite,
-		// 		angle: 180,
-		// 		duration: 600,
-		// 		ease: "Bounce.easeOut",
-		// 		yoyo: true,
-		// 	})
-		// })
+		this.tweens.add({
+			targets: sprite,
+			alpha: 1,
+			duration: 2000,
+			delay: 2000,
+		})
+
 		sprite.on("pointerover", () => {
 			this.tweens.add({
 				targets: sprite,
-				scale: 1.6,
+				scale: 1.4,
 				duration: 500,
 				ease: "Bounce.easeOut",
 			})
@@ -167,14 +176,35 @@ export class Cards extends Phaser.Scene {
 		const circleRadius = this.gameWidth / 12
 
 		const zone = this.add.zone(center.x, center.y, 0, 0).setCircleDropZone(circleRadius)
-		const graphics1 = this.add.graphics()
-		graphics1.fillStyle(3, 0x40ff07)
-		graphics1.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius).setDepth(-100)
-		const graphics2 = this.add.graphics()
-		graphics2.lineStyle(2, 0xffff00)
-		graphics2.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius).setDepth(-200)
 
-		const circleGameObject = this.add.circle(zone.x, zone.y, zone.input?.hitArea.radius, 0xff0000).setDepth(-200)
+		const graphics1 = this.add
+			.graphics()
+			//		graphics1.fillStyle(0x00008b)
+			.fillStyle(0x000069)
+			.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+			.setDepth(-100)
+			.setAlpha(0)
+		this.tweens.add({
+			targets: graphics1,
+			alpha: 1,
+			duration: 2000,
+			delay: 2000,
+		})
+
+		const graphics2 = this.add
+			.graphics()
+			.lineStyle(3, 0xffff00)
+			.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
+			.setDepth(-200)
+			.setAlpha(0)
+		this.tweens.add({
+			targets: graphics2,
+			alpha: 1,
+			duration: 2000,
+			delay: 2000,
+		})
+
+		//		const circleGameObject = this.add.circle(zone.x, zone.y, zone.input?.hitArea.radius, 0xff0000).setDepth(-200)
 
 		//	const test = Phaser.Geom.Circle(zone.x, zone.y, zone.input?.hitArea.radius)
 
@@ -200,6 +230,14 @@ export class Cards extends Phaser.Scene {
 			card.setDepth(-index)
 			card.setTint(0xb0b0b0)
 			card.setName(currentCard)
+			card.setAlpha(0)
+
+			this.tweens.add({
+				targets: card,
+				delay: index * 100,
+				duration: 500,
+				alpha: 1,
+			})
 
 			//			card.setOrigin(0)
 			//			card.setScale(this.gameWidth / 2)
@@ -208,14 +246,16 @@ export class Cards extends Phaser.Scene {
 				this.tweens.add({
 					delay: index * 100,
 					targets: card,
-					angle: "+=90",
+					// angle: "+=90",
+					rotation: `+=${Math.PI * 1.5}`,
 					duration: Math.random() * 500 + 500,
 				})
 			} else {
 				this.tweens.add({
 					delay: index * 100,
 					targets: card,
-					angle: "+=180",
+					//					angle: "+=180",
+					rotation: `+=${Math.PI * 2}`,
 					duration: Math.random() * 500 + 500,
 				})
 			}
@@ -240,19 +280,12 @@ export class Cards extends Phaser.Scene {
 			}
 
 			this.tweens.add({
-				...{
-					delay: index * 100,
-					targets: card,
-					x: target.x,
-					y: target.y,
-					ease: "Bounce.easeOut",
-					duration: 1000 + Math.random() * 1000,
-				},
-				...(index === 31
-					? {
-							onComplete: () => {},
-						}
-					: []),
+				delay: index * 100,
+				targets: card,
+				x: target.x,
+				y: target.y,
+				ease: "Bounce.easeOut",
+				duration: 1000 + Math.random() * 1000,
 			})
 		}
 
@@ -283,23 +316,24 @@ export class Cards extends Phaser.Scene {
 
 		this.input.on("dragenter", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
 			gameObject.clearTint()
-			circleGameObject
 			this.tweens.add({
-				duration: 50,
+				duration: 100,
 				ease: "Back.sineInOut",
-				targets: circleGameObject,
-				radius: Math.floor(circleRadius * 1.1),
-				yoyo: true,
-				repeat: 3,
-				onComplete: () => {
-					circleGameObject.setRadius(circleRadius * 1.05)
-				},
+				targets: graphics1,
+				alpha: 0.35,
+			})
+			this.tweens.add({
+				duration: 100,
+				ease: "Back.sineInOut",
+				targets: graphics2,
+				alpha: 0.35,
 			})
 		})
 
 		this.input.on("dragleave", (_pointer: unknown, gameObject: Phaser.GameObjects.Image) => {
 			gameObject.setTint(0xd0d0d0)
-			circleGameObject.setRadius(circleRadius)
+			graphics1.setAlpha(1)
+			graphics2.setAlpha(1)
 		})
 
 		// this.input.on("dragend", () => {
@@ -310,20 +344,32 @@ export class Cards extends Phaser.Scene {
 
 		this.input.on("dragend", (_pointer: unknown, gameObject: Phaser.GameObjects.Image, dropped: boolean) => {
 			if (!dropped) {
+				gameObject.disableInteractive()
 				gameObject.setTint(0xb0b0b0)
 				this.tweens.add({
 					targets: gameObject,
-					ease: "Quint.easeOut",
+					ease: "Bounce.easeOut",
 					x: this.saveCardDragVector?.x,
 					y: this.saveCardDragVector?.y,
+					duration: 1000,
+					onComplete: () => gameObject.setInteractive(),
+				})
+
+				this.tweens.add({
+					targets: gameObject,
+					ease: "Sine.easeInOut",
+					rotation: `+=${Math.PI * 2}`,
 					duration: 500,
 				})
 			} else {
-				this.cardApi.playCard(this.gameState.id, { card: gameObject.name as Card }).then(() => {
+				this.cardApi.playCard(this.gameState.id, { card: gameObject.name as Card }).then((newGame) => {
+					this.enqueueSnackbar(`You played ${gameObject.name}`, { variant: "success" })
 					gameObject.setActive(false)
 					gameObject.setVisible(false)
 					gameObject.destroy()
-					this.enqueueSnackbar(`You played ${gameObject.name}`, { variant: "success" })
+					if (newGame.turns.length === 32) {
+						this.gameCompleted()
+					}
 				})
 			}
 
@@ -345,7 +391,7 @@ export class Cards extends Phaser.Scene {
 
 	showNames() {
 		const printName = (x: number, y: number, text: string, rotation: number): Phaser.GameObjects.Text => {
-			return this.make
+			const textObject = this.make
 				.text({
 					x,
 					y,
@@ -356,7 +402,18 @@ export class Cards extends Phaser.Scene {
 						color: "#ffffff",
 					},
 				})
+				.setDepth(-1000)
 				.setOrigin(0.5, 0.5)
+				.setAlpha(0)
+
+			this.tweens.add({
+				targets: textObject,
+				alpha: 1,
+				duration: 2000 + Math.random() * 1000,
+				delay: 2000 + Math.random() * 1000,
+			})
+
+			return textObject
 		}
 
 		const start = this.gameState.players.map((p) => p.id).indexOf(this.user.id)
