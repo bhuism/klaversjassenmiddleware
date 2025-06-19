@@ -27,7 +27,15 @@ dayjs.extend(relativeTime)
 dayjs.locale("nl")
 
 const RootLayout: React.FC = () => {
-	const queryClient = new QueryClient()
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false,
+				refetchOnMount: false,
+				refetchOnReconnect: false,
+			},
+		},
+	})
 
 	return (
 		<>

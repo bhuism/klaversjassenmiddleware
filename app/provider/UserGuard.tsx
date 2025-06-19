@@ -22,15 +22,6 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 	if (error) {
 		localStorage.setItem(LOCAL_STORAGE_JWT, "")
 		return <Navigate to={"/"} />
-		// return (
-		// 	<CenterComponents>
-		// 		<Logo192 />
-		// 		<Typography style={{ color: "red" }}>
-		// 			{error.name}:{error.message}
-		// 		</Typography>
-		// 		<ReloadButton />
-		// 	</CenterComponents>
-		// )
 	}
 
 	if (isPending) {
@@ -46,13 +37,6 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 	if (!user) {
 		localStorage.setItem(LOCAL_STORAGE_JWT, "")
 		return <Navigate to={"/"} />
-		// return (
-		// 	<CenterComponents>
-		// 		<Logo192 />
-		// 		<Typography>No user</Typography>
-		// 		<ReloadButton />
-		// 	</CenterComponents>
-		// )
 	}
 
 	setUser(user)

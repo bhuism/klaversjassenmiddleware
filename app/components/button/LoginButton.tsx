@@ -13,7 +13,7 @@ const LoginButton: React.FC = () => {
 				size="large"
 				onClick={() => signinRedirect()}
 			>
-				Sign In
+				Play
 			</Button>
 		</>
 	)

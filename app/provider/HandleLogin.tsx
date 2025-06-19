@@ -53,7 +53,6 @@ const HandleLogin: React.FC = () => {
 				<CenterComponents>
 					<Logo192 />
 					<LoginButton />
-					<ReloadButton />
 				</CenterComponents>
 			</>
 		)

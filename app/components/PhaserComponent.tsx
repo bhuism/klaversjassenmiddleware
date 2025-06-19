@@ -3,15 +3,10 @@ import { PhaserGame } from "~/game/PhaserGame"
 import useGameState from "~/hooks/useGameState"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
+import ReloadButton from "./button/ReloadButton"
 
 const PhaserComponent: React.FC<{ gameId: string }> = ({ gameId }) => {
-	//	const phaserRef = useRef<IRefPhaserGame | null>(null)
-
-	// const toggleFullScreen = () => {
-	// 	phaserRef.current?.game?.scale.toggleFullscreen()
-	// }
-
-	const { game: gameState, isLoading, error } = useGameState(gameId)
+	const { error, isLoading, game } = useGameState(gameId)
 
 	if (error) {
 		return <span style={{ color: "red" }}>{error.message}</span>
@@ -27,16 +22,17 @@ const PhaserComponent: React.FC<{ gameId: string }> = ({ gameId }) => {
 		)
 	}
 
-	if (!gameState) {
+	if (!game) {
 		return (
 			<CenterComponents>
 				<Logo192 />
 				<Typography>No Game</Typography>
+				<ReloadButton />
 			</CenterComponents>
 		)
 	}
 
-	return <PhaserGame gameState={gameState} />
+	return <PhaserGame gameState={game} />
 }
 
 export default PhaserComponent
