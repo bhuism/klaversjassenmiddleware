@@ -1,11 +1,22 @@
+import { DeleteOutlineTwoTone } from "@mui/icons-material"
 import { Avatar, Container, Typography } from "@mui/material"
-import { DataGrid, type GridColDef } from "@mui/x-data-grid"
+import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
+import { useDialogs } from "@toolpad/core/useDialogs"
+import { useSnackbar } from "notistack"
 import type React from "react"
-import useIncomingInvitesAndFriends from "~/hooks/useFriends"
+import useCardApi from "~/hooks/useGameApi"
+import useIncomingInvitesAndFriends from "~/hooks/useIncomingInvitesAndFriends"
+import useOutGoingInvites from "~/hooks/useOutgoingInvites"
+import useUser from "~/hooks/useUser"
 import type { User } from ".generated-sources/openapi"
 
 const FriendsPage: React.FC = () => {
-	const { allInvites, friends, inComingInvites } = useIncomingInvitesAndFriends()
+	const { friends, inComingInvites } = useIncomingInvitesAndFriends()
+	const { outGoingInvites } = useOutGoingInvites()
+	const dialogs = useDialogs()
+	const cardApi = useCardApi()
+	const { enqueueSnackbar } = useSnackbar()
+	const { setUser } = useUser()
 
 	const columns: GridColDef<User>[] = [
 		{ field: "displayName", flex: 1, headerName: "" },
@@ -37,19 +48,59 @@ const FriendsPage: React.FC = () => {
 		)
 	}
 
+	const friendActions = (): GridColDef<User> => {
+		return {
+			field: "actions",
+			type: "actions",
+			headerName: "",
+			cellClassName: "actions",
+			getActions: ({ row }) => {
+				return [
+					<GridActionsCellItem
+						key="removeFriend"
+						icon={<DeleteOutlineTwoTone />}
+						//disabled={user?.id !== row.creator}
+						label="Delete"
+						color="inherit"
+						onClick={async () => {
+							const confirmed = await dialogs.confirm(`Verwijder ${row.displayName} als vriend?`, {
+								okText: "Verwijder",
+								cancelText: "Cancel",
+								title: "Weet u het zeker?",
+							})
+							if (confirmed) {
+								cardApi
+									.removeInvite(row.id)
+									.then((newUser) => {
+										enqueueSnackbar(`Friend ${row.displayName} verwijderd`, { variant: "success" })
+										setUser(newUser)
+									})
+									.catch((e) => {
+										enqueueSnackbar(JSON.stringify(e), { variant: "error" })
+										// biome-ignore lint/suspicious/noConsole: <explanation>
+										console.error(e)
+									})
+							}
+						}}
+					/>,
+				]
+			},
+		}
+	}
+
 	return (
 		<>
 			<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
-				<Typography>allInvited</Typography>
-				<MyDataGrid rows={allInvites} columns={columns} />
-			</Container>
-			<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
 				<Typography>friends</Typography>
-				<MyDataGrid rows={friends} columns={columns} />
+				<MyDataGrid rows={friends} columns={[...columns, friendActions()]} />
 			</Container>
 			<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
 				<Typography>inComingInvites</Typography>
 				<MyDataGrid rows={inComingInvites} columns={columns} />
+			</Container>
+			<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
+				<Typography>outGoingInvites</Typography>
+				<MyDataGrid rows={outGoingInvites} columns={columns} />
 			</Container>
 		</>
 	)

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { useSnackbar } from "notistack"
 import { AUTO } from "phaser"
 import type React from "react"
@@ -19,6 +19,10 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 	const { user } = useUser()
 	const { enqueueSnackbar } = useSnackbar()
 	const { eventSource } = useContext(EventListenerContext)
+
+	if (!user) {
+		return <Typography>no user</Typography>
+	}
 
 	useEffect(() => {
 		// biome-ignore lint/suspicious/noConsole: <explanation>

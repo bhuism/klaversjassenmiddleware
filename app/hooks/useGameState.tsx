@@ -10,7 +10,7 @@ const useGameState = (gameId: string | undefined) => {
 		error,
 		refetch,
 	} = useQuery({
-		queryFn: ({ queryKey }) => cardApi.getGame(queryKey[1] as unknown as string),
+		queryFn: ({ queryKey }) => cardApi.getGame(queryKey[1] as string),
 		queryKey: ["gameId", gameId],
 	})
 

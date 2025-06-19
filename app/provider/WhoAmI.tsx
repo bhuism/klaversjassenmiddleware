@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode"
 import { useAuth } from "react-oidc-context"
 import { Navigate } from "react-router"
 import ReloadButton from "~/components/button/ReloadButton"
-import { setUser } from "~/hooks/useUser"
+import useUser from "~/hooks/useUser"
 import useWhoAmIApi from "~/hooks/useWhoAmIApi"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
@@ -12,6 +12,7 @@ import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
 const WhoAmI = () => {
 	const { user: authUser } = useAuth()
+	const { setUser } = useUser()
 
 	const whoamiApi = useWhoAmIApi(authUser?.id_token)
 
@@ -56,6 +57,7 @@ const WhoAmI = () => {
 	}
 
 	localStorage.setItem(LOCAL_STORAGE_JWT, jwt)
+
 	setUser(user)
 
 	return <Navigate to="/" />

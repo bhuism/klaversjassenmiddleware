@@ -2,13 +2,14 @@ import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
 import { Navigate } from "react-router"
 import useCardApi from "~/hooks/useGameApi"
-import useUser, { setUser } from "~/hooks/useUser"
+import useUser from "~/hooks/useUser"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
 import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
 const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userId, children }) => {
 	const cardApi = useCardApi()
+	const { setUser } = useUser()
 
 	const {
 		data: user,

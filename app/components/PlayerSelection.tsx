@@ -4,8 +4,8 @@ import { DataGrid } from "@mui/x-data-grid/DataGrid"
 import { useSnackbar } from "notistack"
 import { useState } from "react"
 import { useNavigate } from "react-router"
-import useIncomingInvitesAndFriends from "~/hooks/useFriends"
 import useCardApi from "~/hooks/useGameApi"
+import useIncomingInvitesAndFriends from "~/hooks/useIncomingInvitesAndFriends"
 import useUser from "~/hooks/useUser"
 
 const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
