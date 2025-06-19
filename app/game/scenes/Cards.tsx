@@ -1,5 +1,6 @@
 import type { EnqueueSnackbar } from "notistack"
 import { cards } from "~/components/common/PlayingCard"
+import type { PlayCardEvent } from "~/components/common/utils"
 import type { Card, DefaultApi, Game, User } from ".generated-sources/openapi"
 
 export class Cards extends Phaser.Scene {
@@ -32,13 +33,27 @@ export class Cards extends Phaser.Scene {
 		this.gameCompleted = gameCompleted
 
 		if (this.gameState.trump.length === 32) {
-			// biome-ignore lint/suspicious/noConsole: <explanation>
-			console.error("No game / completed")
 			throw new Error("No game / completed")
 		}
 	}
 
-	playCard() {}
+	playCard(e: PlayCardEvent) {
+		const gameObject = this.children.getByName(e.card)
+
+		if (gameObject) {
+			this.tweens.add({
+				targets: gameObject,
+				x: this.gameWidth / 2,
+				y: this.gameHeight / 2,
+				duration: 1000 + Math.random() * 500,
+				onComplete: () => {
+					gameObject.setActive(false)
+					//					gameObject.setVisible(false)
+					gameObject.destroy()
+				},
+			})
+		}
+	}
 
 	init() {
 		// this.gameState = this.registry.get("gameState")
@@ -131,6 +146,11 @@ export class Cards extends Phaser.Scene {
 		this.showPlayerCards()
 		this.showHomeButton()
 		this.showNames()
+
+		this.events.on("playCard", (data: unknown) => {
+			// biome-ignore lint/suspicious/noConsole: <explanation>
+			console.log(`data: ${JSON.stringify(data)}`)
+		})
 	}
 
 	showHomeButton() {
@@ -179,9 +199,10 @@ export class Cards extends Phaser.Scene {
 
 		const graphics1 = this.add
 			.graphics()
+			.setName("filledCircle")
 			.fillStyle(0x000069)
 			.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius)
-			.setDepth(-100)
+			.setDepth(-5000)
 			.setAlpha(0)
 		this.tweens.add({
 			targets: graphics1,
@@ -192,9 +213,10 @@ export class Cards extends Phaser.Scene {
 
 		const graphics2 = this.add
 			.graphics()
+			.setName("strokecircle")
 			.lineStyle(3, 0xffff00)
 			.strokeCircle(zone.x, zone.y, zone.input?.hitArea.radius)
-			.setDepth(-200)
+			.setDepth(-4000)
 			.setAlpha(0)
 		this.tweens.add({
 			targets: graphics2,

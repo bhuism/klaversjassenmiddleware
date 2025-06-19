@@ -2,10 +2,12 @@ import { Box } from "@mui/material"
 import { useSnackbar } from "notistack"
 import { AUTO } from "phaser"
 import type React from "react"
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router"
+import type { PlayCardEvent } from "~/components/common/utils"
 import useCardApi from "~/hooks/useGameApi"
 import useUser from "~/hooks/useUser"
+import { EventListenerContext } from "~/provider/EventSourceProvider"
 import { Cards } from "./scenes/Cards"
 import type { Game } from ".generated-sources/openapi"
 
@@ -16,16 +18,11 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 	const navigate = useNavigate()
 	const { user } = useUser()
 	const { enqueueSnackbar } = useSnackbar()
+	const { eventSource } = useContext(EventListenerContext)
 
 	useEffect(() => {
-		const cardsScene = new Cards(
-			cardApi,
-			gameState,
-			() => navigate("/"),
-			user,
-			enqueueSnackbar,
-			() => navigate(`/game/${gameState.id}`)
-		)
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		console.log("new phasergame")
 
 		const config: Phaser.Types.Core.GameConfig = {
 			type: AUTO,
@@ -44,8 +41,28 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 
 		const game = new Phaser.Game(config)
 
+		const cardsScene = new Cards(
+			cardApi,
+			gameState,
+			() => navigate("/"),
+			user,
+			enqueueSnackbar,
+			() => navigate(`/game/${gameState.id}`)
+		)
+
+		const listener = (e: { data: string }) => {
+			return cardsScene.playCard(JSON.parse(e.data) as PlayCardEvent)
+		}
+
+		eventSource?.addEventListener("playCard", listener)
+
 		game.scene.add("cards", cardsScene, true)
-	}, [cardApi, navigate, user, gameState, enqueueSnackbar])
+
+		return () => {
+			eventSource?.removeEventListener("playCard", listener)
+			game.destroy(true)
+		}
+	}, [cardApi, navigate, user, enqueueSnackbar, eventSource, gameState])
 
 	return <Box id={GAMECONTAINERID} sx={{ display: "flex", flexDirection: "column" }} />
 }

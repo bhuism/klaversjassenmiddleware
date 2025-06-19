@@ -139,3 +139,9 @@ export function pointsTrump(cardType: Card): number {
 			throw new Error("No such card")
 	}
 }
+
+export type PlayCardEvent = {
+	userId: string
+	gameId: string
+	card: Card
+}

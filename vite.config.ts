@@ -51,6 +51,23 @@ export default defineConfig({
 		ssr: false,
 		// biome-ignore lint/nursery/noProcessEnv: <explanation>
 		sourcemap: process.env.SOURCE_MAP === "true",
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					phaser: ["phaser"],
+				},
+			},
+		},
+		minify: "terser",
+		terserOptions: {
+			compress: {
+				passes: 2,
+			},
+			mangle: true,
+			format: {
+				comments: false,
+			},
+		},
 	},
 	define: {
 		__DATE__: `'${new Date().toISOString()}'`,

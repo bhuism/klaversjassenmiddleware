@@ -1,18 +1,26 @@
 import { EventSource } from "eventsource"
 import { useSnackbar } from "notistack"
-import { type PropsWithChildren, useEffect, useState } from "react"
+import { type PropsWithChildren, createContext, useEffect, useState } from "react"
 import useCardApi from "~/hooks/useGameApi"
 import constants from "~/utils/constants"
 import { LOCAL_STORAGE_JWT } from "./JwtGuard"
+
+export const EventListenerContext = createContext<{
+	eventSource: EventSource | undefined
+}>({ eventSource: undefined })
 
 const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	//const notifications = useNotifications()
 	const { enqueueSnackbar } = useSnackbar()
 	const jwt = localStorage.getItem(LOCAL_STORAGE_JWT)
 	const cardApi = useCardApi()
-	const [uuid, setUuid] = useState<string>()
+	const [uuid, setUuid] = useState<string>() // umitter uuid
+	const [eventSource, setEventSource] = useState<EventSource>()
 
 	useEffect(() => {
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		console.log("new eventsource effect")
+
 		const eventSource = new EventSource(`${constants.apiUrl}/api/v1/subscribe`, {
 			fetch: (input, init) =>
 				fetch(input, {
@@ -28,6 +36,8 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 					},
 				}),
 		})
+
+		setEventSource(eventSource)
 
 		eventSource.addEventListener("cardservermessage", (e) => {
 			enqueueSnackbar(`${e.data}`, { variant: "info" })
@@ -73,9 +83,9 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		if (uuid) {
 			cardApi.ping(uuid)
 		}
-	}, [cardApi, uuid])
+	})
 
-	return <>{children}</>
+	return <EventListenerContext value={{ eventSource }}>{children}</EventListenerContext>
 }
 
 export default EventSourceProvider
