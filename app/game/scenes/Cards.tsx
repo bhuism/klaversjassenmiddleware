@@ -1,3 +1,4 @@
+import type { EnqueueSnackbar } from "notistack"
 import { cards } from "~/components/common/PlayingCard"
 import type { Card, DefaultApi, Game, User } from ".generated-sources/openapi"
 
@@ -8,16 +9,18 @@ export class Cards extends Phaser.Scene {
 	saveCardDragVector: Phaser.Math.Vector2 | undefined
 	goHome: () => void
 	user: User
+	enqueueSnackbar: EnqueueSnackbar
 
 	gameWidth = 0
 	gameHeight = 0
 
-	constructor(cardApi: DefaultApi, gameState: Game, goHome: () => void, user: User) {
+	constructor(cardApi: DefaultApi, gameState: Game, goHome: () => void, user: User, enqueueSnackbar: EnqueueSnackbar) {
 		super("Cards")
 		this.cardApi = cardApi
 		this.gameState = gameState
 		this.goHome = goHome
 		this.user = user
+		this.enqueueSnackbar = enqueueSnackbar
 
 		if (this.gameState.trump.length === 32) {
 			// biome-ignore lint/suspicious/noConsole: <explanation>
@@ -105,7 +108,9 @@ export class Cards extends Phaser.Scene {
 
 		// // load all cards
 		Object.keys(cards).forEach((key) => {
-			this.load.svg(key, `/assets/cards/${key.toUpperCase()}.svg`, { scale: this.gameWidth / 20 })
+			this.load.svg(key, `/assets/cards/${key.toUpperCase()}.svg`, {
+				scale: Math.min(this.gameWidth, this.gameHeight) / 15,
+			})
 		})
 
 		this.load.svg("home", "/assets/home.svg", { scale: this.gameHeight / 400 })
@@ -120,7 +125,7 @@ export class Cards extends Phaser.Scene {
 	}
 
 	showHomeButton() {
-		const xy = Math.min(this.gameWidth, this.gameHeight) / 15
+		const xy = Math.min(this.gameWidth, this.gameHeight) / 14
 		const sprite = this.add.image(xy, xy, "home").setInteractive()
 
 		const test = this.goHome
@@ -318,6 +323,7 @@ export class Cards extends Phaser.Scene {
 					gameObject.setActive(false)
 					gameObject.setVisible(false)
 					gameObject.destroy()
+					this.enqueueSnackbar(`You played ${gameObject.name}`, { variant: "success" })
 				})
 			}
 

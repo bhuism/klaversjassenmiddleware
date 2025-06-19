@@ -1,4 +1,5 @@
 import { Box } from "@mui/material"
+import { useSnackbar } from "notistack"
 import { AUTO } from "phaser"
 import type React from "react"
 import { useEffect } from "react"
@@ -14,14 +15,17 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 	const cardApi = useCardApi()
 	const navigate = useNavigate()
 	const { user } = useUser()
+	const { enqueueSnackbar } = useSnackbar()
 
-	const createGame = (parent: string, gameState: Game) => {
+	useEffect(() => {
+		const cardsScene = new Cards(cardApi, gameState, () => navigate("/"), user, enqueueSnackbar)
+
 		const config: Phaser.Types.Core.GameConfig = {
 			type: AUTO,
 			audio: {
 				noAudio: true,
 			},
-			parent,
+			parent: GAMECONTAINERID,
 			scale: {
 				parent: GAMECONTAINERID,
 				mode: Phaser.Scale.FIT,
@@ -33,16 +37,8 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 
 		const game = new Phaser.Game(config)
 
-		const cardsScene = new Cards(cardApi, gameState, () => navigate("/"), user)
-
 		game.scene.add("cards", cardsScene, true)
-
-		return game
-	}
-
-	useEffect(() => {
-		createGame(GAMECONTAINERID, gameState)
-	})
+	}, [cardApi, navigate, user, gameState, enqueueSnackbar])
 
 	return <Box id={GAMECONTAINERID} sx={{ display: "flex", flexDirection: "column" }} />
 }
