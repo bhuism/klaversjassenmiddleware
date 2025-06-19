@@ -179,7 +179,6 @@ export class Cards extends Phaser.Scene {
 
 		const graphics1 = this.add
 			.graphics()
-			//		graphics1.fillStyle(0x00008b)
 			.fillStyle(0x000069)
 			.fillCircle(zone.x, zone.y, zone.input?.hitArea.radius)
 			.setDepth(-100)
@@ -188,7 +187,7 @@ export class Cards extends Phaser.Scene {
 			targets: graphics1,
 			alpha: 1,
 			duration: 2000,
-			delay: 2000,
+			delay: 3000,
 		})
 
 		const graphics2 = this.add
@@ -201,7 +200,7 @@ export class Cards extends Phaser.Scene {
 			targets: graphics2,
 			alpha: 1,
 			duration: 2000,
-			delay: 2000,
+			delay: 3000,
 		})
 
 		//		const circleGameObject = this.add.circle(zone.x, zone.y, zone.input?.hitArea.radius, 0xff0000).setDepth(-200)
