@@ -51,7 +51,14 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 		)
 
 		const listener = (e: { data: string }) => {
-			return cardsScene.playCard(JSON.parse(e.data) as PlayCardEvent)
+			const playerCardEvent: PlayCardEvent = JSON.parse(e.data) as PlayCardEvent
+
+			if (playerCardEvent.gameId === gameState.id) {
+				cardsScene.playCard(playerCardEvent)
+			} else {
+				// biome-ignore lint/suspicious/noConsole: <explanation>
+				console.error(`Got playCard event for wrong game: ${playerCardEvent.gameId}`)
+			}
 		}
 
 		eventSource?.addEventListener("playCard", listener)
