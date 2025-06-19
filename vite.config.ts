@@ -51,13 +51,13 @@ export default defineConfig({
 		ssr: false,
 		// biome-ignore lint/nursery/noProcessEnv: <explanation>
 		sourcemap: process.env.SOURCE_MAP === "true",
-		rollupOptions: {
-			output: {
-				manualChunks: {
-					phaser: ["phaser"],
-				},
-			},
-		},
+		// rollupOptions: {
+		// 	output: {
+		// 		manualChunks: {
+		// 			phaser: ["phaser"],
+		// 		},
+		// 	},
+		// },
 		minify: "terser",
 		terserOptions: {
 			compress: {
