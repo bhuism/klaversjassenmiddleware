@@ -8,6 +8,7 @@ export default [
 			route("/start", "routes/StartGamePage.tsx"),
 			route("/game/:gameId", "routes/GamePage.tsx"),
 			route("/messageboard", "routes/MessageBoardPage.tsx"),
+			route("/friends", "routes/FriendsPage.tsx"),
 			route("/settings", "routes/SettingsPage.tsx"),
 		]),
 		route("/play/:gameId", "routes/PlayPage.tsx"),

@@ -20,9 +20,13 @@ const useIncomingInvitesAndFriends = () => {
 				.getIncomingFriends()
 				.then((allInvites) => {
 					const invites = user?.invites
-					setInComingInvites([...allInvites].filter((u) => ![...invites].includes(u.id)))
-					setFriends([...allInvites].filter((u) => [...invites].includes(u.id)))
-					return allInvites
+					setInComingInvites(
+						[...allInvites].filter((u) => ![...invites].includes(u.id)).sort((a, b) => a.name.localeCompare(b.name))
+					)
+					setFriends(
+						[...allInvites].filter((u) => [...invites].includes(u.id)).sort((a, b) => a.name.localeCompare(b.name))
+					)
+					return allInvites.sort((a, b) => a.name.localeCompare(b.name))
 				})
 				.catch(() => {
 					setInComingInvites(undefined)
@@ -38,39 +42,31 @@ const useIncomingInvitesAndFriends = () => {
 export default useIncomingInvitesAndFriends
 
 // export function useOutGoingInvites(): Array<User> | undefined {
-// 	const firestore = useFirestore()
-// 	const { uid } = useContext(UidContext)
+// 	const { user } = useUser()
 
-// 	const invites = useInvites()
+// 	const invites = user.invites
+
 // 	const { friends } = useIncomingInvitesAndFriends()
 
 // 	const [outGoingInvites, setOutGoingInvites] = useState<Array<User>>()
 
 // 	useEffect(() => {
 // 		if (invites && friends) {
-// 			const ins: string[] = invites.filter((u) => !friends.map((f) => f.uid).includes(u)).slice(0, 10)
+// 			const ins: string[] = invites.filter((u) => !friends.map((f) => f.id).includes(u))
 
 // 			if (ins.length > 0) {
-// 				return onSnapshot(
-// 					query(collection(firestore, "users"), where(documentId(), "in", ins)),
-// 					(querySnapshot) => {
-// 						setOutGoingInvites(
-// 							querySnapshot.docs
-// 								.map((userData) => userData.data() as User)
-// 								.filter((u) => !u.invites.includes(uid))
-// 								.sort((a, b) => a.name.localeCompare(b.name))
-// 						)
-// 					},
-// 					(err) => {
-// 						toast.error(err.name + " : " + err.message)
-// 						setOutGoingInvites([])
-// 					}
-// 				)
+// 				query(collection(firestore, "users"), where(documentId(), "in", ins)),
+// 					setOutGoingInvites(
+// 						querySnapshot.docs
+// 							.map((userData) => userData.data() as User)
+// 							.filter((u) => !u.invites.includes(user.id))
+// 							.sort((a, b) => a.name.localeCompare(b.name))
+// 					)
 // 			} else {
 // 				setOutGoingInvites([])
 // 			}
 // 		}
-// 	}, [firestore, invites, friends, uid])
+// 	}, [invites, friends, user.id])
 
 // 	return outGoingInvites
 // }
