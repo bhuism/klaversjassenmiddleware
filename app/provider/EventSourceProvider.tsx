@@ -2,19 +2,18 @@ import { EventSource } from "eventsource"
 import { useSnackbar } from "notistack"
 import { type PropsWithChildren, createContext, useEffect, useState } from "react"
 import useCardApi from "~/hooks/useGameApi"
+import useJwt from "~/hooks/useJwt"
 import constants from "~/utils/constants"
-import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
 export const EventListenerContext = createContext<{
 	eventSource: EventSource | undefined
 }>({ eventSource: undefined })
 
 const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	//const notifications = useNotifications()
 	const { enqueueSnackbar } = useSnackbar()
-	const jwt = localStorage.getItem(LOCAL_STORAGE_JWT)
+	const jwt = useJwt()
 	const cardApi = useCardApi()
-	const [uuid, setUuid] = useState<string>() // umitter uuid
+	const [uuid, setUuid] = useState<string>()
 	const [eventSource, setEventSource] = useState<EventSource>()
 
 	useEffect(() => {

@@ -1,27 +1,34 @@
 import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
 import { Navigate } from "react-router"
+import ReloadButton from "~/components/button/ReloadButton"
 import useCardApi from "~/hooks/useGameApi"
-import useUser from "~/hooks/useUser"
+import { setUser } from "~/hooks/useUser"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
-import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
-const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userId, children }) => {
+const UserGuard: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ children, userId }) => {
 	const cardApi = useCardApi()
-	const { setUser } = useUser()
 
 	const {
 		data: user,
 		isPending,
 		error,
 	} = useQuery({
-		queryFn: ({ queryKey }) => cardApi.getUser(queryKey[1]),
+		queryFn: ({ queryKey }) => {
+			if (!queryKey[1]) {
+				throw new Error("no userid")
+			}
+			return cardApi.getUser(queryKey[1])
+		},
 		queryKey: ["userId", userId],
+		//		enabled: false,
 	})
 
 	if (error) {
-		localStorage.setItem(LOCAL_STORAGE_JWT, "")
+		//		localStorage.setItem(LOCAL_STORAGE_JWT, "")
+		localStorage.clear()
+		sessionStorage.clear()
 		return <Navigate to={"/"} />
 	}
 
@@ -36,21 +43,18 @@ const LoadUser: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userI
 	}
 
 	if (!user) {
-		localStorage.setItem(LOCAL_STORAGE_JWT, "")
-		return <Navigate to={"/"} />
+		localStorage.clear()
+		sessionStorage.clear()
+		return (
+			<CenterComponents>
+				<Logo192 />
+				<Typography>No User</Typography>
+				<ReloadButton />
+			</CenterComponents>
+		)
 	}
 
 	setUser(user)
-
-	return <>{children}</>
-}
-
-const UserGuard: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ userId, children }) => {
-	const { user } = useUser()
-
-	if (!user || user.id !== userId) {
-		return <LoadUser userId={userId}>{children}</LoadUser>
-	}
 
 	return <>{children}</>
 }

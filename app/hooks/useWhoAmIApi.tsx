@@ -1,8 +1,13 @@
 import { useMemo } from "react"
+import { useAuth } from "react-oidc-context"
 import constants from "~/utils/constants"
 import { Configuration, WhoamiApi } from ".generated-sources/openapi"
 
-const useWhoAmIApi = (token: string | undefined) => {
+const useWhoAmIApi = () => {
+	const { user: authUser } = useAuth()
+
+	const token = authUser?.id_token
+
 	if (!token) {
 		return undefined
 	}

@@ -1,27 +1,27 @@
 import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
-import { jwtDecode } from "jwt-decode"
-import { useAuth } from "react-oidc-context"
 import { Navigate } from "react-router"
 import ReloadButton from "~/components/button/ReloadButton"
-import useUser from "~/hooks/useUser"
+import { setJwt } from "~/hooks/useJwt"
+import { setUser } from "~/hooks/useUser"
 import useWhoAmIApi from "~/hooks/useWhoAmIApi"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
-import { LOCAL_STORAGE_JWT } from "./JwtGuard"
 
 const WhoAmI = () => {
-	const { user: authUser } = useAuth()
-	const { setUser } = useUser()
+	//	const { setUser } = useUser()
 
-	const whoamiApi = useWhoAmIApi(authUser?.id_token)
+	const whoamiApi = useWhoAmIApi()
 
 	const { isPending, error, data } = useQuery({
-		queryKey: ["authUser", authUser],
+		queryKey: [],
 		queryFn: () => whoamiApi?.whoami(),
 	})
 
 	if (error) {
+		localStorage.clear()
+		sessionStorage.clear()
+
 		return (
 			<CenterComponents>
 				<Logo192 />
@@ -38,29 +38,30 @@ const WhoAmI = () => {
 			<CenterComponents>
 				<Logo192 />
 				<CircularProgress />
-				<Typography>Auth is loading...</Typography>
+				<Typography>WhoAmI is loading...</Typography>
 			</CenterComponents>
 		)
 	}
 
-	const jwt = data?.jwt
 	const user = data?.user
+	const jwt = data?.jwt
 
-	if (!user || !jwt || jwtDecode(jwt).sub?.length !== 28) {
-		return (
-			<CenterComponents>
-				<Logo192 />
-				<Typography>No User..</Typography>
-				<ReloadButton />
-			</CenterComponents>
-		)
+	if (jwt && user) {
+		setJwt(jwt)
+		setUser(user)
+		return <Navigate to="/" />
 	}
 
-	localStorage.setItem(LOCAL_STORAGE_JWT, jwt)
+	localStorage.clear()
+	sessionStorage.clear()
 
-	setUser(user)
-
-	return <Navigate to="/" />
+	return (
+		<CenterComponents>
+			<Logo192 />
+			<Typography>No Jwt..</Typography>
+			<ReloadButton />
+		</CenterComponents>
+	)
 }
 
 export default WhoAmI

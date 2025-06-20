@@ -1,10 +1,10 @@
 import { useMemo } from "react"
-import { LOCAL_STORAGE_JWT } from "~/provider/JwtGuard"
 import constants from "~/utils/constants"
+import useJwt from "./useJwt"
 import { Configuration } from ".generated-sources/openapi"
 
 const useConfiguration = () => {
-	const jwt = localStorage.getItem(LOCAL_STORAGE_JWT)
+	const jwt = useJwt()
 
 	return useMemo(() => {
 		return new Configuration({

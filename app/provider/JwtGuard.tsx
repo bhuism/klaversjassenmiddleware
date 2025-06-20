@@ -1,12 +1,11 @@
-import { jwtDecode } from "jwt-decode"
 import type React from "react"
+import useUser from "~/hooks/useUser"
+import useUserId from "~/hooks/useUserId"
 import AuthSessionProvider from "./AuthSessionProvider"
 import HandleLogin from "./HandleLogin"
 import UserGuard from "./UserGuard"
 
-export const LOCAL_STORAGE_JWT = "CardSeverJwt"
-
-const DoLogin = () => {
+const DoGoogleLogin = () => {
 	return (
 		<AuthSessionProvider>
 			<HandleLogin />
@@ -15,25 +14,17 @@ const DoLogin = () => {
 }
 
 const JwtGuard: React.FC<React.PropsWithChildren> = ({ children }) => {
-	const jwt = localStorage.getItem(LOCAL_STORAGE_JWT)
+	const { userId } = useUserId()
+	const { user } = useUser()
 
-	try {
-		if (!jwt) {
-			return <DoLogin />
+	if (!user) {
+		if (!userId) {
+			return <DoGoogleLogin />
 		}
-
-		const sub = jwtDecode(jwt, { header: false }).sub
-
-		if (!sub || sub.length !== 28) {
-			return <DoLogin />
-		}
-
-		return <UserGuard userId={sub}>{children}</UserGuard>
-	} catch (error) {
-		// biome-ignore lint/suspicious/noConsole: <explanation>
-		console.log("", error)
-		return <DoLogin />
+		return <UserGuard userId={userId}>{children}</UserGuard>
 	}
+
+	return <>{children}</>
 }
 
 export default JwtGuard

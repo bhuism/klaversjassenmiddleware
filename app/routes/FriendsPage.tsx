@@ -1,5 +1,5 @@
 import { DeleteOutlineTwoTone } from "@mui/icons-material"
-import { Avatar, Container, Typography } from "@mui/material"
+import { Avatar, Button, Container, Stack, Typography } from "@mui/material"
 import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
 import { useDialogs } from "@toolpad/core/useDialogs"
 import { useSnackbar } from "notistack"
@@ -7,16 +7,15 @@ import type React from "react"
 import useCardApi from "~/hooks/useGameApi"
 import useIncomingInvitesAndFriends from "~/hooks/useIncomingInvitesAndFriends"
 import useOutGoingInvites from "~/hooks/useOutgoingInvites"
-import useUser from "~/hooks/useUser"
+import { setUser } from "~/hooks/useUser"
 import type { User } from ".generated-sources/openapi"
 
 const FriendsPage: React.FC = () => {
-	const { friends, inComingInvites } = useIncomingInvitesAndFriends()
-	const { outGoingInvites } = useOutGoingInvites()
+	const { friends, inComingInvites, refetch: refetchIncomingInvitesAndFriends } = useIncomingInvitesAndFriends()
+	const { outGoingInvites, refetch: refetchOutGoingInvites } = useOutGoingInvites()
 	const dialogs = useDialogs()
 	const cardApi = useCardApi()
 	const { enqueueSnackbar } = useSnackbar()
-	const { setUser } = useUser()
 
 	const columns: GridColDef<User>[] = [
 		{ field: "displayName", flex: 1, headerName: "" },
@@ -74,6 +73,8 @@ const FriendsPage: React.FC = () => {
 									.then((newUser) => {
 										enqueueSnackbar(`Friend ${row.displayName} verwijderd`, { variant: "success" })
 										setUser(newUser)
+										refetchIncomingInvitesAndFriends()
+										refetchOutGoingInvites()
 									})
 									.catch((e) => {
 										enqueueSnackbar(JSON.stringify(e), { variant: "error" })
@@ -90,18 +91,31 @@ const FriendsPage: React.FC = () => {
 
 	return (
 		<>
-			<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
-				<Typography>friends</Typography>
-				<MyDataGrid rows={friends} columns={[...columns, friendActions()]} />
-			</Container>
-			<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
-				<Typography>inComingInvites</Typography>
-				<MyDataGrid rows={inComingInvites} columns={columns} />
-			</Container>
-			<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
-				<Typography>outGoingInvites</Typography>
-				<MyDataGrid rows={outGoingInvites} columns={columns} />
-			</Container>
+			<Stack>
+				<Container>
+					<Button
+						variant="outlined"
+						onClick={() => {
+							refetchIncomingInvitesAndFriends()
+							refetchOutGoingInvites()
+						}}
+					>
+						Reload
+					</Button>
+				</Container>
+				<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
+					<Typography>friends</Typography>
+					<MyDataGrid rows={friends} columns={[...columns, friendActions()]} />
+				</Container>
+				<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
+					<Typography>inComingInvites</Typography>
+					<MyDataGrid rows={inComingInvites} columns={columns} />
+				</Container>
+				<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
+					<Typography>outGoingInvites</Typography>
+					<MyDataGrid rows={outGoingInvites} columns={columns} />
+				</Container>
+			</Stack>
 		</>
 	)
 }

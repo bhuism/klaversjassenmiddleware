@@ -30,7 +30,7 @@ const HandleLogin: React.FC = () => {
 			<CenterComponents>
 				<Logo192 />
 				<CircularProgress />
-				<Typography>Auth is loading...</Typography>
+				<Typography>Google Auth is loading...</Typography>
 			</CenterComponents>
 		)
 	}
