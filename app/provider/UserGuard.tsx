@@ -22,11 +22,9 @@ const UserGuard: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ chil
 			return cardApi.getUser(queryKey[1])
 		},
 		queryKey: ["userId", userId],
-		//		enabled: false,
 	})
 
 	if (error) {
-		//		localStorage.setItem(LOCAL_STORAGE_JWT, "")
 		localStorage.clear()
 		sessionStorage.clear()
 		return <Navigate to={"/"} />

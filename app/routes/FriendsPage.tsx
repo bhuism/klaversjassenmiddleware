@@ -1,4 +1,4 @@
-import { DeleteOutlineTwoTone } from "@mui/icons-material"
+import { AddCircleOutlineTwoTone, DeleteOutlineTwoTone } from "@mui/icons-material"
 import { Avatar, Button, Container, Stack, Typography } from "@mui/material"
 import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
 import { useDialogs } from "@toolpad/core/useDialogs"
@@ -47,7 +47,7 @@ const FriendsPage: React.FC = () => {
 		)
 	}
 
-	const friendActions = (): GridColDef<User> => {
+	const removeFriendActions = (): GridColDef<User> => {
 		return {
 			field: "actions",
 			type: "actions",
@@ -89,6 +89,41 @@ const FriendsPage: React.FC = () => {
 		}
 	}
 
+	const addFriendActions = (): GridColDef<User> => {
+		return {
+			field: "actions",
+			type: "actions",
+			headerName: "",
+			cellClassName: "actions",
+			getActions: ({ row }) => {
+				return [
+					<GridActionsCellItem
+						key="removeFriend"
+						icon={<AddCircleOutlineTwoTone />}
+						//disabled={user?.id !== row.creator}
+						label="Delete"
+						color="inherit"
+						onClick={async () => {
+							cardApi
+								.addInvite(row.id)
+								.then((newUser) => {
+									enqueueSnackbar(`Friend ${row.displayName} toegevoegd`, { variant: "success" })
+									setUser(newUser)
+									refetchIncomingInvitesAndFriends()
+									refetchOutGoingInvites()
+								})
+								.catch((e) => {
+									enqueueSnackbar(JSON.stringify(e), { variant: "error" })
+									// biome-ignore lint/suspicious/noConsole: <explanation>
+									console.error(e)
+								})
+						}}
+					/>,
+				]
+			},
+		}
+	}
+
 	return (
 		<>
 			<Stack>
@@ -105,15 +140,15 @@ const FriendsPage: React.FC = () => {
 				</Container>
 				<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
 					<Typography>friends</Typography>
-					<MyDataGrid rows={friends} columns={[...columns, friendActions()]} />
+					<MyDataGrid rows={friends} columns={[...columns, removeFriendActions()]} />
 				</Container>
 				<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
 					<Typography>inComingInvites</Typography>
-					<MyDataGrid rows={inComingInvites} columns={columns} />
+					<MyDataGrid rows={inComingInvites} columns={[...columns, addFriendActions()]} />
 				</Container>
 				<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
 					<Typography>outGoingInvites</Typography>
-					<MyDataGrid rows={outGoingInvites} columns={columns} />
+					<MyDataGrid rows={outGoingInvites} columns={[...columns, removeFriendActions()]} />
 				</Container>
 			</Stack>
 		</>
