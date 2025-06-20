@@ -2,15 +2,15 @@ import { Button, Container, Stack, Typography } from "@mui/material"
 import type { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid"
 import { DataGrid } from "@mui/x-data-grid/DataGrid"
 import { useSnackbar } from "notistack"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router"
 import useCardApi from "~/hooks/useGameApi"
 import useIncomingInvitesAndFriends from "~/hooks/useIncomingInvitesAndFriends"
-import useUser from "~/hooks/useUser"
+import UserContext from "~/provider/UserContext"
 
 const PlayerSelection: React.FC<React.PropsWithChildren> = () => {
 	const { enqueueSnackbar } = useSnackbar()
-	const { user } = useUser()
+	const { user } = useContext(UserContext)
 	const { friends, isLoading, refetch } = useIncomingInvitesAndFriends()
 	const navigate = useNavigate()
 	const cardApi = useCardApi()

@@ -1,8 +1,9 @@
 import type React from "react"
-import useUser from "~/hooks/useUser"
+import { useContext } from "react"
 import useUserId from "~/hooks/useUserId"
 import AuthSessionProvider from "./AuthSessionProvider"
 import HandleLogin from "./HandleLogin"
+import UserContext from "./UserContext"
 import UserGuard from "./UserGuard"
 
 const DoGoogleLogin = () => {
@@ -15,13 +16,13 @@ const DoGoogleLogin = () => {
 
 const JwtGuard: React.FC<React.PropsWithChildren> = ({ children }) => {
 	const { userId } = useUserId()
-	const { user } = useUser()
+	const { user } = useContext(UserContext)
 
 	if (!user) {
 		if (!userId) {
 			return <DoGoogleLogin />
 		}
-		return <UserGuard userId={userId}>{children}</UserGuard>
+		return <UserGuard userId={userId} />
 	}
 
 	return <>{children}</>

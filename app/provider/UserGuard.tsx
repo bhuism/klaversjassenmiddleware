@@ -1,13 +1,33 @@
 import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
-import { Navigate } from "react-router"
+import { useContext, useEffect } from "react"
+import { useNavigate } from "react-router"
 import ReloadButton from "~/components/button/ReloadButton"
 import useCardApi from "~/hooks/useGameApi"
-import { setUser } from "~/hooks/useUser"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
+import UserContext from "./UserContext"
+import type { User } from ".generated-sources/openapi"
 
-const UserGuard: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ children, userId }) => {
+const NavigateAndSet: React.FC<{ user: User }> = ({ user }) => {
+	const { setUser } = useContext(UserContext)
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		setUser(user)
+		navigate("/")
+	}, [user, setUser, navigate])
+
+	return (
+		<CenterComponents>
+			<Logo192 />
+			<Typography>Redirecting</Typography>
+			<ReloadButton />
+		</CenterComponents>
+	)
+}
+
+const UserGuard: React.FC<{ userId: string }> = ({ userId }) => {
 	const cardApi = useCardApi()
 
 	const {
@@ -27,7 +47,7 @@ const UserGuard: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ chil
 	if (error) {
 		localStorage.clear()
 		sessionStorage.clear()
-		return <Navigate to={"/"} />
+		//return <Navigate to={"/"} />
 	}
 
 	if (isPending) {
@@ -52,9 +72,7 @@ const UserGuard: React.FC<React.PropsWithChildren<{ userId: string }>> = ({ chil
 		)
 	}
 
-	setUser(user)
-
-	return <>{children}</>
+	return <NavigateAndSet user={user} />
 }
 
 export default UserGuard

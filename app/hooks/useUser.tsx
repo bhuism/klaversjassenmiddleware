@@ -1,28 +1,34 @@
-import useUserId from "./useUserId"
 import type { User } from ".generated-sources/openapi"
 
 const SESSION_STORAGE_USER = "CardSeverUser"
 
-export const setUser = (user: User) => {
+export const setUserInStorage = (user: User) => {
 	sessionStorage.setItem(SESSION_STORAGE_USER, JSON.stringify(user))
 }
 
-const useUser = () => {
-	const { userId } = useUserId()
-
-	if (userId) {
-		const stringUser = sessionStorage.getItem(SESSION_STORAGE_USER)
-
+export const getUserFromStorage = (): User | undefined => {
+	const stringUser = sessionStorage.getItem(SESSION_STORAGE_USER)
+	try {
 		if (stringUser) {
-			const user = JSON.parse(stringUser) as User
-
-			if (userId === user.id) {
-				return { user }
-			}
+			return JSON.parse(stringUser) as User
 		}
+		return undefined
+	} catch (e) {
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		console.error("", e)
+		return undefined
 	}
-
-	return { user: undefined }
 }
 
-export default useUser
+// const useUser = () => {
+// 	const [user, _setUser] = useState<User | undefined>(getUserFromStorage())
+
+// 	const setUser = (user: User) => {
+// 		setUserInSession(user)
+// 		_setUser(user)
+// 	}
+
+// 	return { user, setUser }
+// }
+
+// export default useUser

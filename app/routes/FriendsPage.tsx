@@ -4,10 +4,11 @@ import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid
 import { useDialogs } from "@toolpad/core/useDialogs"
 import { useSnackbar } from "notistack"
 import type React from "react"
+import { useContext } from "react"
 import useCardApi from "~/hooks/useGameApi"
 import useIncomingInvitesAndFriends from "~/hooks/useIncomingInvitesAndFriends"
 import useOutGoingInvites from "~/hooks/useOutgoingInvites"
-import { setUser } from "~/hooks/useUser"
+import UserContext from "~/provider/UserContext"
 import type { User } from ".generated-sources/openapi"
 
 const FriendsPage: React.FC = () => {
@@ -16,6 +17,7 @@ const FriendsPage: React.FC = () => {
 	const dialogs = useDialogs()
 	const cardApi = useCardApi()
 	const { enqueueSnackbar } = useSnackbar()
+	const { setUser } = useContext(UserContext)
 
 	const columns: GridColDef<User>[] = [
 		{ field: "displayName", flex: 1, headerName: "" },
@@ -32,6 +34,7 @@ const FriendsPage: React.FC = () => {
 		return (
 			<DataGrid
 				rows={rows}
+				getRowId={(row) => row.id}
 				columns={columns}
 				hideFooter
 				disableColumnFilter
@@ -73,8 +76,8 @@ const FriendsPage: React.FC = () => {
 									.then((newUser) => {
 										enqueueSnackbar(`Friend ${row.displayName} verwijderd`, { variant: "success" })
 										setUser(newUser)
-										refetchIncomingInvitesAndFriends()
-										refetchOutGoingInvites()
+										// refetchIncomingInvitesAndFriends()
+										// refetchOutGoingInvites()
 									})
 									.catch((e) => {
 										enqueueSnackbar(JSON.stringify(e), { variant: "error" })
@@ -109,8 +112,8 @@ const FriendsPage: React.FC = () => {
 								.then((newUser) => {
 									enqueueSnackbar(`Friend ${row.displayName} toegevoegd`, { variant: "success" })
 									setUser(newUser)
-									refetchIncomingInvitesAndFriends()
-									refetchOutGoingInvites()
+									//									refetchIncomingInvitesAndFriends()
+									//									refetchOutGoingInvites()
 								})
 								.catch((e) => {
 									enqueueSnackbar(JSON.stringify(e), { variant: "error" })

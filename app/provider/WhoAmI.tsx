@@ -1,16 +1,35 @@
 import { CircularProgress, Typography } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
-import { Navigate } from "react-router"
+import { useContext, useEffect } from "react"
+import { useNavigate } from "react-router"
 import ReloadButton from "~/components/button/ReloadButton"
 import { setJwt } from "~/hooks/useJwt"
-import { setUser } from "~/hooks/useUser"
 import useWhoAmIApi from "~/hooks/useWhoAmIApi"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
+import UserContext from "./UserContext"
+import type { User } from ".generated-sources/openapi"
+
+const NavigateAndSet: React.FC<{ jwt: string; user: User }> = ({ jwt, user }) => {
+	const { setUser } = useContext(UserContext)
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		setJwt(jwt)
+		setUser(user)
+		navigate("/")
+	}, [jwt, user, setUser, navigate])
+
+	return (
+		<CenterComponents>
+			<Logo192 />
+			<Typography>Redirecting</Typography>
+			<ReloadButton />
+		</CenterComponents>
+	)
+}
 
 const WhoAmI = () => {
-	//	const { setUser } = useUser()
-
 	const whoamiApi = useWhoAmIApi()
 
 	const { isPending, error, data } = useQuery({
@@ -47,9 +66,7 @@ const WhoAmI = () => {
 	const jwt = data?.jwt
 
 	if (jwt && user) {
-		setJwt(jwt)
-		setUser(user)
-		return <Navigate to="/" />
+		return <NavigateAndSet jwt={jwt} user={user} />
 	}
 
 	localStorage.clear()

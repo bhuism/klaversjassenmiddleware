@@ -17,9 +17,6 @@ const EventSourceProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const [eventSource, setEventSource] = useState<EventSource>()
 
 	useEffect(() => {
-		// biome-ignore lint/suspicious/noConsole: <explanation>
-		console.log("new eventsource effect")
-
 		const eventSource = new EventSource(`${constants.apiUrl}/api/v1/subscribe`, {
 			fetch: (input, init) =>
 				fetch(input, {

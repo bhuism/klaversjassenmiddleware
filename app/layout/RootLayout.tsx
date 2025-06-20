@@ -22,6 +22,7 @@ import relativeTime from "dayjs/plugin/relativeTime"
 import { SnackbarProvider } from "notistack"
 import EventSourceProvider from "~/provider/EventSourceProvider"
 import JwtGuard from "~/provider/JwtGuard"
+import { UserProvider } from "~/provider/UserContext"
 
 dayjs.extend(relativeTime)
 dayjs.locale("nl")
@@ -42,23 +43,25 @@ const RootLayout: React.FC = () => {
 			<SnackbarProvider maxSnack={10} TransitionComponent={Fade} autoHideDuration={4000}>
 				<NotificationsProvider>
 					<QueryClientProvider client={queryClient}>
-						<JwtGuard>
-							<EventSourceProvider>
-								<ThemeProvider theme={theme} defaultMode="system">
-									<InitColorSchemeScript defaultMode="system" attribute="class" />
-									<CssBaseline />
-									<LocalizationProvider
-										dateAdapter={AdapterDayjs}
-										adapterLocale="nl"
-										localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
-									>
-										<DialogsProvider>
-											<Outlet />
-										</DialogsProvider>
-									</LocalizationProvider>
-								</ThemeProvider>
-							</EventSourceProvider>
-						</JwtGuard>
+						<UserProvider>
+							<JwtGuard>
+								<EventSourceProvider>
+									<ThemeProvider theme={theme} defaultMode="system">
+										<InitColorSchemeScript defaultMode="system" attribute="class" />
+										<CssBaseline />
+										<LocalizationProvider
+											dateAdapter={AdapterDayjs}
+											adapterLocale="nl"
+											localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
+										>
+											<DialogsProvider>
+												<Outlet />
+											</DialogsProvider>
+										</LocalizationProvider>
+									</ThemeProvider>
+								</EventSourceProvider>
+							</JwtGuard>
+						</UserProvider>
 					</QueryClientProvider>
 				</NotificationsProvider>
 			</SnackbarProvider>

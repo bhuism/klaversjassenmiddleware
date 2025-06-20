@@ -1,9 +1,9 @@
 import { AccountCircle } from "@mui/icons-material"
 import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import type React from "react"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router"
-import useUser from "~/hooks/useUser"
+import UserContext from "~/provider/UserContext"
 import AboutDialog from "./AboutDialog"
 import type { MyMenu } from "./MenuBar"
 import UserStatusDialog from "./UserStatusDialog"
@@ -14,7 +14,7 @@ const UserMenu: React.FC = () => {
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 	const navigate = useNavigate()
 
-	const { user } = useUser()
+	const { user, logout } = useContext(UserContext)
 
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget)
@@ -49,8 +49,7 @@ const UserMenu: React.FC = () => {
 			id: "logout",
 			title: "Logout",
 			onClick: () => {
-				localStorage.clear()
-				sessionStorage.clear()
+				logout()
 				navigate("/")
 			},
 		},

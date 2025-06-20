@@ -6,8 +6,8 @@ import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router"
 import type { PlayCardEvent } from "~/components/common/utils"
 import useCardApi from "~/hooks/useGameApi"
-import useUser from "~/hooks/useUser"
 import { EventListenerContext } from "~/provider/EventSourceProvider"
+import UserContext from "~/provider/UserContext"
 import { Cards } from "./scenes/Cards"
 import type { Game } from ".generated-sources/openapi"
 
@@ -16,7 +16,7 @@ export const PhaserGame: React.FC<{ gameState: Game }> = ({ gameState }) => {
 
 	const cardApi = useCardApi()
 	const navigate = useNavigate()
-	const { user } = useUser()
+	const { user } = useContext(UserContext)
 	const { enqueueSnackbar } = useSnackbar()
 	const { eventSource } = useContext(EventListenerContext)
 
