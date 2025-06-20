@@ -1,5 +1,5 @@
 import { AddCircleOutlineTwoTone, DeleteOutlineTwoTone } from "@mui/icons-material"
-import { Avatar, Button, Container, Stack, Typography } from "@mui/material"
+import { Avatar, Button, Container, Grid, Typography } from "@mui/material"
 import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
 import { useDialogs } from "@toolpad/core/useDialogs"
 import { useSnackbar } from "notistack"
@@ -126,31 +126,32 @@ const FriendsPage: React.FC = () => {
 
 	return (
 		<>
-			<Stack>
-				<Container>
-					<Button
-						variant="outlined"
-						onClick={() => {
-							refetchIncomingInvitesAndFriends()
-							refetchOutGoingInvites()
-						}}
-					>
-						Reload
-					</Button>
-				</Container>
-				<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
+			<Container>
+				<Button
+					variant="outlined"
+					onClick={() => {
+						refetchIncomingInvitesAndFriends()
+						refetchOutGoingInvites()
+					}}
+				>
+					Reload
+				</Button>
+			</Container>
+
+			<Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 1, sm: 6, md: 12 }}>
+				<Grid size={{ xs: 2, sm: 3, md: 4 }}>
 					<Typography>friends</Typography>
 					<MyDataGrid rows={friends} columns={[...columns, removeFriendActions()]} />
-				</Container>
-				<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
+				</Grid>
+				<Grid size={{ xs: 2, sm: 3, md: 4 }}>
 					<Typography>inComingInvites</Typography>
 					<MyDataGrid rows={inComingInvites} columns={[...columns, addFriendActions()]} />
-				</Container>
-				<Container style={{ display: "flex", flexDirection: "column" }} maxWidth={"xs"}>
+				</Grid>
+				<Grid size={{ xs: 2, sm: 3, md: 4 }}>
 					<Typography>outGoingInvites</Typography>
 					<MyDataGrid rows={outGoingInvites} columns={[...columns, removeFriendActions()]} />
-				</Container>
-			</Stack>
+				</Grid>
+			</Grid>
 		</>
 	)
 }
