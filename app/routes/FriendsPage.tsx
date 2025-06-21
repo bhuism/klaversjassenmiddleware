@@ -1,10 +1,12 @@
 import { AddCircleOutlineTwoTone, DeleteOutlineTwoTone } from "@mui/icons-material"
-import { Avatar, Button, Container, Grid, Typography } from "@mui/material"
-import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
+import { Avatar, Box, Button, Grid, Stack, Typography } from "@mui/material"
+import { GridActionsCellItem, type GridColDef } from "@mui/x-data-grid"
 import { useDialogs } from "@toolpad/core/useDialogs"
 import { useSnackbar } from "notistack"
 import type React from "react"
 import { useContext } from "react"
+import InviteUser from "~/components/friends/InviteUserDialog"
+import MyDataGrid from "~/components/friends/MyDataGrid"
 import useCardApi from "~/hooks/useGameApi"
 import useIncomingInvitesAndFriends from "~/hooks/useIncomingInvitesAndFriends"
 import useOutGoingInvites from "~/hooks/useOutgoingInvites"
@@ -29,26 +31,6 @@ const FriendsPage: React.FC = () => {
 			renderCell: ({ row: { displayName, photoURL } }) => <Avatar alt={displayName} src={photoURL} />,
 		},
 	]
-
-	const MyDataGrid: React.FC<{ rows: User[] | undefined; columns: GridColDef<User>[] }> = ({ rows, columns }) => {
-		return (
-			<DataGrid
-				rows={rows}
-				getRowId={(row) => row.id}
-				columns={columns}
-				hideFooter
-				disableColumnFilter
-				disableColumnMenu
-				disableColumnResize
-				disableColumnSelector
-				disableColumnSorting
-				disableDensitySelector
-				disableEval
-				disableVirtualization
-				disableMultipleRowSelection
-			/>
-		)
-	}
 
 	const removeFriendActions = (): GridColDef<User> => {
 		return {
@@ -76,8 +58,6 @@ const FriendsPage: React.FC = () => {
 									.then((newUser) => {
 										enqueueSnackbar(`Friend ${row.displayName} verwijderd`, { variant: "success" })
 										setUser(newUser)
-										// refetchIncomingInvitesAndFriends()
-										// refetchOutGoingInvites()
 									})
 									.catch((e) => {
 										enqueueSnackbar(JSON.stringify(e), { variant: "error" })
@@ -112,8 +92,6 @@ const FriendsPage: React.FC = () => {
 								.then((newUser) => {
 									enqueueSnackbar(`Friend ${row.displayName} toegevoegd`, { variant: "success" })
 									setUser(newUser)
-									//									refetchIncomingInvitesAndFriends()
-									//									refetchOutGoingInvites()
 								})
 								.catch((e) => {
 									enqueueSnackbar(JSON.stringify(e), { variant: "error" })
@@ -129,18 +107,21 @@ const FriendsPage: React.FC = () => {
 
 	return (
 		<>
-			<Container>
-				<Button
-					variant="outlined"
-					onClick={() => {
-						refetchIncomingInvitesAndFriends()
-						refetchOutGoingInvites()
-					}}
-				>
-					Reload
-				</Button>
-			</Container>
+			<Box display="flex" justifyContent="center">
+				<Stack direction="row" spacing={2} margin={2}>
+					<Button
+						variant="outlined"
+						onClick={() => {
+							refetchIncomingInvitesAndFriends()
+							refetchOutGoingInvites()
+						}}
+					>
+						Reload
+					</Button>
 
+					<InviteUser />
+				</Stack>
+			</Box>
 			<Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 1, sm: 6, md: 12 }}>
 				<Grid size={{ xs: 2, sm: 3, md: 4 }}>
 					<Typography>friends</Typography>
