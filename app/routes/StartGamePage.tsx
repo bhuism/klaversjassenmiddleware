@@ -1,4 +1,4 @@
-import PlayerSelection from "~/components/PlayerSelection"
+import PlayerSelection from "~/components/game/PlayerSelection"
 
 const StartGamePage: React.FC = () => {
 	return <PlayerSelection />

@@ -1,6 +1,6 @@
-import CompletedInfo from "./game/CompletedInfo"
-import CompletedPlayerCards from "./game/CompletedPlayerCards"
-import CompletedTricks from "./game/CompletedTricks"
+import CompletedInfo from "./CompletedInfo"
+import CompletedPlayerCards from "./CompletedPlayerCards"
+import CompletedTricks from "./CompletedTricks"
 import type { Game } from ".generated-sources/openapi"
 
 const GameCompleted: React.FC<{ game: Game }> = ({ game }) => {

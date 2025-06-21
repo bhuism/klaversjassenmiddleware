@@ -18,7 +18,7 @@ import { default as useGameApi } from "~/hooks/useGameApi"
 import Logo192 from "~/layout/Logo192"
 import UserContext from "~/provider/UserContext"
 import CenterComponents from "~/utils/CenterComponents"
-import PlayerName from "./game/PlayerName"
+import PlayerName from "./PlayerName"
 import type { Game } from ".generated-sources/openapi"
 
 const Games: React.FC = () => {

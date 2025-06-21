@@ -1,8 +1,8 @@
 import { Table, TableBody, TableCell, TableHead, TableRow, tableCellClasses } from "@mui/material"
 import type React from "react"
-import UsThem from "../UsThem"
 import PlayerName from "./PlayerName"
 import SuitImage from "./SuitImage"
+import UsThem from "./UsThem"
 import type { Game } from ".generated-sources/openapi"
 
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"

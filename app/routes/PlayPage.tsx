@@ -1,6 +1,6 @@
 import { Container } from "@mui/material"
 import type React from "react"
-import GamePlay from "~/components/GamePlay"
+import GamePlay from "~/components/game/GamePlay"
 import type { Route } from "./+types/GamePage"
 
 const PlayPage: React.FC<Route.ComponentProps> = ({ params: { gameId } }) => {

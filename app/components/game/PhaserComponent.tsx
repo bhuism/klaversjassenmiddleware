@@ -3,7 +3,7 @@ import { PhaserGame } from "~/game/PhaserGame"
 import useGameState from "~/hooks/useGameState"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
-import ReloadButton from "./button/ReloadButton"
+import ReloadButton from "../button/ReloadButton"
 
 const PhaserComponent: React.FC<{ gameId: string }> = ({ gameId }) => {
 	const { error, isLoading, game } = useGameState(gameId)

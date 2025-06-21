@@ -1,7 +1,7 @@
 import { CircularProgress, Typography } from "@mui/material"
 import type React from "react"
-import GameCompleted from "~/components/GameCompleted"
 import ReloadButton from "~/components/button/ReloadButton"
+import GameCompleted from "~/components/game/GameCompleted"
 import useGameState from "~/hooks/useGameState"
 import Logo192 from "~/layout/Logo192"
 import CenterComponents from "~/utils/CenterComponents"
