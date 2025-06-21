@@ -18,7 +18,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 				<link rel="icon" href="/favicon.ico" sizes="48x48" />
 				<link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
 				<link rel="manifest" href="/manifest.webmanifest" />
-				<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+				<meta name="viewport" content="width=device-width, initial-scale=1">
 				<title>Klavers Jassen</title>
 				<Meta />
 				<Links />
